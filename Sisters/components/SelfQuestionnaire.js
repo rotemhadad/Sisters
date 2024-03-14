@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Modal } from 'react-native';
-import { commonStyles } from '../CommonStyles';
+import { commonStyles } from './CommonStyles';
 
 const SelfQuestionnaire = () => {
+    const [showIntro, setShowIntro] = useState(true);
     const [answers, setAnswers] = useState({});
     const [showResult, setShowResult] = useState(false);
     const [result, setResult] = useState('');
 
     const handleAnswerChange = (questionId, answer) => {
         setAnswers((prevAnswers) => ({ ...prevAnswers, [questionId]: answer }));
+    };
+    const handleClick = () => {
+        setShowIntro(false);
     };
 
     const renderQuestion = (questionId, question, options) => (
@@ -50,50 +54,70 @@ const SelfQuestionnaire = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <ScrollView>
-                <Text style={styles.heading}>האם אני חווה אלימות במשפחה?</Text>
-                <View>
-                    {renderQuestion('question1', 'הוא מחטט לך בנייד ובולש אחריך?', ['כן', 'לא'])}
-                    {renderQuestion('question2', 'האם מחקת בגללו תיעוד שיחות, אנשי קשר או התבטאויות שלך ברשתות החברתיות?', ['כן', 'לא'])}
-                    {renderQuestion('question3', 'האם הוא העיר לך על מבטי גברים ברחוב? לבושך? המציא רומנים שיש לך?', ['כן', 'לא'])}
-                    {renderQuestion('question4', 'האם נמנעת ממפגשים חברתיים שרצית ללכת אליהם כיוון שצפית התנגדות מצדו (משפחה או חברות/ים)?', ['כן', 'לא'])}
-                    {renderQuestion('question5', 'בפומבי הוא מציג עצמו באופן שונה מאשר בפרטיות?', ['כן', 'לא'])}
-                    {renderQuestion('question6', 'האם בפומבי הצגת מצג שווא חיובי על הזוגיות שלכם על מנת לרצות אותו?', ['כן', 'לא'])}
-                    {renderQuestion('question7', 'האם הוא ביקש ממך להיות חברותית ולהראות בפומבי שאת במצב רוח טוב, גם כשלא חשת טוב?', ['כן', 'לא'])}
-                    {renderQuestion('question8', 'האם הוא "מסכן ומסוכן": פעם מסכן, עדין, רעב לאהבה וזקוק למישהי שתטפל בו ופעם תוקפן ומפחיד?', ['כן', 'לא'])}
-                    {renderQuestion('question9', 'האם הוא מבקש סליחה, קונה לך מתנות / פרחים, ומבטיח שלא יתנהג שוב בצורה פוגענית?', ['כן', 'לא'])}
-                    {renderQuestion('question10', 'את תמיד אשמה בהכל ("גזלייטינג")?', ['כן', 'לא'])}
-                    {renderQuestion('question11', 'האם מצאת עצמך מפקפקת בכושר השיפוט שלך? בזיכרון שלך? ביכולותייך?', ['כן', 'לא'])}
-                    {renderQuestion('question12', 'את "האשמה הבלעדית" גם בדברים שלא קשורים אלייך?', ['כן', 'לא'])}
-                    {renderQuestion('question13', 'הוא אף פעם לא מרוצה ממך?', ['כן', 'לא'])}
-                    {renderQuestion('question14', 'תחושה שאת צריכה ללכת "על ביצים" לידו? שזה לא מתאים שתשתפי אחרים לגבי הזוגיות שלכם?', ['כן', 'לא'])}
-                    {renderQuestion('question15', 'האם את דרוכה לפני מפגש אתו? האם את נזהרת איך ומתי להגיד משהו?', ['כן', 'לא'])}
-                    {renderQuestion('question16', 'האם את חוששת שהוא יגיב בצורה חריפה במידה ותציעי להיפרד?', ['כן', 'לא'])}
-                    {renderQuestion('question17', 'האם מצבי רוחו משתנים מטוב לרע, ללא סיבה נראית לעין?', ['כן', 'לא'])}
-                    {renderQuestion('question18', 'האם יש לו נטייה להתפרצויות זעם מדברים שוליים?', ['כן', 'לא'])}
-                    {renderQuestion('question19', 'האם הוא איים בהתאבדות או בנקמה ביקרים לך אם תעזבי אותו?', ['כן', 'לא'])}
-                    {renderQuestion('question20', 'הוא גם קורבן וגם תוקפן?', ['כן', 'לא'])}
-                    {renderQuestion('question21', 'לדבריו האקסית שלו בגדה בו ואת מנסה להחזיר לו את אמונו בנשים ובעולם?', ['כן', 'לא'])}
-                    {renderQuestion('question22', 'הוא חווה אובדן, את מוצאת עצמך מטפלת בו ומנחמת אותו?', ['כן', 'לא'])}
-                    {renderQuestion('question23', 'האם יש לו רקע של התמכרויות? פגיעה בבעלי חיים או בחפצים? האם יש לו גישה לכלי נשק?', ['כן', 'לא'])}
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            {showIntro ? ( // Conditional rendering based on showIntro state
+                // Intro page content
+                <View style={commonStyles.content}>
+                    <Text style={commonStyles.importantText}>
+                        שאלון זה הוא אנונימי ואינו מצריך מסירה של פרטים מזהים.
+                        {'\n'}
+                        מטרת השאלון היא לסייע לך לבחון את מצב הסיכון במערכת היחסים הזוגית שלך או של בת משפחה.
+                        {'\n'}
+                        שאלון זה לא מחליף הערכה של איש מקצוע.
+                        {'\n'}
+                        אינך חייבת לענות על כל השאלות.
+                    </Text>
+                    <TouchableOpacity style={commonStyles.button} onPress={handleClick}>
+                        <Text style={commonStyles.buttonText}>Click here to continue</Text>
+                    </TouchableOpacity>
                 </View>
+            ) : (
+                <View style={styles.container}>
+                    <ScrollView>
+                        <Text style={styles.heading}>האם אני חווה אלימות במשפחה?</Text>
+                        <View>
+                            {renderQuestion('question1', 'הוא מחטט לך בנייד ובולש אחריך?', ['כן', 'לא'])}
+                            {renderQuestion('question2', 'האם מחקת בגללו תיעוד שיחות, אנשי קשר או התבטאויות שלך ברשתות החברתיות?', ['כן', 'לא'])}
+                            {renderQuestion('question3', 'האם הוא העיר לך על מבטי גברים ברחוב? לבושך? המציא רומנים שיש לך?', ['כן', 'לא'])}
+                            {renderQuestion('question4', 'האם נמנעת ממפגשים חברתיים שרצית ללכת אליהם כיוון שצפית התנגדות מצדו (משפחה או חברות/ים)?', ['כן', 'לא'])}
+                            {renderQuestion('question5', 'בפומבי הוא מציג עצמו באופן שונה מאשר בפרטיות?', ['כן', 'לא'])}
+                            {renderQuestion('question6', 'האם בפומבי הצגת מצג שווא חיובי על הזוגיות שלכם על מנת לרצות אותו?', ['כן', 'לא'])}
+                            {renderQuestion('question7', 'האם הוא ביקש ממך להיות חברותית ולהראות בפומבי שאת במצב רוח טוב, גם כשלא חשת טוב?', ['כן', 'לא'])}
+                            {renderQuestion('question8', 'האם הוא "מסכן ומסוכן": פעם מסכן, עדין, רעב לאהבה וזקוק למישהי שתטפל בו ופעם תוקפן ומפחיד?', ['כן', 'לא'])}
+                            {renderQuestion('question9', 'האם הוא מבקש סליחה, קונה לך מתנות / פרחים, ומבטיח שלא יתנהג שוב בצורה פוגענית?', ['כן', 'לא'])}
+                            {renderQuestion('question10', 'את תמיד אשמה בהכל ("גזלייטינג")?', ['כן', 'לא'])}
+                            {renderQuestion('question11', 'האם מצאת עצמך מפקפקת בכושר השיפוט שלך? בזיכרון שלך? ביכולותייך?', ['כן', 'לא'])}
+                            {renderQuestion('question12', 'את "האשמה הבלעדית" גם בדברים שלא קשורים אלייך?', ['כן', 'לא'])}
+                            {renderQuestion('question13', 'הוא אף פעם לא מרוצה ממך?', ['כן', 'לא'])}
+                            {renderQuestion('question14', 'תחושה שאת צריכה ללכת "על ביצים" לידו? שזה לא מתאים שתשתפי אחרים לגבי הזוגיות שלכם?', ['כן', 'לא'])}
+                            {renderQuestion('question15', 'האם את דרוכה לפני מפגש אתו? האם את נזהרת איך ומתי להגיד משהו?', ['כן', 'לא'])}
+                            {renderQuestion('question16', 'האם את חוששת שהוא יגיב בצורה חריפה במידה ותציעי להיפרד?', ['כן', 'לא'])}
+                            {renderQuestion('question17', 'האם מצבי רוחו משתנים מטוב לרע, ללא סיבה נראית לעין?', ['כן', 'לא'])}
+                            {renderQuestion('question18', 'האם יש לו נטייה להתפרצויות זעם מדברים שוליים?', ['כן', 'לא'])}
+                            {renderQuestion('question19', 'האם הוא איים בהתאבדות או בנקמה ביקרים לך אם תעזבי אותו?', ['כן', 'לא'])}
+                            {renderQuestion('question20', 'הוא גם קורבן וגם תוקפן?', ['כן', 'לא'])}
+                            {renderQuestion('question21', 'לדבריו האקסית שלו בגדה בו ואת מנסה להחזיר לו את אמונו בנשים ובעולם?', ['כן', 'לא'])}
+                            {renderQuestion('question22', 'הוא חווה אובדן, את מוצאת עצמך מטפלת בו ומנחמת אותו?', ['כן', 'לא'])}
+                            {renderQuestion('question23', 'האם יש לו רקע של התמכרויות? פגיעה בבעלי חיים או בחפצים? האם יש לו גישה לכלי נשק?', ['כן', 'לא'])}
+                        </View>
 
-                <TouchableOpacity style={styles.calculateButton} onPress={calculateResult}>
-                    <Text style={styles.calculateButtonText}>קבל תוצאה</Text>
-                </TouchableOpacity>
-
-                <Modal visible={showResult} animationType="slide">
-                    <View style={styles.resultContainer}>
-                        <ScrollView>
-                            <Text style={styles.resultText}>{result}</Text>
-                        </ScrollView>
-                        <TouchableOpacity style={styles.closeButton} onPress={() => setShowResult(false)}>
-                            <Text style={styles.closeButtonText}>סגור</Text>
+                        <TouchableOpacity style={styles.calculateButton} onPress={calculateResult}>
+                            <Text style={styles.calculateButtonText}>קבל תוצאה</Text>
                         </TouchableOpacity>
-                    </View>
-                </Modal>
-            </ScrollView>
+
+                        <Modal visible={showResult} animationType="slide">
+                            <View style={styles.resultContainer}>
+                                <ScrollView>
+                                    <Text style={styles.resultText}>{result}</Text>
+                                </ScrollView>
+                                <TouchableOpacity style={styles.closeButton} onPress={() => setShowResult(false)}>
+                                    <Text style={styles.closeButtonText}>סגור</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </Modal>
+                    </ScrollView>
+                </View>
+            )}
         </View>
     );
 };

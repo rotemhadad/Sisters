@@ -109,4 +109,9 @@ export const commonStyles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
     },
+    importantText: {
+        fontSize: 16,
+        color: 'red',
+        marginTop: 16,
+    },
 });

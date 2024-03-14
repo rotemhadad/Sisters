@@ -12,6 +12,7 @@ import InformationScreen from './components/InformationScreen';
 import AboutUs from './components/AboutUs';
 import SignInScreen from './components/SignInScreen';
 import SignUpScreen from './components/SignUpScreen';
+import SelectionScreen from './components/SelectionScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,8 @@ const App = () => {
         <Stack.Screen name="AboutUs" component={AboutUs} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="Selection" component={SelectionScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

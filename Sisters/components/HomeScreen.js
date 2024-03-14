@@ -19,7 +19,10 @@ const HomeScreen = () => {
                 <Text style={commonStyles.contentText}>
                     הנגשת מידע מציל חיים!
                 </Text>
-                <TouchableOpacity style={commonStyles.button}>
+                <TouchableOpacity
+                    style={commonStyles.button}
+                    onPress={() => navigation.navigate('Selection')}
+                >
                     <Text style={commonStyles.buttonText}>התחברות והרשמה</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -34,7 +37,7 @@ const HomeScreen = () => {
             </View>
             <View style={commonStyles.navBar}>
                 <TouchableOpacity style={commonStyles.navButton}>
-                    <Text style={commonStyles.navButtonText}>דף הבית</Text>
+                    <Text style={commonStyles.navButtonText}>שאלות נפוצות</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={commonStyles.navButton}
