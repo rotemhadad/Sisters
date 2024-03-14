@@ -68,7 +68,7 @@ const SelfQuestionnaire = () => {
                         אינך חייבת לענות על כל השאלות.
                     </Text>
                     <TouchableOpacity style={commonStyles.button} onPress={handleClick}>
-                        <Text style={commonStyles.buttonText}>Click here to continue</Text>
+                        <Text style={commonStyles.buttonText}>לחצי כאן כדי לענות על השאלון</Text>
                     </TouchableOpacity>
                 </View>
             ) : (
