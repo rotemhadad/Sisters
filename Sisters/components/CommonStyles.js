@@ -121,5 +121,18 @@ export const commonStyles = StyleSheet.create({
         marginTop: 16,
 
     },
+    choiceContainer: {
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderWidth: 1,
+        borderColor: '#ff7f9e',
+        borderRadius: 10,
+        marginBottom: 10,
+        backgroundColor: '#fff',
+    },
+    selectedChoice: {
+        backgroundColor: '#ff7f9e',
+    },
+
 
 });

@@ -14,6 +14,7 @@ import SignInScreen from './components/SignInScreen';
 import SignUpScreen from './components/SignUpScreen';
 import SelectionScreen from './components/SelectionScreen';
 import ViolenceTypes from './components/ViolenceTypes';
+import DefenceGuide from './components/DefenceGuide';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ const App = () => {
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Selection" component={SelectionScreen} />
         <Stack.Screen name="ViolenceTypes" component={ViolenceTypes} />
+        <Stack.Screen name="DefenceGuide" component={DefenceGuide} />
 
       </Stack.Navigator>
     </NavigationContainer>
