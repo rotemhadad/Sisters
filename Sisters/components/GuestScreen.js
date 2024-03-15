@@ -72,9 +72,14 @@ const GuestScreen = () => {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <TouchableOpacity style={commonStyles.button} onPress={() => navigation.navigate('ViolenceTypes')}>
+                        <Text style={commonStyles.buttonText}>סוגי אלימויות</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={commonStyles.button} onPress={() => navigation.navigate('Articles')}>
                         <Text style={commonStyles.buttonText}>מאמרים בנושא אלימות במשפחה</Text>
                     </TouchableOpacity>
+                    <View style={{ marginBottom: 100 }}></View>
+
                 </View>
             </ScrollView>
             {/* Menu Modal */}

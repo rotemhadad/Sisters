@@ -25,7 +25,7 @@ const Articles = () => {
     return (
         <View style={commonStyles.container}>
             <View style={commonStyles.header}>
-                <Text style={commonStyles.headerText}>Articles</Text>
+                <Text style={commonStyles.headerText}>מאמרים</Text>
             </View>
             <View style={commonStyles.content}>
                 <FlatList

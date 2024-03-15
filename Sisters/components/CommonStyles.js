@@ -114,4 +114,12 @@ export const commonStyles = StyleSheet.create({
         color: 'red',
         marginTop: 16,
     },
+    helpText: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: 'red',
+        marginTop: 16,
+
+    },
+
 });
