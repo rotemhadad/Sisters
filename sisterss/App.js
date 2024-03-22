@@ -9,6 +9,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './components/HomeScreen';
 import GuestScreen from './components/GuestScreen';
 import Articles from './components/Articles';
+import WarningSigns from './components/WarningSigns';
+import SelfQuestionnaire from './components/SelfQuestionnaire';
+import EnvWarningSigns from './components/EnvWarningSigns';
+import InformationScreen from './components/InformationScreen';
+import AboutUs from './components/AboutUs';
+import SignInScreen from './components/SignInScreen';
+import SignUpScreen from './components/SignUpScreen';
+import SelectionScreen from './components/SelectionScreen';
+import ViolenceTypes from './components/ViolenceTypes';
+import DefenceGuide from './components/DefenceGuide';
 
 //const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
@@ -20,6 +30,16 @@ const App = () => {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Guest" component={GuestScreen} />
         <Stack.Screen name="Articles" component={Articles} />
+        <Stack.Screen name="WarningSigns" component={WarningSigns} />
+        <Stack.Screen name="SelfQuestionnaire" component={SelfQuestionnaire} />
+        <Stack.Screen name="EnvWarningSigns" component={EnvWarningSigns} />
+        <Stack.Screen name="Information" component={InformationScreen} />
+        <Stack.Screen name="AboutUs" component={AboutUs} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="Selection" component={SelectionScreen} />
+        <Stack.Screen name="ViolenceTypes" component={ViolenceTypes} />
+        <Stack.Screen name="DefenceGuide" component={DefenceGuide} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -27,8 +47,6 @@ const App = () => {
 
 
 export default App;
-
-
 
 
 

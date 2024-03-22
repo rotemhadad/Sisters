@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useBottomSheetModal } from '@gorhom/bottom-sheet';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from Expo vector icons
 
-const BottomToolbar = () => {
+const BottomToolbar = ({ navigation }) => {
     const { present } = useBottomSheetModal();
 
     const openMenu = () => {
