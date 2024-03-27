@@ -23,98 +23,108 @@ const DefenceGuide = ({ navigation }) => {
         setSelectedChoice(selectedChoice === index ? null : index);
     };
     return (
-        <ScrollView style={commonStyles.container}>
-            <View style={commonStyles.content}>
-                <Text style={styles.title}>הנחיות להתגוננות במצבי סיכון מיידיים</Text>
-
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>התרחקות מיידית מהמקום:</Text>
-                    <Text style={styles.sectionText}>
-                        בעת סכנה מיידית, הדבר הטוב ביותר שכדאי לעשות, אם ניתן הוא להתרחק מן המקום במהירות האפשרית.
-                        מומלץ לתכנן מסלול בריחה מהירות ולתרגל אותו.
-                    </Text>
-                </View>
-
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>הכנת תיק מראש:</Text>
-                    <Text style={styles.sectionText}>
-                        למקרה שבו יעלה צורך לברוח מהבית באופן מיידי כדאי להכין מראש תיק עם חפצים אישיים.
-                        {'\n'}
-                        הכנה לתיק כוללת ציוד אישי למספר ימים, פרטי חשבון בנק, רשימת כתובות וטלפונים, כסף מזומן, תעודת זהות כרטיס קופת חולים ומסמכים אישיים.
-                    </Text>
-                </View>
-
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>קריאה לעזרה:</Text>
-                    <Text style={styles.sectionText}>
-                        אם אין ביכולתך לעזוב את המקום, יש להזמין מייד את המשטרה או אנשים אחרים אשר יכולים להתערב ולפעול להפסקת האלימות.
-                        באפשרותך להתקשר גם למוקד החירום של משרד הרווחה לטלפון 118 או לשלוח הודעה כתובה למוקד החירום למספר 050-2270118.
-                        {'\n'}
-                        אם לא ניתן לעשות זאת, יש לצעוק לעזרה ולנסות להסתתר בחדר נעול.
-                    </Text>
-                </View>
-
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>שיתוף אדם קרוב:</Text>
-                    <Text style={styles.sectionText}>
-                        אם הופעלה נגדך אלימות כלשהי, מומלץ לשתף אדם קרוב ולתאר בפניו את שארע.
-                        חשוב שיהיה לך שכן או שכנה, חבר או חברה שיהיו מודעים למצב ויעזרו בשעת הצורך.
-                    </Text>
-                </View>
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>פנייה למקום מוגן:</Text>
-                    <Text style={styles.sectionText}>
-                        לאחר שעזבת את מקום הסכנה המיידית, יש לפנות למקום המאפשר לך שהות בטוחה.
-                        כדאי להיעזר במשפחה וחברים, ובכל שלב ניתן ומומלץ לפנות לקווי החירום (118) הפועלים 24 שעות ביממה, אשר יעזרו לך באיתור מקום בטוח.
-                    </Text>
-                </View>
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>פנייה לגורמים מקצועיים:</Text>
-                    <Text style={styles.sectionText}>
-                        חשוב לפנות לגורמים המקצועיים המטפלים באלימות במשפחה, אשר יוכלו להעניק לך שירותי הגנה, ליווי, טיפול, ייעוץ כללי וייעוץ משפטי.                    </Text>
-                </View>
-                <View style={[styles.section, styles.importantSection]}>
-                    <Text style={styles.sectionWarning}>שימו לב:</Text>
-                    <Text style={[styles.sectionText, styles.importantText]}>
-                        עזיבה ובריחה מאדם אלים עלולה להגביר את האלימות מצדו ובחלק מהמקרים, לעלות בחיי אדם.
-                        אם ברצונך לעזוב, יש לעשות זאת ללא הכנה מראש של התוקף, מבלי ניסיון לדבר ולהסביר והכי חשוב - לעולם לא לעשות זאת לבד.
-                        {'\n'}
-                        פנייה אל גורמי מקצוע ואנשים קרובים אשר יסייעו לך יכולה להציל את חייך.
-                    </Text>
-                </View>
-
-            </View>
-            <View style={commonStyles.content}>
-                {choices.map((choice, index) => (
-                    <TouchableOpacity
-                        key={index}
-                        onPress={() => handleChoicePress(index)}
-                        style={[
-                            commonStyles.choiceContainer,
-                            { backgroundColor: selectedChoice === index ? '#ff7f9e' : 'transparent' } // Set background color
-                        ]}  >
-                        <Text
-                            style={[
-                                commonStyles.sectionTitle, {
-                                    color: selectedChoice === index ? 'black' : '#ff7f9e',
-                                    marginTop: 10,
-                                    fontSize: selectedChoice === index ? 20 : 16
-                                }]} >
-                            {choice.title}
+        <View style={styles.container}>
+            <ScrollView style={commonStyles.container}>
+                <View style={commonStyles.content}>
+                    <View style={commonStyles.header}>
+                        <Text style={commonStyles.headerText}>הנחיות להתגוננות במצבי סיכון מיידיים</Text>
+                    </View>
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>התרחקות מיידית מהמקום:</Text>
+                        <Text style={styles.sectionText}>
+                            בעת סכנה מיידית, הדבר הטוב ביותר שכדאי לעשות, אם ניתן הוא להתרחק מן המקום במהירות האפשרית.
+                            מומלץ לתכנן מסלול בריחה מהירות ולתרגל אותו.
                         </Text>
-                        {selectedChoice === index && (
+                    </View>
+
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>הכנת תיק מראש:</Text>
+                        <Text style={styles.sectionText}>
+                            למקרה שבו יעלה צורך לברוח מהבית באופן מיידי כדאי להכין מראש תיק עם חפצים אישיים.
+                            {'\n'}
+                            הכנה לתיק כוללת ציוד אישי למספר ימים, פרטי חשבון בנק, רשימת כתובות וטלפונים, כסף מזומן, תעודת זהות כרטיס קופת חולים ומסמכים אישיים.
+                        </Text>
+                    </View>
+
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>קריאה לעזרה:</Text>
+                        <Text style={styles.sectionText}>
+                            אם אין ביכולתך לעזוב את המקום, יש להזמין מייד את המשטרה או אנשים אחרים אשר יכולים להתערב ולפעול להפסקת האלימות.
+                            באפשרותך להתקשר גם למוקד החירום של משרד הרווחה לטלפון 118 או לשלוח הודעה כתובה למוקד החירום למספר 050-2270118.
+                            {'\n'}
+                            אם לא ניתן לעשות זאת, יש לצעוק לעזרה ולנסות להסתתר בחדר נעול.
+                        </Text>
+                    </View>
+
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>שיתוף אדם קרוב:</Text>
+                        <Text style={styles.sectionText}>
+                            אם הופעלה נגדך אלימות כלשהי, מומלץ לשתף אדם קרוב ולתאר בפניו את שארע.
+                            חשוב שיהיה לך שכן או שכנה, חבר או חברה שיהיו מודעים למצב ויעזרו בשעת הצורך.
+                        </Text>
+                    </View>
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>פנייה למקום מוגן:</Text>
+                        <Text style={styles.sectionText}>
+                            לאחר שעזבת את מקום הסכנה המיידית, יש לפנות למקום המאפשר לך שהות בטוחה.
+                            כדאי להיעזר במשפחה וחברים, ובכל שלב ניתן ומומלץ לפנות לקווי החירום (118) הפועלים 24 שעות ביממה, אשר יעזרו לך באיתור מקום בטוח.
+                        </Text>
+                    </View>
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>פנייה לגורמים מקצועיים:</Text>
+                        <Text style={styles.sectionText}>
+                            חשוב לפנות לגורמים המקצועיים המטפלים באלימות במשפחה, אשר יוכלו להעניק לך שירותי הגנה, ליווי, טיפול, ייעוץ כללי וייעוץ משפטי.                    </Text>
+                    </View>
+                    <View style={[styles.section, styles.importantSection]}>
+                        <Text style={styles.sectionWarning}>שימו לב:</Text>
+                        <Text style={[styles.sectionText, styles.importantText]}>
+                            עזיבה ובריחה מאדם אלים עלולה להגביר את האלימות מצדו ובחלק מהמקרים, לעלות בחיי אדם.
+                            אם ברצונך לעזוב, יש לעשות זאת ללא הכנה מראש של התוקף, מבלי ניסיון לדבר ולהסביר והכי חשוב - לעולם לא לעשות זאת לבד.
+                            {'\n'}
+                            פנייה אל גורמי מקצוע ואנשים קרובים אשר יסייעו לך יכולה להציל את חייך.
+                        </Text>
+                    </View>
+
+                </View>
+                <View style={commonStyles.content}>
+                    {choices.map((choice, index) => (
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => handleChoicePress(index)}
+                            style={[
+                                commonStyles.choiceContainer,
+
+                                { backgroundColor: selectedChoice === index ? '#ff7f9e' : 'transparent' } // Set background color
+                            ]}  >
                             <Text
-                                style={[commonStyles.sectionText, { fontSize: 16 }]}>
-                                {choice.information}
+                                style={[
+                                    styles.sectionTitle, {
+                                        color: selectedChoice === index ? 'black' : '#ff7f9e',
+                                        marginTop: 10,
+                                        fontSize: selectedChoice === index ? 20 : 16
+                                    }]} >
+                                {choice.title}
                             </Text>
-                        )}
-                    </TouchableOpacity>
-                ))}
-                <Text style={commonStyles.contentText}>
-                    המידע נלקח מאתר https://www.gov.il/
-                </Text>
-            </View>
-        </ScrollView>
+                            {selectedChoice === index && (
+                                <Text
+                                    style={[styles.sectionText, { fontSize: 16 }]}>
+                                    {choice.information}
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                    ))}
+                    <Text style={commonStyles.contentText}>
+                        המידע נלקח מאתר https://www.gov.il/
+                    </Text>
+
+                </View>
+            </ScrollView>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.goBack()}>
+                <Text style={styles.buttonText}>חזרה אחורה</Text>
+            </TouchableOpacity>
+        </View>
     );
 };
 
@@ -134,11 +144,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: 'black',
+        writingDirection: 'rtl',
     },
     content: {
         flex: 1,
         paddingHorizontal: 15,
         paddingVertical: 10,
+        writingDirection: 'rtl',
     },
     // section: {
     //     marginBottom: 20,
@@ -148,6 +160,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
         color: '#ff7f9e',
+        writingDirection: 'rtl',
     },
     // sectionWarning: {
     //     fontSize: 18,
@@ -180,21 +193,25 @@ const styles = StyleSheet.create({
     },
     importantSection: {
         backgroundColor: '#D3D3D3', // Gray
+
     },
     sectionWarning: {
         fontWeight: 'bold',
         fontSize: 18,
         marginBottom: 5,
         color: 'black', // White color
+        writingDirection: 'rtl',
     },
     sectionText: {
         fontSize: 16,
         color: '#333',
+        writingDirection: 'rtl',
     },
     importantText: {
         color: 'black',
         fontSize: 18,
         marginTop: 10,
+        writingDirection: 'rtl',
     },
 });
 

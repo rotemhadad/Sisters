@@ -1,4 +1,4 @@
-// App.tsx
+// App.js
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
@@ -19,13 +19,15 @@ import SignUpScreen from './components/SignUpScreen';
 import SelectionScreen from './components/SelectionScreen';
 import ViolenceTypes from './components/ViolenceTypes';
 import DefenceGuide from './components/DefenceGuide';
-
+// import { I18nManager } from 'react-native';
+// I18nManager.allowRTL(false);
 //const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
+      {/* <View style={styles.container}> */}
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Guest" component={GuestScreen} />
@@ -41,10 +43,17 @@ const App = () => {
         <Stack.Screen name="ViolenceTypes" component={ViolenceTypes} />
         <Stack.Screen name="DefenceGuide" component={DefenceGuide} />
       </Stack.Navigator>
+      {/* </View> */}
     </NavigationContainer>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    allowFontScaling: false, // Disable font scaling
+    writingDirection: 'ltr', // Set writing direction to right-to-left
+  },
+});
 
 export default App;
 

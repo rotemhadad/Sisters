@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#800080',
         marginBottom: 8,
+        writingDirection: 'rtl',
     },
     questionContainer: {
         marginBottom: 16,
@@ -87,11 +88,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#800080',
         marginBottom: 8,
+        writingDirection: 'rtl',
     },
     importantText: {
         fontSize: 16,
         color: 'red',
         marginTop: 16,
+        writingDirection: 'rtl',
     },
 });
 

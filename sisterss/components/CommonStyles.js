@@ -4,6 +4,7 @@ export const commonStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        writingDirection: 'rtl',
     },
     header: {
         backgroundColor: '#ff7f9e',
@@ -11,21 +12,25 @@ export const commonStyles = StyleSheet.create({
         paddingVertical: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
+        writingDirection: 'rtl',
     },
     headerText: {
         fontSize: 20,
         fontWeight: 'bold',
         color: '#fff',
+        writingDirection: 'rtl', 
     },
     content: {
         flex: 1,
         paddingHorizontal: 15,
         paddingVertical: 10,
+        writingDirection: 'rtl', 
     },
     contentText: {
         fontSize: 16,
         marginBottom: 5,
         color: '#333',
+        writingDirection: 'rtl', 
     },
     button: {
         backgroundColor: '#ff7f9e',
@@ -39,6 +44,7 @@ export const commonStyles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
+        writingDirection: 'rtl', 
     },
     navBar: {
         flexDirection: 'row',
@@ -113,12 +119,14 @@ export const commonStyles = StyleSheet.create({
         fontSize: 16,
         color: 'red',
         marginTop: 16,
+        writingDirection: 'rtl', 
     },
     helpText: {
         fontWeight: 'bold',
         fontSize: 16,
         color: 'red',
         marginTop: 16,
+        writingDirection: 'rtl',
 
     },
     choiceContainer: {
@@ -129,6 +137,7 @@ export const commonStyles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 10,
         backgroundColor: '#fff',
+        writingDirection: 'rtl',
     },
     selectedChoice: {
         backgroundColor: '#ff7f9e',

@@ -28,16 +28,17 @@ const Articles = ({ navigation }) => {
     };
 
     return (
+
         <View style={commonStyles.container}>
             <View style={commonStyles.header}>
-                <Text style={commonStyles.headerText}>Articles</Text>
+                <Text style={commonStyles.headerText}>מאמרים</Text>
             </View>
             <View style={commonStyles.content}>
                 <FlatList
                     data={articlesData}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.id}
-                    contentContainerStyle={styles.articleList}
+                    contentContainerStyle={styles.buttonText}
                 />
             </View>
         </View>
@@ -50,11 +51,17 @@ const styles = StyleSheet.create({
     },
     articleButton: {
         ...commonStyles.button,
-        width: '80%', // Set a fixed width for all buttons
+        width: '100%', // Set a fixed width for all buttons
         marginBottom: 10,
     },
     articleButtonText: {
         ...commonStyles.buttonText,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        writingDirection: 'rtl',
     },
 });
 

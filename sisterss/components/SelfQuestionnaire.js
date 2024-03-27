@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Modal } from 'react-native';
 import { commonStyles } from './CommonStyles';
-
+import { I18nManager } from 'react-native';
+I18nManager.allowRTL(false);
 const SelfQuestionnaire = ({ navigation }) => {
     const [showIntro, setShowIntro] = useState(true);
     const [answers, setAnswers] = useState({});
@@ -17,7 +18,8 @@ const SelfQuestionnaire = ({ navigation }) => {
 
     const renderQuestion = (questionId, question, options) => (
         <View style={styles.questionContainer}>
-            <Text style={styles.questionText}>{question}</Text>
+            <Text style={[styles.questionText, { textAlign: 'right' }]}>{question}</Text>
+
             {options.map((option) => (
                 <TouchableOpacity
                     key={option}
@@ -75,7 +77,7 @@ const SelfQuestionnaire = ({ navigation }) => {
                 <View style={styles.container}>
                     <ScrollView>
                         <Text style={styles.heading}>האם אני חווה אלימות במשפחה?</Text>
-                        <View>
+                        <View style={{ writingDirection: 'rtl' }}>
                             {renderQuestion('question1', 'הוא מחטט לך בנייד ובולש אחריך?', ['כן', 'לא'])}
                             {renderQuestion('question2', 'האם מחקת בגללו תיעוד שיחות, אנשי קשר או התבטאויות שלך ברשתות החברתיות?', ['כן', 'לא'])}
                             {renderQuestion('question3', 'האם הוא העיר לך על מבטי גברים ברחוב? לבושך? המציא רומנים שיש לך?', ['כן', 'לא'])}
@@ -127,6 +129,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFC0CB',
         padding: 16,
+        writingDirection: 'rtl',
     },
     heading: {
         fontSize: 24,
@@ -134,9 +137,11 @@ const styles = StyleSheet.create({
         color: '#800080',
         marginBottom: 16,
         textAlign: 'center',
+
     },
     questionContainer: {
         marginBottom: 16,
+
     },
     questionText: {
         fontSize: 18,
