@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { firebaseConfig, db, app } from '../components/FireBase';
+import { firebaseConfig, db, app } from './FireBase';
 import { collection, addDoc } from 'firebase/firestore';
 import { styles } from './styles';
 
-const SignUpScreen = ({ navigation }) => {
+const GurdianSignUpScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -12,8 +12,6 @@ const SignUpScreen = ({ navigation }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
-    const [emergencyContact, setEmergencyContact] = useState('');
-    const [fullNamePhoneNumber, setFullNamePhoneNumber] = useState('');
     const [nickname, setNickname] = useState('');
 
     const handleSignUp = () => {
@@ -31,14 +29,12 @@ const SignUpScreen = ({ navigation }) => {
             .createUserWithEmailAndPassword(email, password)
             .then(() => {
                 // Add user to database
-                addDoc(collection(db, "Users"), {
+                addDoc(collection(db, "Gurdian"), {
                     email,
                     firstName,
                     lastName,
                     birthdate,
                     profilePicture,
-                    emergencyContact,
-                    fullNamePhoneNumber,
                     nickname
                 });
                 Alert.alert('ההרשמה בוצעה בהצלחה');
@@ -97,20 +93,6 @@ const SignUpScreen = ({ navigation }) => {
                 onChangeText={setBirthdate}
                 keyboardType="numeric"
             />
-            <TextInput
-                style={styles.input}
-                placeholder="מספר טלפון לחירום"
-                value={emergencyContact}
-                onChangeText={setEmergencyContact}
-                keyboardType="phone-pad"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="שם מלא של איש קשר לחירום"
-                value={fullNamePhoneNumber}
-                onChangeText={setFullNamePhoneNumber}
-            />
-            {/* Add more TextInput fields for other data */}
 
             <TouchableOpacity
                 style={styles.button}
@@ -121,4 +103,4 @@ const SignUpScreen = ({ navigation }) => {
     );
 };
 
-export default SignUpScreen;
+export default GurdianSignUpScreen;

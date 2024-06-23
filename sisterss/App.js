@@ -19,6 +19,10 @@ import SignUpScreen from './components/SignUpScreen';
 import SelectionScreen from './components/SelectionScreen';
 import ViolenceTypes from './components/ViolenceTypes';
 import DefenceGuide from './components/DefenceGuide';
+import ForumPage from './components/ForumPage';
+import GurdianSighUpScreen from './components/GurdianSighUpScreen';
+import Post from './components/Post';
+import Comments from './components/Comments';
 // import { I18nManager } from 'react-native';
 // I18nManager.allowRTL(false);
 //const Stack = createStackNavigator();
@@ -42,6 +46,10 @@ const App = () => {
         <Stack.Screen name="Selection" component={SelectionScreen} />
         <Stack.Screen name="ViolenceTypes" component={ViolenceTypes} />
         <Stack.Screen name="DefenceGuide" component={DefenceGuide} />
+        <Stack.Screen name="ForumPage" component={ForumPage} />
+        <Stack.Screen name="GurdianSighUp" component={GurdianSighUpScreen} />
+        <Stack.Screen name="Post" component={Post} />
+        <Stack.Screen name="Comments" component={Comments} />
       </Stack.Navigator>
       {/* </View> */}
     </NavigationContainer>

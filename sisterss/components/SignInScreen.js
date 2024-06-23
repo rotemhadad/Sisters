@@ -1,47 +1,47 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
-//import firebase from '@react-native-firebase/app';
-//import '@react-native-firebase/auth';
-// const firebaseConfig = {
-//     apiKey: "AIzaSyCzZqsx2h0l-It6ybtkOjdZ-nghv656x3c",
-//     authDomain: "sisterss-392a7.firebaseapp.com",
-//     projectId: "sisterss-392a7",
-//     storageBucket: "sisterss-392a7.appspot.com",
-//     messagingSenderId: "1004651879058",
-//     appId: "1:1004651879058:web:f968a047c2ac1642bc644b",
-//     measurementId: "G-YER0W2Q9X8"
-// };
-
-// if (!firebase.apps.length) {
-//     firebase.initializeApp(firebaseConfig);
-// }
+import { View, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { firebaseConfig, db, app } from '../components/FireBase';
+import { collection, addDoc } from 'firebase/firestore';
+import { styles } from './styles';
 
 const SignInScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSignIn = () => {
-        firebase
+        app
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => {
-                Alert.alert('Sign In Successful');
+                //console.log('sign-in ok');
+                navigation.navigate('ForumPage');
+                //navigation.navigate('Guest');
+                Alert.alert('התחברת בהצלחה');
             })
             .catch((error) => {
-                Alert.alert('Sign In Failed', error.message);
+                //console.log(error.message);
+                Alert.alert('ההתחברות נכשלה', error.message);
             });
     };
 
     return (
-        <View>
-            <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+        <View style={styles.container}>
             <TextInput
-                placeholder="Password"
+                style={styles.input}
+                placeholder="אימייל"
+                value={email}
+                onChangeText={setEmail}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="סיסמה"
                 secureTextEntry
                 value={password}
                 onChangeText={setPassword}
             />
-            <Button title="Sign In" onPress={handleSignIn} />
+            <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+                <Text style={styles.buttonText}>התחברי</Text>
+            </TouchableOpacity>
         </View>
     );
 };
