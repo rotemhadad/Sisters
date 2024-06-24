@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
+import { View, TextInput, Button, Alert ,StyleSheet} from 'react-native';
+import { auth } from '../firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 //import firebase from '@react-native-firebase/app';
 //import '@react-native-firebase/auth';
 // const firebaseConfig = {
@@ -21,11 +23,10 @@ const SignInScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     const handleSignIn = () => {
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
+        signInWithEmailAndPassword(auth, email, password)
             .then(() => {
                 Alert.alert('Sign In Successful');
+                navigation.navigate('Home');
             })
             .catch((error) => {
                 Alert.alert('Sign In Failed', error.message);
@@ -33,9 +34,10 @@ const SignInScreen = ({ navigation }) => {
     };
 
     return (
-        <View>
-            <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+        <View style={styles.container}>
+            <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
             <TextInput
+                style={styles.input}
                 placeholder="Password"
                 secureTextEntry
                 value={password}
@@ -45,5 +47,23 @@ const SignInScreen = ({ navigation }) => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+    },
+    input: {
+        height: 40,
+        width: '100%',
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+    },
+});
 
 export default SignInScreen;
