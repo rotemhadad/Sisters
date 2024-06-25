@@ -26,20 +26,45 @@ const SignUpScreen = ({ navigation }) => {
     const [birthdate, setBirthdate] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
 
-    const handleSignUp = () => {
+    // const handleSignUp = () => {
+    //     if (password !== confirmPassword) {
+    //         Alert.alert('Password Error', 'Passwords do not match.');
+    //         return;
+    //     }
+
+    //     createUserWithEmailAndPassword(auth,email, password)
+    //         .then(() => {
+    //             Alert.alert('Sign Up Successful');
+    //             navigation.navigate('SignIn');
+    //         })
+    //         .catch(error => {
+    //             Alert.alert('Sign Up Failed', error.message);
+    //         });
+    // };
+
+    const handleSignUp = async () => {
         if (password !== confirmPassword) {
             Alert.alert('Password Error', 'Passwords do not match.');
             return;
         }
 
-        createUserWithEmailAndPassword(auth,email, password)
-            .then(() => {
-                Alert.alert('Sign Up Successful');
-                navigation.navigate('SignIn');
-            })
-            .catch(error => {
-                Alert.alert('Sign Up Failed', error.message);
+        try {
+            // Create user with email and password
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Store additional user details in Firestore
+            await setDoc(doc(db, 'users', user.uid), {
+                email: user.email,
+                birthdate: birthdate,
+                profilePicture: profilePicture || '',  // Assuming you have some default value or handle null
             });
+
+            Alert.alert('Sign Up Successful');
+            navigation.navigate('SignIn');
+        } catch (error) {
+            Alert.alert('Sign Up Failed', error.message);
+        }
     };
 
     return (
