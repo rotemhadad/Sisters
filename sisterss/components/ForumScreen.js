@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet } from 'react-native';
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert } from 'react-native';
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const ForumScreen = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: '', subject: '', content: '' });
-  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState({});
+  const [likedPosts, setLikedPosts] = useState([]);
 
   const auth = getAuth();
   const db = getFirestore();
@@ -16,51 +17,97 @@ const ForumScreen = () => {
   }, []);
 
   const fetchPosts = async () => {
-    const querySnapshot = await getDocs(collection(db, 'posts'));
-    const fetchedPosts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setPosts(fetchedPosts);
+    try {
+      const querySnapshot = await getDocs(collection(db, 'posts'));
+      const fetchedPosts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setPosts(fetchedPosts);
+
+      // Check if current user has liked any posts
+      const user = auth.currentUser;
+      if (user) {
+        const likedPosts = fetchedPosts.filter(post => post.likes.includes(user.uid)).map(post => post.id);
+        setLikedPosts(likedPosts);
+      }
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      Alert.alert('Error', 'Failed to fetch posts. Please try again later.');
+    }
   };
 
   const addPost = async () => {
-    const user = auth.currentUser;
-    if (user) {
-      await addDoc(collection(db, 'posts'), {
-        ...newPost,
-        authorId: user.uid,
-        authorName: user.displayName,
-        authorPhotoURL: user.photoURL,
-        likes: 0,
-        comments: [],
-        createdAt: new Date(),
-      });
-      setNewPost({ title: '', subject: '', content: '' });
-      fetchPosts();
-    }
-  };
-
-  const addComment = async (postId, comment) => {
-    const user = auth.currentUser;
-    if (user) {
-      const postRef = doc(db, 'posts', postId);
-      await updateDoc(postRef, {
-        comments: arrayUnion({
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        await addDoc(collection(db, 'posts'), {
+          ...newPost,
           authorId: user.uid,
           authorName: user.displayName,
-          content: comment,
+          authorPhotoURL: user.photoURL,
+          likes: [],
+          comments: [],
           createdAt: new Date(),
-        })
-      });
-      setComment('');
-      fetchPosts();
+        });
+        setNewPost({ title: '', subject: '', content: '' });
+        fetchPosts();
+      } else {
+        Alert.alert('Authentication Required', 'Please sign in to add a post.');
+      }
+    } catch (error) {
+      console.error('Error adding post:', error);
+      Alert.alert('Error', 'Failed to add post. Please try again.');
     }
   };
 
-  const likePost = async (postId) => {
-    const postRef = doc(db, 'posts', postId);
-    await updateDoc(postRef, {
-      likes: posts.find(post => post.id === postId).likes + 1
-    });
-    fetchPosts();
+  const addComment = async (postId) => {
+    try {
+      const user = auth.currentUser;
+      if (user && comments[postId]?.trim()) {
+        const postRef = doc(db, 'posts', postId);
+        await updateDoc(postRef, {
+          comments: arrayUnion({
+            authorId: user.uid,
+            authorName: user.displayName,
+            content: comments[postId],
+            createdAt: new Date(),
+          })
+        });
+        setComments(prevComments => ({ ...prevComments, [postId]: '' }));
+        fetchPosts();
+      } else {
+        Alert.alert('Authentication Required', 'Please sign in to add a comment.');
+      }
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      Alert.alert('Error', 'Failed to add comment. Please try again.');
+    }
+  };
+
+  const toggleLikePost = async (postId) => {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const postRef = doc(db, 'posts', postId);
+        const post = posts.find(post => post.id === postId);
+        const hasLiked = post.likes.includes(user.uid);
+
+        if (hasLiked) {
+          await updateDoc(postRef, {
+            likes: arrayRemove(user.uid)
+          });
+        } else {
+          await updateDoc(postRef, {
+            likes: arrayUnion(user.uid)
+          });
+        }
+
+        fetchPosts();
+      } else {
+        Alert.alert('Authentication Required', 'Please sign in to like/unlike a post.');
+      }
+    } catch (error) {
+      console.error('Error liking post:', error);
+      Alert.alert('Error', 'Failed to like/unlike post. Please try again.');
+    }
   };
 
   const renderPost = ({ item }) => (
@@ -70,8 +117,8 @@ const ForumScreen = () => {
       <Text style={styles.postTitle}>{item.title}</Text>
       <Text style={styles.postSubject}>{item.subject}</Text>
       <Text style={styles.postContent}>{item.content}</Text>
-      <TouchableOpacity onPress={() => likePost(item.id)} style={styles.likeButton}>
-        <Text>Like ({item.likes})</Text>
+      <TouchableOpacity onPress={() => toggleLikePost(item.id)} style={styles.likeButton}>
+        <Text>{likedPosts.includes(item.id) ? 'Unlike' : 'Like'} ({item.likes.length})</Text>
       </TouchableOpacity>
       <FlatList
         data={item.comments}
@@ -83,12 +130,12 @@ const ForumScreen = () => {
         keyExtractor={(item, index) => index.toString()}
       />
       <TextInput
-        value={comment}
-        onChangeText={setComment}
+        value={comments[item.id] || ''}
+        onChangeText={text => setComments({ ...comments, [item.id]: text })}
         placeholder="Add a comment"
         style={styles.commentInput}
       />
-      <TouchableOpacity onPress={() => addComment(item.id, comment)} style={styles.addCommentButton}>
+      <TouchableOpacity onPress={() => addComment(item.id)} style={styles.addCommentButton}>
         <Text>Add Comment</Text>
       </TouchableOpacity>
     </View>

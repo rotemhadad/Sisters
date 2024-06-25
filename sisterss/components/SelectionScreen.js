@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     },
     questionMark: {
         fontSize: 24, // Increase font size here
-        color: '#999',
+        color: '#FF1493',
         marginLeft: 5, // Add space between the text and the question mark
     },
     closeButton: {
