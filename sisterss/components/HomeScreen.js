@@ -1,11 +1,79 @@
 //homeScreen.js
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React , { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { commonStyles } from './CommonStyles';
-
+import { getAuth, signOut } from 'firebase/auth';
 const HomeScreen = ({ navigation }) => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const auth = getAuth();
     //const navigation = useNavigation();
+
+//     return (
+//         <View style={styles.container}>
+//             <View style={styles.header}>
+//                 <Text style={styles.headerText}>Sisters</Text>
+//             </View>
+//             <View style={styles.content}>
+//                 {/* <Image // add logo here!
+//                     source={require('../Images/Warnings.png')}
+//                     style={styles.logo}
+//                     resizeMode="contain"
+//                 /> */}
+//                 <Text style={styles.contentText}>
+//                     את לא לבד. אנחנו כאן כדי לתמוך בך.
+//                 </Text>
+//                 <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
+//                 <TouchableOpacity
+//                     style={styles.button}
+//                     onPress={() => navigation.navigate('Selection')}
+//                 >
+//                     <Text style={styles.buttonText}>התחברות והרשמה</Text>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity
+//                     style={styles.button}
+//                     onPress={() => navigation.navigate('Guest')}
+//                 >
+//                     <Text style={styles.buttonText}>כניסה בתור משתמש אורח</Text>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity style={styles.button}>
+//                     <Text style={styles.buttonText}>למדי עוד</Text>
+//                 </TouchableOpacity>
+//             </View>
+//             <View style={styles.navBar}>
+//                 <TouchableOpacity style={styles.navButton}>
+//                     <Text style={styles.navButtonText}>שאלות נפוצות</Text>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity
+//                     style={styles.navButton}
+//                     onPress={() => navigation.navigate('AboutUs')}
+//                 >
+//                     <Text style={styles.navButtonText}>אודות</Text>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity style={styles.navButton}>
+//                     <Text style={styles.navButtonText}>צור קשר</Text>
+//                 </TouchableOpacity>
+//             </View>
+//         </View>
+//     );
+// };
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            setIsAuthenticated(!!user);
+        });
+
+        return unsubscribe; // Clean up the subscription on unmount
+    }, []);
+
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            Alert.alert('Signed Out', 'You have been signed out.');
+        } catch (error) {
+            Alert.alert('Sign Out Error', error.message);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -13,26 +81,41 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.headerText}>Sisters</Text>
             </View>
             <View style={styles.content}>
-                {/* <Image // add logo here!
-                    source={require('../Images/Warnings.png')}
-                    style={styles.logo}
-                    resizeMode="contain"
-                /> */}
                 <Text style={styles.contentText}>
                     את לא לבד. אנחנו כאן כדי לתמוך בך.
                 </Text>
                 <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
+
+                {isAuthenticated ? (
+                    <>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleSignOut}
+                        >
+                            <Text style={styles.buttonText}>התנתקות</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => navigation.navigate('Forum')}
+                        >
+                            <Text style={styles.buttonText}>פורום סיוע</Text>
+                        </TouchableOpacity>
+                    </>
+                ) : (
+                    <>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => navigation.navigate('Selection')}
+                        >
+                            <Text style={styles.buttonText}>התחברות והרשמה</Text>
+                        </TouchableOpacity>
+                    </>
+                )}
                 <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('Selection')}
-                >
-                    <Text style={styles.buttonText}>התחברות והרשמה</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('Guest')}
-                >
-                    <Text style={styles.buttonText}>כניסה בתור משתמש אורח</Text>
+                            style={styles.button}
+                            onPress={() => navigation.navigate('Guest')}
+                        >
+                            <Text style={styles.buttonText}>מידע לכלל</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonText}>למדי עוד</Text>
