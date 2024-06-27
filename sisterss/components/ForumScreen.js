@@ -22,7 +22,6 @@ const ForumScreen = () => {
       const fetchedPosts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setPosts(fetchedPosts);
 
-      // Check if current user has liked any posts
       const user = auth.currentUser;
       if (user) {
         const likedPosts = fetchedPosts.filter(post => post.likes.includes(user.uid)).map(post => post.id);
@@ -118,7 +117,7 @@ const ForumScreen = () => {
       <Text style={styles.postSubject}>{item.subject}</Text>
       <Text style={styles.postContent}>{item.content}</Text>
       <TouchableOpacity onPress={() => toggleLikePost(item.id)} style={styles.likeButton}>
-        <Text>{likedPosts.includes(item.id) ? 'Unlike' : 'Like'} ({item.likes.length})</Text>
+        <Text>{likedPosts.includes(item.id) ? 'להוריד אהבתי' : 'אהבתי'} ({item.likes.length})</Text>
       </TouchableOpacity>
       <FlatList
         data={item.comments}
@@ -132,39 +131,42 @@ const ForumScreen = () => {
       <TextInput
         value={comments[item.id] || ''}
         onChangeText={text => setComments({ ...comments, [item.id]: text })}
-        placeholder="Add a comment"
+        placeholder="הוסיפי תגובה"
         style={styles.commentInput}
       />
       <TouchableOpacity onPress={() => addComment(item.id)} style={styles.addCommentButton}>
-        <Text>Add Comment</Text>
+        <Text>הוסיפי תגובה</Text>
       </TouchableOpacity>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={newPost.title}
-        onChangeText={(text) => setNewPost({ ...newPost, title: text })}
-        placeholder="Post Title"
-        style={styles.input}
-      />
-      <TextInput
-        value={newPost.subject}
-        onChangeText={(text) => setNewPost({ ...newPost, subject: text })}
-        placeholder="Subject (בית, ילדים, זכויות)"
-        style={styles.input}
-      />
-      <TextInput
-        value={newPost.content}
-        onChangeText={(text) => setNewPost({ ...newPost, content: text })}
-        placeholder="Post Content"
-        style={styles.input}
-        multiline
-      />
-      <TouchableOpacity onPress={addPost} style={styles.addPostButton}>
-        <Text>Add Post</Text>
-      </TouchableOpacity>
+      <View style={styles.uploadContainer}>
+        <TextInput
+          value={newPost.title}
+          onChangeText={(text) => setNewPost({ ...newPost, title: text })}
+          placeholder="כותרת המחשבות שלך"
+          style={styles.input}
+        />
+        <TextInput
+          value={newPost.subject}
+          onChangeText={(text) => setNewPost({ ...newPost, subject: text })}
+          placeholder="נושא (בית, ילדים, זכויות)"
+          style={styles.input}
+        />
+        <TextInput
+          value={newPost.content}
+          onChangeText={(text) => setNewPost({ ...newPost, content: text })}
+          placeholder="שתפי מחשבותייך"
+          style={styles.input}
+          multiline
+        />
+        <TouchableOpacity onPress={addPost} style={styles.addPostButton}>
+          <Text>העלי פוסט</Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={{ textAlign: 'center', marginBottom: 10 }}>פוסטים של אחיות:</Text>
       <FlatList
         data={posts}
         renderItem={renderPost}
@@ -184,17 +186,27 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 10,
     marginBottom: 10,
+    borderRadius: 5,
   },
   addPostButton: {
     backgroundColor: '#ff7f9e',
     padding: 10,
     alignItems: 'center',
     marginBottom: 20,
+    borderRadius: 5,
+  },
+  uploadContainer: {
+    borderColor: '#ff7f9e',
+    borderRadius: 5,
+    borderWidth: 2,
+    padding: 10,
+    marginBottom: 20,
   },
   postContainer: {
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderRadius: 5,
+    borderColor: '#ff7f9e',
     padding: 10,
   },
   authorPhoto: {
@@ -218,23 +230,28 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   likeButton: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#89CFF0',
     padding: 5,
     alignItems: 'center',
     marginBottom: 10,
+    width: 120,
+    borderRadius: 5,
   },
   commentContainer: {
+    borderRadius: 5,
     marginLeft: 10,
     marginBottom: 5,
   },
   commentInput: {
     borderWidth: 1,
+    borderRadius: 5,
     borderColor: '#ccc',
     padding: 5,
     marginBottom: 5,
   },
   addCommentButton: {
-    backgroundColor: '#e0e0e0',
+    borderRadius: 5,
+    backgroundColor: '#7393B3',
     padding: 5,
     alignItems: 'center',
   },
