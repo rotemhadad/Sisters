@@ -122,7 +122,7 @@ const HomeScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.navBar}>
-                <TouchableOpacity style={styles.navButton}>
+                <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Common')}>
                     <Text style={styles.navButtonText}>שאלות נפוצות</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
