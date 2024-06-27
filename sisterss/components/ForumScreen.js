@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert, Switch } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const ForumScreen = () => {
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ title: '', subject: '', content: '' });
+  const [newPost, setNewPost] = useState({ title: '', subject: '', content: '', isAnonymous: false });
   const [comments, setComments] = useState({});
   const [likedPosts, setLikedPosts] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState('');
 
   const auth = getAuth();
   const db = getFirestore();
@@ -37,16 +39,21 @@ const ForumScreen = () => {
     try {
       const user = auth.currentUser;
       if (user) {
+        const authorName = newPost.isAnonymous ? 'Anonymous' : user.displayName;
+        const authorPhotoURL = newPost.isAnonymous ? null : user.photoURL;
+
         await addDoc(collection(db, 'posts'), {
           ...newPost,
+          subject: selectedSubject,
           authorId: user.uid,
-          authorName: user.displayName,
-          authorPhotoURL: user.photoURL,
+          authorName,
+          authorPhotoURL,
           likes: [],
           comments: [],
           createdAt: new Date(),
         });
-        setNewPost({ title: '', subject: '', content: '' });
+        setNewPost({ title: '', subject: '', content: '', isAnonymous: false });
+        setSelectedSubject('');
         fetchPosts();
       } else {
         Alert.alert('Authentication Required', 'Please sign in to add a post.');
@@ -111,7 +118,7 @@ const ForumScreen = () => {
 
   const renderPost = ({ item }) => (
     <View style={styles.postContainer}>
-      <Image source={{ uri: item.authorPhotoURL }} style={styles.authorPhoto} />
+      {item.authorPhotoURL && <Image source={{ uri: item.authorPhotoURL }} style={styles.authorPhoto} />}
       <Text style={styles.authorName}>{item.authorName}</Text>
       <Text style={styles.postTitle}>{item.title}</Text>
       <Text style={styles.postSubject}>{item.subject}</Text>
@@ -149,12 +156,18 @@ const ForumScreen = () => {
           placeholder="כותרת המחשבות שלך"
           style={styles.input}
         />
-        <TextInput
-          value={newPost.subject}
-          onChangeText={(text) => setNewPost({ ...newPost, subject: text })}
-          placeholder="נושא (בית, ילדים, זכויות)"
+        <Picker
+          selectedValue={selectedSubject}
+          onValueChange={(itemValue) => setSelectedSubject(itemValue)}
           style={styles.input}
-        />
+        >
+          <Picker.Item label="בחרי נושא" value="" />
+          <Picker.Item label="בית" value="בית" />
+          <Picker.Item label="ילדים" value="ילדים" />
+          <Picker.Item label="זכויות" value="זכויות" />
+          <Picker.Item label="נישואים" value="נישואים" />
+          <Picker.Item label="אחר" value="אחר" />
+        </Picker>
         <TextInput
           value={newPost.content}
           onChangeText={(text) => setNewPost({ ...newPost, content: text })}
@@ -162,6 +175,13 @@ const ForumScreen = () => {
           style={styles.input}
           multiline
         />
+        <View style={styles.switchContainer}>
+          <Text>אנונימי</Text>
+          <Switch
+            value={newPost.isAnonymous}
+            onValueChange={(value) => setNewPost({ ...newPost, isAnonymous: value })}
+          />
+        </View>
         <TouchableOpacity onPress={addPost} style={styles.addPostButton}>
           <Text>העלי פוסט</Text>
         </TouchableOpacity>
@@ -254,6 +274,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#7393B3',
     padding: 5,
     alignItems: 'center',
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
 });
 
