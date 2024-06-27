@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView,TouchableOpacity } from 'react-native';
 import { commonStyles } from './CommonStyles';
 
 const WarningSigns = ({ navigation }) => {
@@ -55,20 +55,22 @@ const WarningSigns = ({ navigation }) => {
             <Text style={commonStyles.contentText}>
                 המידע נלקח מאתר https://www.michalsela.org.il/
             </Text>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+                <Text style={styles.buttonText}>חזרה אחורה</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FFC0CB',
         paddingVertical: 16,
         paddingHorizontal: 16,
     },
     heading: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#800080',
+        color: '#ff7f9e',
         marginBottom: 8,
         writingDirection: 'rtl',
     },
@@ -77,7 +79,6 @@ const styles = StyleSheet.create({
     },
     question: {
         fontSize: 16,
-        color: '#800080',
         marginBottom: 8,
         writingDirection: 'rtl',
     },
@@ -86,6 +87,19 @@ const styles = StyleSheet.create({
         color: 'red',
         marginTop: 16,
         writingDirection: 'rtl',
+    },
+    button: {
+        backgroundColor: '#ff7f9e',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        margin: 15,
+        borderRadius: 5,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 
