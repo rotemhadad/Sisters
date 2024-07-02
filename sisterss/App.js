@@ -21,6 +21,7 @@ import ViolenceTypes from './components/ViolenceTypes';
 import DefenceGuide from './components/DefenceGuide';
 import ForumScreen from './components/ForumScreen';
 import CommonScreen from './components/CommonScreen';
+import PizzaCall from './components/PizzaCall';
 // import { I18nManager } from 'react-native';
 // I18nManager.allowRTL(false);
 //const Stack = createStackNavigator();
@@ -46,6 +47,7 @@ const App = () => {
         <Stack.Screen name="DefenceGuide" component={DefenceGuide} />
         <Stack.Screen name="Forum" component={ForumScreen} />
         <Stack.Screen name="Common" component={CommonScreen} />
+        <Stack.Screen name="PizzaCall" component={PizzaCall} />
       </Stack.Navigator>
       {/* </View> */}
     </NavigationContainer>
