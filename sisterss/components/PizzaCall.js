@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Video from 'react-native-video';
+// import Video from 'react-native-video';
 import { commonStyles } from './CommonStyles'; // Import common styles
 
 const PizzaCall = () => {
