@@ -117,7 +117,10 @@ const HomeScreen = ({ navigation }) => {
                         >
                             <Text style={styles.buttonText}>מידע לכלל</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => navigation.navigate('LearnMore')}
+                        >
                     <Text style={styles.buttonText}>למדי עוד</Text>
                 </TouchableOpacity>
             </View>
