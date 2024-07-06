@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-// import Video from 'react-native-video';
 import { commonStyles } from './CommonStyles'; // Import common styles
+import YoutubeIframe from 'react-native-youtube-iframe';
 
 const PizzaCall = () => {
     const navigation = useNavigation();
-    const [expandedIndex, setExpandedIndex] = useState(null);
     const [selectedChoice, setSelectedChoice] = useState(null);
+    const [playing, setPlaying] = useState(false);
+
+    const onStateChange = useCallback((state) => {
+        if (state === "ended") {
+            setPlaying(false);
+            Alert.alert("video has finished playing!");
+        }
+    }, []);
+
+    const togglePlaying = useCallback(() => {
+        setPlaying((prev) => !prev);
+    }, []);
 
     const choices = [
         {
@@ -31,6 +42,7 @@ const PizzaCall = () => {
             information: 'כעת אחרי שהמוקד קיבל הנחיות על מצבך בצורה לא גלויה צייני להם את הכתובת ל"משלוח", מקומך בפועל.\nכדי שיקפיצו כוחות לאזור'
         },
     ];
+
     const handleChoicePress = (index) => {
         setSelectedChoice(selectedChoice === index ? null : index);
     };
@@ -48,11 +60,12 @@ const PizzaCall = () => {
                         בעת סכנה בזמן אמת ביכולתך ללחוץ עליו והוא יחייג ישירות למשטרה.
                     </Text>
                 </View>
-                <View style={styles.introductionContainer}>
-                    <Text style={styles.introductionText}>
-                        אבל מה זה שיחת הפיצה ולמה היא משומשת?
-                    </Text>
-                </View>
+                
+                <Text style={[styles.introductionText, { fontWeight: 'bold' }]}>
+                    אבל מה זה שיחת הפיצה ולמה היא משומשת?
+                </Text>
+
+                
 
                 <Text style={styles.introductionText}>
                     "הזמנת פיצה" מהמשטרה, והמוקדן הבין שהיא מאוימת: האזינו לשיחה
@@ -61,15 +74,12 @@ const PizzaCall = () => {
                     הוסיפי אקסטרא." היא ענתה: "אקח אקסטרא פטריות."
                 </Text>
 
-                <View style={styles.videoContainer}>
-                    <Text style={styles.videoTitle}>המוקדן הבין: היא לא התקשרה למשטרה בגלל פיצה</Text>
-                    {/* <Video
-                        source={{ uri: 'https://besttv228-progressive-video-ynet.cdn.it.best-tv.com/1119/0dac5801939b300f67fcc79cef5c225f-hd720.mp4' }}
-                        controls={true}
-                        resizeMode="cover"
-                        style={styles.video}
-                    /> */}
-                </View>
+                <YoutubeIframe
+                    height={180}
+                    play={playing}
+                    videoId={"dT_nKx6n-o8"}
+                    onChangeState={onStateChange}
+                />
 
                 <View style={commonStyles.content}>
                     {choices.map((choice, index) => (
@@ -102,7 +112,7 @@ const PizzaCall = () => {
                         </TouchableOpacity>
                     ))}
                     <View style={styles.introductionContainer}>
-                        <Text style={styles.introductionText}>
+                    <Text style={[styles.introductionText, { fontWeight: 'bold' }]}>
                             זכרי! הכנה מוקדמת הינה מתכון להצלת חיים
                         </Text>
                     </View>
@@ -117,7 +127,6 @@ const PizzaCall = () => {
         </View>
     );
 };
-
 
 const styles = StyleSheet.create({
     container: {
