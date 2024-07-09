@@ -20,7 +20,7 @@ describe('HomeScreen', () => {
         // Test that the buttons are rendered
         const guestButton = getByText('כניסה בתור משתמש אורח');
         expect(guestButton).toBeTruthy();
-        const learnMoreButton = getByText('למדי עוד');
+        const learnMoreButton = getByText('למדי הגנה עצמית');
         expect(learnMoreButton).toBeTruthy();
     });
 });
