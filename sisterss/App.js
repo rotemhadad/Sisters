@@ -24,6 +24,7 @@ import CommonScreen from './components/CommonScreen';
 import PizzaCall from './components/PizzaCall';
 import GovInfoScreen from './components/GovInfoScreen';
 import LearnMoreScreen from './components/LearnMoreScreen';
+import ProfileScreen from './components/Profile/Avatar';
 // import { I18nManager } from 'react-native';
 // I18nManager.allowRTL(false);
 //const Stack = createStackNavigator();
@@ -52,6 +53,7 @@ const App = () => {
         <Stack.Screen name="PizzaCall" component={PizzaCall} />
         <Stack.Screen name="GovInfoScreen" component={GovInfoScreen} />
         <Stack.Screen name="LearnMore" component={LearnMoreScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
       {/* </View> */}
     </NavigationContainer>

@@ -1,13 +1,13 @@
-//homeScreen.js
-import React , { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Alert  } from 'react-native';
+// HomeScreen.js
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { commonStyles } from './CommonStyles';
 import { getAuth, signOut } from 'firebase/auth';
+
 const HomeScreen = ({ navigation }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const auth = getAuth();
-    //const navigation = useNavigation();
+ //const navigation = useNavigation();
 
 //     return (
 //         <View style={styles.container}>
@@ -96,31 +96,35 @@ const HomeScreen = ({ navigation }) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
+                            onPress={() => navigation.navigate('Profile')}
+                        >
+                            <Text style={styles.buttonText}>פרופיל</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
                             onPress={() => navigation.navigate('Forum')}
                         >
                             <Text style={styles.buttonText}>פורום סיוע</Text>
                         </TouchableOpacity>
                     </>
                 ) : (
-                    <>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => navigation.navigate('Selection')}
-                        >
-                            <Text style={styles.buttonText}>התחברות והרשמה</Text>
-                        </TouchableOpacity>
-                    </>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => navigation.navigate('Selection')}
+                    >
+                        <Text style={styles.buttonText}>התחברות והרשמה</Text>
+                    </TouchableOpacity>
                 )}
                 <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => navigation.navigate('Guest')}
-                        >
-                            <Text style={styles.buttonText}>מידע לכלל</Text>
+                    style={styles.button}
+                    onPress={() => navigation.navigate('Guest')}
+                >
+                    <Text style={styles.buttonText}>מידע לכלל</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => navigation.navigate('LearnMore')}
-                        >
+                    style={styles.button}
+                    onPress={() => navigation.navigate('LearnMore')}
+                >
                     <Text style={styles.buttonText}>למדי עוד</Text>
                 </TouchableOpacity>
             </View>
