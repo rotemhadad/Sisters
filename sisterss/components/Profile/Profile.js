@@ -17,6 +17,7 @@ const ProfileScreen = () => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUserId(user.uid);
+        console.log('User signed in:', user);
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
@@ -31,9 +32,15 @@ const ProfileScreen = () => {
   }, []);
 
   const handleUpdateProfilePicture = async (newUri) => {
+    console.log('Updating profile picture to:', newUri);
     setProfilePicture(newUri);
     if (userId) {
-      await updateDoc(doc(db, 'users', userId), { profilePicture: newUri });
+      try {
+        await updateDoc(doc(db, 'users', userId), { profilePicture: newUri });
+        console.log('Profile picture updated successfully.');
+      } catch (error) {
+        console.error('Error updating profile picture:', error);
+      }
     }
   };
 
@@ -44,12 +51,16 @@ const ProfileScreen = () => {
     }
 
     if (userId) {
-      await updateDoc(doc(db, 'users', userId), {
-        email,
-        birthdate,
-        profilePicture,
-      });
-      Alert.alert('Profile Updated', 'Your profile has been successfully updated.');
+      try {
+        await updateDoc(doc(db, 'users', userId), {
+          email,
+          birthdate,
+          profilePicture,
+        });
+        Alert.alert('Profile Updated', 'Your profile has been successfully updated.');
+      } catch (error) {
+        console.error('Error updating profile:', error);
+      }
     }
   };
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, Image, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { updateDoc, doc } from 'firebase/firestore';
 import { auth, db, storage } from '../../firebaseConfig';
 
@@ -12,6 +12,7 @@ const Avatar = ({ uri, aviOnly = false, imgStyle = {}, onButtonPress }) => {
 
   const handleChoosePhoto = async () => {
     try {
+      console.log('Requesting media library permissions...');
       const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (!permissionResult.granted) {
         Alert.alert(
@@ -21,6 +22,7 @@ const Avatar = ({ uri, aviOnly = false, imgStyle = {}, onButtonPress }) => {
         return;
       }
 
+      console.log('Launching image library...');
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -28,7 +30,9 @@ const Avatar = ({ uri, aviOnly = false, imgStyle = {}, onButtonPress }) => {
         quality: 1,
       });
 
-      if (result.canceled) {
+      console.log('Image library result:', result);
+
+      if (result.cancelled) {
         return;
       }
 
@@ -39,6 +43,7 @@ const Avatar = ({ uri, aviOnly = false, imgStyle = {}, onButtonPress }) => {
         await uploadImage(selectedAsset.uri);
       }
     } catch (error) {
+      console.error('Error choosing photo:', error);
       Alert.alert("Error", "An error occurred while selecting the photo. Please try again.");
     }
   };
@@ -46,20 +51,49 @@ const Avatar = ({ uri, aviOnly = false, imgStyle = {}, onButtonPress }) => {
   const uploadImage = async (uri) => {
     setUploading(true);
     try {
+      console.log('Uploading image...');
       const response = await fetch(uri);
+      if (!response.ok) {
+        throw new Error('Failed to fetch the image');
+      }
       const blob = await response.blob();
+      console.log('Fetched image blob:', blob);
       const imageRef = ref(storage, `profile-pictures/${auth.currentUser.uid}`);
 
-      await uploadBytes(imageRef, blob);
-      const downloadURL = await getDownloadURL(imageRef);
+      const uploadTask = uploadBytesResumable(imageRef, blob);
 
-      const userDocRef = doc(db, "users", auth.currentUser.uid);
-      await updateDoc(userDocRef, {
-        profilePicture: downloadURL,
-      });
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // Progress function (optional)
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          // Error function
+          console.error('Upload Error:', error);
+          Alert.alert("Upload Error", "An error occurred while uploading the image. Please try again.");
+          setUploading(false);
+        },
+        () => {
+          // Completion function
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            console.log('Download URL:', downloadURL);
+            const userDocRef = doc(db, "users", auth.currentUser.uid);
+            await updateDoc(userDocRef, {
+              profilePicture: downloadURL,
+            });
+            console.log('Image uploaded and user document updated successfully');
+            setUploading(false);
+          }).catch((error) => {
+            console.error('Error getting download URL:', error);
+            Alert.alert("Download URL Error", "An error occurred while getting download URL. Please try again.");
+            setUploading(false);
+          });
+        }
+      );
     } catch (error) {
+      console.error('Upload Error:', error);
       Alert.alert("Upload Error", "An error occurred while uploading the image. Please try again.");
-    } finally {
       setUploading(false);
     }
   };
