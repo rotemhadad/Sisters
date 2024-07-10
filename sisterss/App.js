@@ -24,7 +24,7 @@ import CommonScreen from './components/CommonScreen';
 import PizzaCall from './components/PizzaCall';
 import GovInfoScreen from './components/GovInfoScreen';
 import LearnMoreScreen from './components/LearnMoreScreen';
-import ProfileScreen from './components/Profile/Avatar';
+import ProfileScreen from './components/Profile/Profile';
 // import { I18nManager } from 'react-native';
 // I18nManager.allowRTL(false);
 //const Stack = createStackNavigator();
