@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert, Switch } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert, Switch, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import * as ImagePicker from 'expo-image-picker';
 
 const ForumScreen = () => {
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ title: '', subject: '', content: '', isAnonymous: false });
+  const [newPost, setNewPost] = useState({ title: '', subject: '', content: '', isAnonymous: false, image: null });
   const [comments, setComments] = useState({});
   const [likedPosts, setLikedPosts] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState('');
+  const [image, setImage] = useState(null);
 
   const auth = getAuth();
   const db = getFirestore();
@@ -36,24 +38,37 @@ const ForumScreen = () => {
   };
 
   const addPost = async () => {
+    if (!newPost.title.trim() || !newPost.content.trim()) {
+      Alert.alert('Error', 'Title and content cannot be empty.');
+      return;
+    }
     try {
       const user = auth.currentUser;
       if (user) {
         const authorName = newPost.isAnonymous ? 'Anonymous' : user.displayName;
         const authorPhotoURL = newPost.isAnonymous ? null : user.photoURL;
-
-        await addDoc(collection(db, 'posts'), {
-          ...newPost,
+  
+        const post = {
+          title: newPost.title,
           subject: selectedSubject,
+          content: newPost.content,
           authorId: user.uid,
           authorName,
           authorPhotoURL,
           likes: [],
           comments: [],
           createdAt: new Date(),
-        });
-        setNewPost({ title: '', subject: '', content: '', isAnonymous: false });
+        };
+  
+        // Only add the image field if an image has been selected
+        if (newPost.image) {
+          post.image = newPost.image;
+        }
+  
+        await addDoc(collection(db, 'posts'), post);
+        setNewPost({ title: '', subject: '', content: '', isAnonymous: false, image: null });
         setSelectedSubject('');
+        setImage(null);
         fetchPosts();
       } else {
         Alert.alert('Authentication Required', 'Please sign in to add a post.');
@@ -63,6 +78,7 @@ const ForumScreen = () => {
       Alert.alert('Error', 'Failed to add post. Please try again.');
     }
   };
+  
 
   const addComment = async (postId) => {
     try {
@@ -116,10 +132,25 @@ const ForumScreen = () => {
     }
   };
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.uri);
+      setNewPost({ ...newPost, image: result.uri });
+    }
+  };
+
   const renderPost = ({ item }) => (
     <View style={styles.postContainer}>
       {item.authorPhotoURL && <Image source={{ uri: item.authorPhotoURL }} style={styles.authorPhoto} />}
       <Text style={styles.authorName}>{item.authorName}</Text>
+      {item.image && <Image source={{ uri: item.image }} style={styles.postImage} />}
       <Text style={styles.postTitle}>{item.title}</Text>
       <Text style={styles.postSubject}>{item.subject}</Text>
       <Text style={styles.postContent}>{item.content}</Text>
@@ -148,7 +179,7 @@ const ForumScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.uploadContainer}>
         <TextInput
           value={newPost.title}
@@ -175,6 +206,10 @@ const ForumScreen = () => {
           style={styles.input}
           multiline
         />
+        <TouchableOpacity onPress={pickImage} style={styles.imagePickerButton}>
+          <Text>בחרי תמונה</Text>
+        </TouchableOpacity>
+        {image && <Image source={{ uri: image }} style={styles.selectedImage} />}
         <View style={styles.switchContainer}>
           <Text>אנונימי</Text>
           <Switch
@@ -192,14 +227,14 @@ const ForumScreen = () => {
         renderItem={renderPost}
         keyExtractor={item => item.id}
       />
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
+    flexGrow: 1,
+    padding: 10,
   },
   input: {
     borderWidth: 1,
@@ -212,7 +247,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff7f9e',
     padding: 10,
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 5,
   },
   uploadContainer: {
@@ -237,6 +272,11 @@ const styles = StyleSheet.create({
   authorName: {
     fontWeight: 'bold',
     marginVertical: 5,
+  },
+  postImage: {
+    width: '100%',
+    height: 200,
+    marginBottom: 10,
   },
   postTitle: {
     fontSize: 18,
@@ -279,6 +319,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  imagePickerButton: {
+    backgroundColor: '#89CFF0',
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  selectedImage: {
+    width: '100%',
+    height: 200,
     marginBottom: 10,
   },
 });
