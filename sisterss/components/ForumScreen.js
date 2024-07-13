@@ -4,8 +4,9 @@ import { Picker } from '@react-native-picker/picker';
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from '@react-navigation/native';
 
-const ForumScreen = () => {
+const ForumScreen = ({ navigation }) => {  // Corrected here
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: '', subject: '', content: '', isAnonymous: false, image: null });
   const [comments, setComments] = useState({});
@@ -47,7 +48,7 @@ const ForumScreen = () => {
       if (user) {
         const authorName = newPost.isAnonymous ? 'Anonymous' : user.displayName;
         const authorPhotoURL = newPost.isAnonymous ? null : user.photoURL;
-  
+
         const post = {
           title: newPost.title,
           subject: selectedSubject,
@@ -59,12 +60,11 @@ const ForumScreen = () => {
           comments: [],
           createdAt: new Date(),
         };
-  
-        // Only add the image field if an image has been selected
+
         if (newPost.image) {
           post.image = newPost.image;
         }
-  
+
         await addDoc(collection(db, 'posts'), post);
         setNewPost({ title: '', subject: '', content: '', isAnonymous: false, image: null });
         setSelectedSubject('');
@@ -78,7 +78,6 @@ const ForumScreen = () => {
       Alert.alert('Error', 'Failed to add post. Please try again.');
     }
   };
-  
 
   const addComment = async (postId) => {
     try {
@@ -180,6 +179,11 @@ const ForumScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('TermsAndConditions')}>
+        <Text style={styles.title}>אנא קראי את התנאים ותקנון</Text>
+    </TouchableOpacity>
+
+    
       <View style={styles.uploadContainer}>
         <TextInput
           value={newPost.title}
@@ -235,6 +239,17 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 10,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#FFFFFF',
+    padding: 5,
+    backgroundColor: '#ff7f9e',
+    borderWidth: 0.7,
+    borderColor: '#FFFFFF',
+    borderRadius: 5,
   },
   input: {
     borderWidth: 1,
