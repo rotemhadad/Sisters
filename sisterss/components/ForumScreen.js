@@ -182,8 +182,7 @@ const ForumScreen = ({ navigation }) => {
       setNewPost({ ...newPost, image: result.uri });
     }
   };
-
-  const renderPost = ({ item }) => (
+  const RenderPostItem = ({ item }) => (
     <View style={styles.postContainer}>
       {item.authorPhotoURL && <Image source={{ uri: item.authorPhotoURL }} style={styles.authorPhoto} />}
       <Text style={styles.authorName}>{item.authorName}</Text>
@@ -217,7 +216,7 @@ const ForumScreen = ({ navigation }) => {
       </TouchableOpacity>
     </View>
   );
-
+  
   const filteredPosts = posts.filter(post =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -326,16 +325,11 @@ const ForumScreen = ({ navigation }) => {
         <Text>החל סינון</Text>
       </TouchableOpacity>
       
-      <FlatList
-        data={filteredPosts}
-        renderItem={renderPost}
-        keyExtractor={item => item.id}
-        ListHeaderComponent={
-          <>
-            <Text style={{ textAlign: 'center', marginBottom: 10, fontWeight: 'bold' }}>פוסטים של אחיות</Text>
-          </>
-        }
-      />
+      <View>
+        {filteredPosts.map(item => (
+        <RenderPostItem key={item.id} item={item} />
+        ))}
+      </View>
 </ScrollView>
 </SafeAreaView>
   );
