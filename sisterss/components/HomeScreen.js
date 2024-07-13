@@ -1,6 +1,6 @@
 // HomeScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert,Platform,Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signOut } from 'firebase/auth';
 
@@ -74,6 +74,11 @@ const HomeScreen = ({ navigation }) => {
             Alert.alert('Sign Out Error', error.message);
         }
     };
+    //כפתור חירום
+    const callEmergencyServices = () => {
+        let phoneNumber = Platform.OS === 'android' ? 'tel:${100}' : 'telprompt:${100}';
+        Linking.openURL(phoneNumber);
+      };
 
     return (
         <View style={styles.container}>
@@ -81,6 +86,11 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.headerText}>Sisters</Text>
             </View>
             <View style={styles.content}>
+                {/*כפתור חירום */}
+                <TouchableOpacity onPress={callEmergencyServices} style={styles.emergencyButton}>
+                    <Text style={styles.buttonText}>התקשרי לחירום</Text>
+                </TouchableOpacity>
+                {/*כפתור חירום */}
                 <Text style={styles.contentText}>
                     את לא לבד. אנחנו כאן כדי לתמוך בך.
                 </Text>
@@ -151,6 +161,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    // כפתור חירום
+    emergencyButton: {
+        backgroundColor: '#FF0000',
+        padding: 10,
+        alignItems: 'center',
+        borderRadius: 5,
+        marginBottom: 10,
+      },
     header: {
         backgroundColor: '#ff7f9e',
         paddingHorizontal: 15,
