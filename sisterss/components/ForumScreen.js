@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert, Switch, ScrollView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert, Switch, SafeAreaView, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
@@ -11,8 +11,9 @@ const ForumScreen = ({ navigation }) => {
   const [newPost, setNewPost] = useState({ title: '', subject: '', content: '', isAnonymous: false, image: null });
   const [comments, setComments] = useState({});
   const [likedPosts, setLikedPosts] = useState([]);
-  const [selectedSubjects, setSelectedSubjects] = useState([]); // Changed to array
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [image, setImage] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const auth = getAuth();
   const db = getFirestore();
@@ -217,13 +218,20 @@ const ForumScreen = ({ navigation }) => {
     </View>
   );
 
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('TermsAndConditions')}>
-        <Text style={styles.titleText}>אנא קראי את התנאים ותקנון</Text>
-      </TouchableOpacity>
+  const filteredPosts = posts.filter(post =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.subject.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-      <View style={styles.uploadContainer}>
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+    <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('TermsAndConditions')}>
+      <Text style={styles.titleText}>אנא קראי את התנאים ותקנון</Text>
+    </TouchableOpacity>
+
+    <View style={styles.uploadContainer}>
         <TextInput
           value={newPost.title}
           onChangeText={(text) => setNewPost({ ...newPost, title: text })}
@@ -307,16 +315,29 @@ const ForumScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        
+        <Text style={styles.checkboxLabel}>סנן לפי מלל:</Text>
+      <TextInput
+        style={styles.searchInput}
+        placeholder="חיפוש פוסטים"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
       <TouchableOpacity onPress={applyFilters} style={styles.applyFiltersButton}>
         <Text>החל סינון</Text>
       </TouchableOpacity>
+      
       <FlatList
-        data={posts}
+        data={filteredPosts}
         renderItem={renderPost}
         keyExtractor={item => item.id}
+        ListHeaderComponent={
+          <>
+            <Text style={{ textAlign: 'center', marginBottom: 10, fontWeight: 'bold' }}>פוסטים של אחיות</Text>
+          </>
+        }
       />
-    </ScrollView>
+</ScrollView>
+</SafeAreaView>
   );
 };
 
@@ -324,6 +345,20 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 10,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    padding: 10,
+  },
+  searchInput: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
   },
   title: {
     fontSize: 20,
