@@ -101,6 +101,9 @@ const GuestScreen = ({ navigation }) => {
                         <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('GovInfoScreen')}>
                             <Text style={commonStyles.menuItemText}>מידע ממשלתי לסיוע</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('LegalRights')}>
+                            <Text style={commonStyles.menuItemText}>זכויות משפטיות</Text>
+                        </TouchableOpacity>
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>

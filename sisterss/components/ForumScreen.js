@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert, Switch, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 
-const ForumScreen = ({ navigation }) => {  // Corrected here
+const ForumScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: '', subject: '', content: '', isAnonymous: false, image: null });
   const [comments, setComments] = useState({});
@@ -131,6 +131,24 @@ const ForumScreen = ({ navigation }) => {  // Corrected here
     }
   };
 
+  const deletePost = async (postId) => {
+    try {
+      const user = auth.currentUser;
+      const postRef = doc(db, 'posts', postId);
+      const post = posts.find(post => post.id === postId);
+
+      if (user && post.authorId === user.uid) {
+        await deleteDoc(postRef);
+        fetchPosts();
+      } else {
+        Alert.alert('Unauthorized', 'You are not authorized to delete this post.');
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      Alert.alert('Error', 'Failed to delete post. Please try again.');
+    }
+  };
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -153,6 +171,11 @@ const ForumScreen = ({ navigation }) => {  // Corrected here
       <Text style={styles.postTitle}>{item.title}</Text>
       <Text style={styles.postSubject}>{item.subject}</Text>
       <Text style={styles.postContent}>{item.content}</Text>
+      {item.authorId === auth.currentUser?.uid && (
+        <TouchableOpacity onPress={() => deletePost(item.id)} style={styles.deleteButton}>
+          <Text style={{ color: '#FFF' }}>מחק פוסט</Text>
+        </TouchableOpacity>
+      )}
       <TouchableOpacity onPress={() => toggleLikePost(item.id)} style={styles.likeButton}>
         <Text>{likedPosts.includes(item.id) ? 'להוריד אהבתי' : 'אהבתי'} ({item.likes.length})</Text>
       </TouchableOpacity>
@@ -180,10 +203,9 @@ const ForumScreen = ({ navigation }) => {  // Corrected here
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('TermsAndConditions')}>
-        <Text style={styles.title}>אנא קראי את התנאים ותקנון</Text>
-    </TouchableOpacity>
+        <Text style={styles.titleText}>אנא קראי את התנאים ותקנון</Text>
+      </TouchableOpacity>
 
-    
       <View style={styles.uploadContainer}>
         <TextInput
           value={newPost.title}
@@ -250,6 +272,10 @@ const styles = StyleSheet.create({
     borderWidth: 0.7,
     borderColor: '#FFFFFF',
     borderRadius: 5,
+    marginBottom: 10,
+  },
+  titleText: {
+    color: '#FFFFFF',
   },
   input: {
     borderWidth: 1,
@@ -306,6 +332,14 @@ const styles = StyleSheet.create({
   },
   likeButton: {
     backgroundColor: '#89CFF0',
+    padding: 5,
+    alignItems: 'center',
+    marginBottom: 10,
+    width: 120,
+    borderRadius: 5,
+  },
+  deleteButton: {
+    backgroundColor: '#FF6347',
     padding: 5,
     alignItems: 'center',
     marginBottom: 10,
