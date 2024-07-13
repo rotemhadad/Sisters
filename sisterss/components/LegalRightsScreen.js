@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, I18nManager } from 'react-native';
 
-// Force RTL layout
-I18nManager.forceRTL(true);
 
 const LegalRightsScreen = () => {
   const openPhoneNumber = (number) => {
@@ -86,7 +84,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    textAlign: 'right',
+    writingDirection: 'rtl',
     marginBottom: 20,
     color: '#ff7f9e',
   },
@@ -103,25 +101,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 8,
     color: '#ff7f9e',
-    textAlign: 'right',
+    writingDirection: 'rtl',
   },
   content: {
     fontSize: 16,
     lineHeight: 24,
     color: '#333',
-    textAlign: 'right',
+    writingDirection: 'rtl',
   },
   phoneNumber: {
     fontSize: 16,
     color: '#ff7f9e',
     marginBottom: 8,
     textDecorationLine: 'underline',
-    textAlign: 'right',
+    writingDirection: 'rtl',
   },
   disclaimer: {
     fontSize: 14,
     fontStyle: 'italic',
-    textAlign: 'right',
+    writingDirection: 'rtl',
     marginTop: 16,
     color: '#666',
   },

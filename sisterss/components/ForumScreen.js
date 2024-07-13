@@ -179,15 +179,13 @@ const ForumScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => toggleLikePost(item.id)} style={styles.likeButton}>
         <Text>{likedPosts.includes(item.id) ? 'להוריד אהבתי' : 'אהבתי'} ({item.likes.length})</Text>
       </TouchableOpacity>
-      <FlatList
-        data={item.comments}
-        renderItem={({ item: comment }) => (
-          <View style={styles.commentContainer}>
+      <View>
+        {item.comments.map((comment, index) => (
+          <View key={index} style={styles.commentContainer}>
             <Text>{comment.authorName}: {comment.content}</Text>
           </View>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
+        ))}
+      </View>
       <TextInput
         value={comments[item.id] || ''}
         onChangeText={text => setComments({ ...comments, [item.id]: text })}
@@ -199,7 +197,7 @@ const ForumScreen = ({ navigation }) => {
       </TouchableOpacity>
     </View>
   );
-
+  
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('TermsAndConditions')}>

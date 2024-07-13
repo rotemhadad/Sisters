@@ -6,7 +6,7 @@ const TermsAndConditionsScreen = ({ navigation }) => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={[styles.title, { color: '#ff7f9e' }]}>
   פורום Sisters{'\n'}תנאים והגבלות
-</Text>
+</Text> 
       <Text style={styles.content}>
         פורום זה הוקם במטרה למנוע אלימות נגד נשים ולהגיע למצב של 0 נרצחות בשנה בישראל, תוך שימוש בטכנולוגיה חדשנית, חשיבה יצירתית, שימת דגש על נורות אדומים, יצירת מודעות סביבתית ואישית וערבות חברתית.
 
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 16,
     lineHeight: 24,
-    textAlign: 'right', // Align text to the right
+    writingDirection: 'rtl', // Align text to the right
   },
   button: {
     backgroundColor: '#ff7f9e',
