@@ -44,7 +44,7 @@ const SignUpScreen = ({ navigation }) => {
 
     const handleSignUp = async () => {
         if (password !== confirmPassword) {
-            Alert.alert('Password Error', 'Passwords do not match.');
+            Alert.alert('שגיאת סיסמא', 'הסיסמאות אינן תואמות');
             return;
         }
 
@@ -60,10 +60,10 @@ const SignUpScreen = ({ navigation }) => {
                 profilePicture: profilePicture || '',  // Assuming you have some default value or handle null
             });
 
-            Alert.alert('Sign Up Successful');
+            Alert.alert('נרשמת בהצלחה :)');
             navigation.navigate('SignIn');
         } catch (error) {
-            Alert.alert('Sign Up Failed', error.message);
+            Alert.alert('ההרשמה נכשלה מהסיבה הזו:', error.message);
         }
     };
 
@@ -71,33 +71,33 @@ const SignUpScreen = ({ navigation }) => {
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder="Email"
+                placeholder="אימייל"
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
             />
             <TextInput
                 style={styles.input}
-                placeholder="Password"
+                placeholder="סיסמא"
                 secureTextEntry
                 value={password}
                 onChangeText={setPassword}
             />
             <TextInput
                 style={styles.input}
-                placeholder="Confirm Password"
+                placeholder="אימות סיסמא"
                 secureTextEntry
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
             />
             <TextInput
                 style={styles.input}
-                placeholder="Birth Date (YYYY-MM-DD)"
+                placeholder="תאריך לידה"
                 value={birthdate}
                 onChangeText={setBirthdate}
                 keyboardType="numeric"
             />
-            <Button title="Sign Up" onPress={handleSignUp} />
+            <Button title="הרשמה" onPress={handleSignUp} />
         </View>
     );
 };

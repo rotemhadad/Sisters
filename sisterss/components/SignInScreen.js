@@ -25,25 +25,25 @@ const SignInScreen = ({ navigation }) => {
     const handleSignIn = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {
-                Alert.alert('Sign In Successful');
+                Alert.alert('התחברת בהצלחה :)');
                 navigation.navigate('Home');
             })
             .catch((error) => {
-                Alert.alert('Sign In Failed', error.message);
+                Alert.alert('ההתחברות נכשלה מהסיבה הזו:', error.message);
             });
     };
 
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} />
+            <TextInput style={styles.input} placeholder="אימייל" value={email} onChangeText={setEmail} />
             <TextInput
                 style={styles.input}
-                placeholder="Password"
+                placeholder="סיסמא"
                 secureTextEntry
                 value={password}
                 onChangeText={setPassword}
             />
-            <Button title="Sign In" onPress={handleSignIn} />
+            <Button title="התחברות" onPress={handleSignIn} />
         </View>
     );
 };
