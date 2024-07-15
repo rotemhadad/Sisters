@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback  } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import debounce from 'lodash.debounce';
 
 const GovInfoScreen = () => {
     const [data, setData] = useState([]);
@@ -40,8 +41,12 @@ const GovInfoScreen = () => {
         }
     };
 
+    const debouncedFetchData = useCallback(debounce((searchQuery) => {
+        fetchData(searchQuery);
+    }, 300), [selectedApi]);
+
     const handleSearch = () => {
-        fetchData(query);
+        debouncedFetchData(query);
     };
 
     const renderTableHeader = () => {
