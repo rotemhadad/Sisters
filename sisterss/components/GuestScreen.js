@@ -94,11 +94,14 @@ const GuestScreen = ({ navigation }) => {
             >
                 <TouchableWithoutFeedback onPress={closeMenu}>
                     <View style={styles.menuModal}>
-                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('Page1')}>
-                            <Text style={commonStyles.menuItemText}>Page 1</Text>
+                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('PizzaCall')}>
+                            <Text style={commonStyles.menuItemText}>שיחת הפיצה</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('Page2')}>
-                            <Text style={commonStyles.menuItemText}>Page 2</Text>
+                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('GovInfoScreen')}>
+                            <Text style={commonStyles.menuItemText}>מידע ממשלתי לסיוע</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('LegalRights')}>
+                            <Text style={commonStyles.menuItemText}>זכויות משפטיות</Text>
                         </TouchableOpacity>
                     </View>
                 </TouchableWithoutFeedback>

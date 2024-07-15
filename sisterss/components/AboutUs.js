@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,TouchableOpacity } from 'react-native';
 import { commonStyles } from './CommonStyles';
 
 const AboutUs = ({ navigation }) => {
@@ -25,6 +25,11 @@ const AboutUs = ({ navigation }) => {
                 <Text style={styles.teamTitle}>אורטל נוסיק</Text>
                 <Text style={styles.memberRole}>מפתחת תוכנה</Text>
             </View>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.goBack()}>
+                <Text style={styles.buttonText}>חזרה אחורה</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -33,12 +38,11 @@ const styles = StyleSheet.create({
     container: {
         ...commonStyles.container,
         padding: 20,
-        backgroundColor: '#FFC0CB', // Pink background color
     },
     title: {
         ...commonStyles.title,
         marginBottom: 10,
-        color: '#800080', // Purple color
+        color: '#ff7f9e', // Purple color
     },
     description: {
         ...commonStyles.contentText,
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
     teamTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#800080', // Green color
+        color: '#ff7f9e', // Green color
         writingDirection: 'rtl',
 
     },
@@ -66,6 +70,19 @@ const styles = StyleSheet.create({
         color: '#333', // Dark grey color
         writingDirection: 'rtl',
 
+    },
+    button: {
+        backgroundColor: '#ff7f9e',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        margin: 15,
+        borderRadius: 5,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
-import firebase from 'firebase/compat/app'; // Import the Firebase app module
-import 'firebase/compat/auth'; // Import the Firebase auth module
+import { initializeApp } from 'firebase/app';
+import {getAuth, initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -13,37 +14,30 @@ const firebaseConfig = {
     appId: "1:1004651879058:web:f968a047c2ac1642bc644b",
     measurementId: "G-YER0W2Q9X8"
 };
+// Initialize Firebase app
+const app = initializeApp(firebaseConfig);
 
-firebase.initializeApp(firebaseConfig); // Initialize the Firebase app
+// Initialize Firebase Auth with React Native persistence
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
 
-const SignInScreen = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+// Initialize Firestore and Storage
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-    const handleSignIn = () => {
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => {
-                Alert.alert('Sign In Successful');
-            })
-            .catch((error) => {
-                Alert.alert('Sign In Failed', error.message);
-            });
-    };
+export { auth, db, storage };
 
-    return (
-        <View>
-            <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-            <TextInput
-                placeholder="Password"
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-            />
-            <Button title="Sign In" onPress={handleSignIn} />
-        </View>
-    );
-};
+// if (!firebase.apps.length) {
+//     firebase.initializeApp(firebaseConfig);
+// }
 
-export default SignInScreen;
+
+
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+// const auth = getAuth(app);
+// const db = getFirestore(app);
+
+
+// export { auth , db };

@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { firebaseConfig, db, app } from '../components/FireBase';
-import { collection, addDoc } from 'firebase/firestore';
-import { styles } from './styles';
+import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth ,db } from '../firebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
+
+// // Your web app's Firebase configuration
+// const firebaseConfig = {
+//     apiKey: "AIzaSyCzZqsx2h0l-It6ybtkOjdZ-nghv656x3c",
+//     authDomain: "sisterss-392a7.firebaseapp.com",
+//     projectId: "sisterss-392a7",
+//     storageBucket: "sisterss-392a7.appspot.com",
+//     messagingSenderId: "1004651879058",
+//     appId: "1:1004651879058:web:f968a047c2ac1642bc644b",
+//     measurementId: "G-YER0W2Q9X8"
+// };
+
+
+// // Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
 
 const SignUpScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -16,36 +31,45 @@ const SignUpScreen = ({ navigation }) => {
     const [fullNamePhoneNumber, setFullNamePhoneNumber] = useState('');
     const [nickname, setNickname] = useState('');
 
-    const handleSignUp = () => {
-        if (!email || !password || !firstName || !lastName || !confirmPassword) {
-            Alert.alert('שגיאה', 'אנא מלא את כל השדות הנדרשים');
-            return;
-        }
+    // const handleSignUp = () => {
+    //     if (password !== confirmPassword) {
+    //         Alert.alert('Password Error', 'Passwords do not match.');
+    //         return;
+    //     }
+
+    //     createUserWithEmailAndPassword(auth,email, password)
+    //         .then(() => {
+    //             Alert.alert('Sign Up Successful');
+    //             navigation.navigate('SignIn');
+    //         })
+    //         .catch(error => {
+    //             Alert.alert('Sign Up Failed', error.message);
+    //         });
+    // };
+
+    const handleSignUp = async () => {
         if (password !== confirmPassword) {
             Alert.alert('שגיאת סיסמא', 'הסיסמאות לא תואמות');
             return;
         }
 
-        app
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                // Add user to database
-                addDoc(collection(db, "Users"), {
-                    email,
-                    firstName,
-                    lastName,
-                    birthdate,
-                    profilePicture,
-                    emergencyContact,
-                    fullNamePhoneNumber,
-                    nickname
-                });
-                Alert.alert('ההרשמה בוצעה בהצלחה');
-            })
-            .catch(error => {
-                Alert.alert('ההרשמה נכשלה', error.message);
+        try {
+            // Create user with email and password
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Store additional user details in Firestore
+            await setDoc(doc(db, 'users', user.uid), {
+                email: user.email,
+                birthdate: birthdate,
+                profilePicture: profilePicture || '',  // Assuming you have some default value or handle null
             });
+
+            Alert.alert('Sign Up Successful');
+            navigation.navigate('SignIn');
+        } catch (error) {
+            Alert.alert('Sign Up Failed', error.message);
+        }
     };
 
     return (

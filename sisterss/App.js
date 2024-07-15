@@ -19,10 +19,15 @@ import SignUpScreen from './components/SignUpScreen';
 import SelectionScreen from './components/SelectionScreen';
 import ViolenceTypes from './components/ViolenceTypes';
 import DefenceGuide from './components/DefenceGuide';
-import ForumPage from './components/ForumPage';
-import GurdianSighUpScreen from './components/GurdianSighUpScreen';
-import Post from './components/Post';
-import Comments from './components/Comments';
+import ForumScreen from './components/ForumScreen';
+import CommonScreen from './components/CommonScreen';
+import PizzaCall from './components/PizzaCall';
+import GovInfoScreen from './components/GovInfoScreen';
+import LearnMoreScreen from './components/LearnMoreScreen';
+import ProfileScreen from './components/Profile/Profile';
+import TermsAndConditionsScreen from './components/TermsAndConditionsScreen';
+import LegalRightsScreen from './components/LegalRightsScreen';
+
 // import { I18nManager } from 'react-native';
 // I18nManager.allowRTL(false);
 //const Stack = createStackNavigator();
@@ -46,10 +51,14 @@ const App = () => {
         <Stack.Screen name="Selection" component={SelectionScreen} />
         <Stack.Screen name="ViolenceTypes" component={ViolenceTypes} />
         <Stack.Screen name="DefenceGuide" component={DefenceGuide} />
-        <Stack.Screen name="ForumPage" component={ForumPage} />
-        <Stack.Screen name="GurdianSighUp" component={GurdianSighUpScreen} />
-        <Stack.Screen name="Post" component={Post} />
-        <Stack.Screen name="Comments" component={Comments} />
+        <Stack.Screen name="Forum" component={ForumScreen} />
+        <Stack.Screen name="Common" component={CommonScreen} />
+        <Stack.Screen name="PizzaCall" component={PizzaCall} />
+        <Stack.Screen name="GovInfoScreen" component={GovInfoScreen} />
+        <Stack.Screen name="LearnMore" component={LearnMoreScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="TermsAndConditions" component={TermsAndConditionsScreen} options={{ title: 'Terms and Conditions' }} />
+        <Stack.Screen name="LegalRights" component={LegalRightsScreen} />
       </Stack.Navigator>
       {/* </View> */}
     </NavigationContainer>

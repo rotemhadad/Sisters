@@ -1,12 +1,85 @@
-//homeScreen.js
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+// HomeScreen.js
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert,Platform,Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { commonStyles } from './CommonStyles';
+import { getAuth, signOut } from 'firebase/auth';
 
 
 const HomeScreen = ({ navigation }) => {
-    //const navigation = useNavigation();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const auth = getAuth();
+ //const navigation = useNavigation();
+
+//     return (
+//         <View style={styles.container}>
+//             <View style={styles.header}>
+//                 <Text style={styles.headerText}>Sisters</Text>
+//             </View>
+//             <View style={styles.content}>
+//                 {/* <Image // add logo here!
+//                     source={require('../Images/Warnings.png')}
+//                     style={styles.logo}
+//                     resizeMode="contain"
+//                 /> */}
+//                 <Text style={styles.contentText}>
+//                     את לא לבד. אנחנו כאן כדי לתמוך בך.
+//                 </Text>
+//                 <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
+//                 <TouchableOpacity
+//                     style={styles.button}
+//                     onPress={() => navigation.navigate('Selection')}
+//                 >
+//                     <Text style={styles.buttonText}>התחברות והרשמה</Text>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity
+//                     style={styles.button}
+//                     onPress={() => navigation.navigate('Guest')}
+//                 >
+//                     <Text style={styles.buttonText}>כניסה בתור משתמש אורח</Text>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity style={styles.button}>
+//                     <Text style={styles.buttonText}>למדי עוד</Text>
+//                 </TouchableOpacity>
+//             </View>
+//             <View style={styles.navBar}>
+//                 <TouchableOpacity style={styles.navButton}>
+//                     <Text style={styles.navButtonText}>שאלות נפוצות</Text>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity
+//                     style={styles.navButton}
+//                     onPress={() => navigation.navigate('AboutUs')}
+//                 >
+//                     <Text style={styles.navButtonText}>אודות</Text>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity style={styles.navButton}>
+//                     <Text style={styles.navButtonText}>צור קשר</Text>
+//                 </TouchableOpacity>
+//             </View>
+//         </View>
+//     );
+// };
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            setIsAuthenticated(!!user);
+        });
+
+        return unsubscribe; // Clean up the subscription on unmount
+    }, []);
+
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            Alert.alert('Signed Out', 'You have been signed out.');
+        } catch (error) {
+            Alert.alert('Sign Out Error', error.message);
+        }
+    };
+    //כפתור חירום
+    const callEmergencyServices = () => {
+        let phoneNumber = Platform.OS === 'android' ? 'tel:${100}' : 'telprompt:${100}';
+        Linking.openURL(phoneNumber);
+      };
 
     return (
         <View style={styles.container}>
@@ -14,33 +87,60 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.headerText}>Sisters</Text>
             </View>
             <View style={styles.content}>
-                {/* <Image // add logo here!
-                    source={require('../Images/Warnings.png')}
-                    style={styles.logo}
-                    resizeMode="contain"
-                /> */}
+                {/*כפתור חירום */}
+                <TouchableOpacity onPress={callEmergencyServices} style={styles.emergencyButton}>
+                    <Text style={styles.buttonText}>התקשרי לחירום</Text>
+                </TouchableOpacity>
+                {/*כפתור חירום */}
                 <Text style={styles.contentText}>
                     את לא לבד. אנחנו כאן כדי לתמוך בך.
                 </Text>
                 <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('Selection')}
-                >
-                    <Text style={styles.buttonText}>התחברות והרשמה</Text>
-                </TouchableOpacity>
+
+                {isAuthenticated ? (
+                    <>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleSignOut}
+                        >
+                            <Text style={styles.buttonText}>התנתקות</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => navigation.navigate('Profile')}
+                        >
+                            <Text style={styles.buttonText}>פרופיל</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => navigation.navigate('Forum')}
+                        >
+                            <Text style={styles.buttonText}>פורום סיוע</Text>
+                        </TouchableOpacity>
+                    </>
+                ) : (
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => navigation.navigate('Selection')}
+                    >
+                        <Text style={styles.buttonText}>התחברות והרשמה</Text>
+                    </TouchableOpacity>
+                )}
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => navigation.navigate('Guest')}
                 >
-                    <Text style={styles.buttonText}>כניסה בתור משתמש אורח</Text>
+                    <Text style={styles.buttonText}>מידע לכלל</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => navigation.navigate('LearnMore')}
+                >
                     <Text style={styles.buttonText}>למדי עוד</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.navBar}>
-                <TouchableOpacity style={styles.navButton}>
+                <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Common')}>
                     <Text style={styles.navButtonText}>שאלות נפוצות</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -62,6 +162,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    // כפתור חירום
+    emergencyButton: {
+        backgroundColor: '#FF0000',
+        padding: 10,
+        alignItems: 'center',
+        borderRadius: 5,
+        marginBottom: 10,
+      },
     header: {
         backgroundColor: '#ff7f9e',
         paddingHorizontal: 15,
