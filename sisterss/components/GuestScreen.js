@@ -83,7 +83,7 @@ const GuestScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('זכויות משפטיות')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('הגנה עצמית')}>
                                 <Image source={require('../Images/16.png')} style={styles.image} />
                             </TouchableOpacity>
                             <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('הגנה עצמית')}>

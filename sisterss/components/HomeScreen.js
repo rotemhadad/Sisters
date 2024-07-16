@@ -1,6 +1,6 @@
 // HomeScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert,Platform,Linking } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert,Platform,Linking,Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signOut } from 'firebase/auth';
 
@@ -85,6 +85,7 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.contentText}>
                     את לא לבד. אנחנו כאן כדי לתמוך בך.
                 </Text>
+                <Image source={require('../Images/11.png')} style={styles.image} />
                 <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
 
                 {isAuthenticated ? (
@@ -137,6 +138,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+    image: {
+        width: 130,
+        height: 130,
+        borderRadius:10,
     },
     header: {
         backgroundColor: '#ff7f9e',
