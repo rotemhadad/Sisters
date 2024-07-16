@@ -138,20 +138,6 @@ const HomeScreen = ({ navigation }) => {
                     <Text style={styles.buttonText}>למדי עוד</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.navBar}>
-                <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Common')}>
-                    <Text style={styles.navButtonText}>שאלות נפוצות</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.navButton}
-                    onPress={() => navigation.navigate('AboutUs')}
-                >
-                    <Text style={styles.navButtonText}>אודות</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.navButton}>
-                    <Text style={styles.navButtonText}>צור קשר</Text>
-                </TouchableOpacity>
-            </View>
         </View>
     );
 };

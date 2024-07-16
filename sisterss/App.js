@@ -1,11 +1,9 @@
-// App.js
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomeScreen from './components/HomeScreen';
 import GuestScreen from './components/GuestScreen';
 import Articles from './components/Articles';
@@ -27,70 +25,85 @@ import LearnMoreScreen from './components/LearnMoreScreen';
 import ProfileScreen from './components/Profile/Profile';
 import TermsAndConditionsScreen from './components/TermsAndConditionsScreen';
 import LegalRightsScreen from './components/LegalRightsScreen';
+import withNavBar from './components/navBar'; 
 
-// import { I18nManager } from 'react-native';
-// I18nManager.allowRTL(false);
-//const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const HomeStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={withNavBar(HomeScreen)} />
+      <Stack.Screen name="Guest" component={withNavBar(GuestScreen)} />
+      <Stack.Screen name="Articles" component={withNavBar(Articles)} />
+      <Stack.Screen name="WarningSigns" component={withNavBar(WarningSigns)} />
+      <Stack.Screen name="SelfQuestionnaire" component={withNavBar(SelfQuestionnaire)} />
+      <Stack.Screen name="EnvWarningSigns" component={withNavBar(EnvWarningSigns)} />
+      <Stack.Screen name="Information" component={withNavBar(InformationScreen)} />
+      <Stack.Screen name="AboutUs" component={withNavBar(AboutUs)} />
+      <Stack.Screen name="SignIn" component={withNavBar(SignInScreen)} />
+      <Stack.Screen name="SignUp" component={withNavBar(SignUpScreen)} />
+      <Stack.Screen name="Selection" component={withNavBar(SelectionScreen)} />
+      <Stack.Screen name="ViolenceTypes" component={withNavBar(ViolenceTypes)} />
+      <Stack.Screen name="DefenceGuide" component={withNavBar(DefenceGuide)} />
+      <Stack.Screen name="Forum" component={withNavBar(ForumScreen)} />
+      <Stack.Screen name="Common" component={withNavBar(CommonScreen)} />
+      <Stack.Screen name="PizzaCall" component={withNavBar(PizzaCall)} />
+      <Stack.Screen name="GovInfoScreen" component={withNavBar(GovInfoScreen)} />
+      <Stack.Screen name="LearnMore" component={withNavBar(LearnMoreScreen)} />
+      <Stack.Screen name="Profile" component={withNavBar(ProfileScreen)} />
+      <Stack.Screen name="TermsAndConditions" component={withNavBar(TermsAndConditionsScreen)} options={{ title: 'Terms and Conditions' }} />
+      <Stack.Screen name="LegalRights" component={withNavBar(LegalRightsScreen)} />
+    </Stack.Navigator>
+  );
+};
 
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <View style={styles.container}> */}
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Guest" component={GuestScreen} />
-        <Stack.Screen name="Articles" component={Articles} />
-        <Stack.Screen name="WarningSigns" component={WarningSigns} />
-        <Stack.Screen name="SelfQuestionnaire" component={SelfQuestionnaire} />
-        <Stack.Screen name="EnvWarningSigns" component={EnvWarningSigns} />
-        <Stack.Screen name="Information" component={InformationScreen} />
-        <Stack.Screen name="AboutUs" component={AboutUs} />
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="Selection" component={SelectionScreen} />
-        <Stack.Screen name="ViolenceTypes" component={ViolenceTypes} />
-        <Stack.Screen name="DefenceGuide" component={DefenceGuide} />
-        <Stack.Screen name="Forum" component={ForumScreen} />
-        <Stack.Screen name="Common" component={CommonScreen} />
-        <Stack.Screen name="PizzaCall" component={PizzaCall} />
-        <Stack.Screen name="GovInfoScreen" component={GovInfoScreen} />
-        <Stack.Screen name="LearnMore" component={LearnMoreScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="TermsAndConditions" component={TermsAndConditionsScreen} options={{ title: 'Terms and Conditions' }} />
-        <Stack.Screen name="LegalRights" component={LegalRightsScreen} />
-      </Stack.Navigator>
-      {/* </View> */}
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Home"
+          component={HomeStack}
+          options={{
+            title: 'בית',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={withNavBar(ProfileScreen)}
+          options={{
+            title: 'פרופיל',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="PizzaCall"
+          component={withNavBar(PizzaCall)}
+          options={{
+            title: 'שיחת פיצה',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="phone" color="#ff7f9e" size={size} />
+            ),
+          }}
+        />
+        {/* Add more Tab.Screen components as needed */}
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     allowFontScaling: false, // Disable font scaling
-    writingDirection: 'ltr', // Set writing direction to right-to-left
+    writingDirection: 'rtl', // Set writing direction to left-to-right
   },
 });
 
 export default App;
-
-
-
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
