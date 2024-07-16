@@ -16,13 +16,13 @@ const withNavBar = (WrappedComponent) => {
         {/* Replace 'logo.png' with your actual logo file name */}
         <Image source={require('../assets/logo.png')} style={styles.logo} />
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('AboutUs')}>
-          <Text style={styles.navButtonText}>אודות</Text>
+        <Text style={[styles.navButtonText, { color: '#F43169' }]}>אודות</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Common')}>
-          <Text style={styles.navButtonText}>שאלות</Text>
+        <Text style={[styles.navButtonText, { color: '#F43169' }]}>שאלות</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={handleContactEmail}>
-          <Text style={styles.navButtonText}>צור קשר</Text>
+        <Text style={[styles.navButtonText, { color: '#F43169' }]}>צור קשר</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={handleCallPolice}>
           <Text style={[styles.navButtonText, { color: '#F43169' }]}>התקשרי</Text>

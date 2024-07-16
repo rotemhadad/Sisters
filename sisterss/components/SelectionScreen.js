@@ -57,7 +57,7 @@ const SelectionScreen = ({ navigation }) => {
     return (
         <View style={commonStyles.container}>
             <Text style={styles.contentText}>
-                ברוכה הבאה! בחרי את האופציה המתאימה לך
+                ברוכה הבאה!{'\n'} בחרי את האופציה המתאימה לך
             </Text>
             <TouchableOpacity
                 style={commonStyles.button}
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     },
     questionMark: {
         fontSize: 24, // Increase font size here
-        color: '#FF1493',
+        color: '#F43169',
         marginLeft: 5, // Add space between the text and the question mark
     },
     closeButton: {
