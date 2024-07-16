@@ -46,6 +46,16 @@ export const commonStyles = StyleSheet.create({
         fontWeight: 'bold',
         writingDirection: 'rtl', 
     },
+    buttonTextnext: {
+        color: '#fff',
+        fontSize: 16, // Adjust font size as needed
+        fontWeight: 'bold',
+        writingDirection: 'rtl',
+        width: 130, // Set specific width
+        height: 40, // Set specific height
+        textAlign: 'center', // Center the text within the button
+        lineHeight: 40, // Align the text vertically
+    },
     navBar: {
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -87,8 +97,8 @@ export const commonStyles = StyleSheet.create({
         alignItems: 'center',
     },
     menuButton: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         borderRadius: 20,
         backgroundColor: '#ff7f9e', // Pink color
     },

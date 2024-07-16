@@ -144,27 +144,27 @@ const ViolenceTypes = ({ navigation }) => {
             <View style={commonStyles.container}>
                 <Text style={commonStyles.headerText}>סוגים של אלימות במשפחה:</Text>
                 <TouchableOpacity
-                    style={[commonStyles.button, isSelected('Financial') && { backgroundColor: 'red' }]}
+                    style={[commonStyles.button, isSelected('Financial') && { backgroundColor: '#F43169' }]}
                     onPress={() => handleSelectType('Financial')}>
                     <Text style={commonStyles.buttonText}>אלימות כלכלית</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={[commonStyles.button, isSelected('Physical') && { backgroundColor: 'red' }]}
+                    style={[commonStyles.button, isSelected('Physical') && { backgroundColor: '#F43169' }]}
                     onPress={() => handleSelectType('Physical')}>
                     <Text style={commonStyles.buttonText}>אלימות פיזית</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={[commonStyles.button, isSelected('Sexual') && { backgroundColor: 'red' }]}
+                    style={[commonStyles.button, isSelected('Sexual') && { backgroundColor: '#F43169' }]}
                     onPress={() => handleSelectType('Sexual')}>
                     <Text style={commonStyles.buttonText}>אלימות מינית</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={[commonStyles.button, isSelected('Verbal') && { backgroundColor: 'red' }]}
+                    style={[commonStyles.button, isSelected('Verbal') && { backgroundColor: '#F43169' }]}
                     onPress={() => handleSelectType('Verbal')}>
                     <Text style={commonStyles.buttonText}>אלימות מילולית</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={[commonStyles.button, isSelected('Emotional') && { backgroundColor: 'red' }]}
+                    style={[commonStyles.button, isSelected('Emotional') && { backgroundColor: '#F43169' }]}
                     onPress={() => handleSelectType('Emotional')}>
                     <Text style={commonStyles.buttonText}>אלימות רגשית</Text>
                 </TouchableOpacity>

@@ -15,10 +15,10 @@ const withNavBar = (WrappedComponent) => {
       <View style={styles.navBar}>
         {/* Replace 'logo.png' with your actual logo file name */}
         <Image source={require('../assets/logo.png')} style={styles.logo} />
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('AboutUs')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('עלינו')}>
         <Text style={[styles.navButtonText, { color: '#F43169' }]}>אודות</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Common')}>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('שאלות נפוצות')}>
         <Text style={[styles.navButtonText, { color: '#F43169' }]}>שאלות</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={handleContactEmail}>

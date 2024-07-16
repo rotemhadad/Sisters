@@ -97,13 +97,13 @@ const HomeScreen = ({ navigation }) => {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => navigation.navigate('Profile')}
+                            onPress={() => navigation.navigate('פרופיל')}
                         >
                             <Text style={styles.buttonText}>פרופיל</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => navigation.navigate('Forum')}
+                            onPress={() => navigation.navigate('פורום')}
                         >
                             <Text style={styles.buttonText}>פורום סיוע</Text>
                         </TouchableOpacity>
@@ -111,20 +111,20 @@ const HomeScreen = ({ navigation }) => {
                 ) : (
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('Selection')}
+                        onPress={() => navigation.navigate('בחירה')}
                     >
                         <Text style={styles.buttonText}>התחברות והרשמה</Text>
                     </TouchableOpacity>
                 )}
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate('Guest')}
+                    onPress={() => navigation.navigate('אורח')}
                 >
                     <Text style={styles.buttonText}>מידע לכלל</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate('LearnMore')}
+                    onPress={() => navigation.navigate('למדי עוד')}
                 >
                     <Text style={styles.buttonText}>למדי עוד</Text>
                 </TouchableOpacity>

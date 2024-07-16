@@ -33,27 +33,27 @@ const Tab = createBottomTabNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={withNavBar(HomeScreen)} />
-      <Stack.Screen name="Guest" component={withNavBar(GuestScreen)} />
-      <Stack.Screen name="Articles" component={withNavBar(Articles)} />
-      <Stack.Screen name="WarningSigns" component={withNavBar(WarningSigns)} />
-      <Stack.Screen name="SelfQuestionnaire" component={withNavBar(SelfQuestionnaire)} />
-      <Stack.Screen name="EnvWarningSigns" component={withNavBar(EnvWarningSigns)} />
-      <Stack.Screen name="Information" component={withNavBar(InformationScreen)} />
-      <Stack.Screen name="AboutUs" component={withNavBar(AboutUs)} />
-      <Stack.Screen name="SignIn" component={withNavBar(SignInScreen)} />
-      <Stack.Screen name="SignUp" component={withNavBar(SignUpScreen)} />
-      <Stack.Screen name="Selection" component={withNavBar(SelectionScreen)} />
-      <Stack.Screen name="ViolenceTypes" component={withNavBar(ViolenceTypes)} />
-      <Stack.Screen name="DefenceGuide" component={withNavBar(DefenceGuide)} />
-      <Stack.Screen name="Forum" component={withNavBar(ForumScreen)} />
-      <Stack.Screen name="Common" component={withNavBar(CommonScreen)} />
-      <Stack.Screen name="PizzaCall" component={withNavBar(PizzaCall)} />
-      <Stack.Screen name="GovInfoScreen" component={withNavBar(GovInfoScreen)} />
-      <Stack.Screen name="LearnMore" component={withNavBar(LearnMoreScreen)} />
-      <Stack.Screen name="Profile" component={withNavBar(ProfileScreen)} />
-      <Stack.Screen name="TermsAndConditions" component={withNavBar(TermsAndConditionsScreen)} options={{ title: 'Terms and Conditions' }} />
-      <Stack.Screen name="LegalRights" component={withNavBar(LegalRightsScreen)} />
+      <Stack.Screen name="בית" component={withNavBar(HomeScreen)} />
+      <Stack.Screen name="אורח" component={withNavBar(GuestScreen)} />
+      <Stack.Screen name="מאמרים" component={withNavBar(Articles)} />
+      <Stack.Screen name="תמרורי אזהרה" component={withNavBar(WarningSigns)} />
+      <Stack.Screen name="שאלון זיהוי" component={withNavBar(SelfQuestionnaire)} />
+      <Stack.Screen name="תמרורי אזהרה לסביבה" component={withNavBar(EnvWarningSigns)} />
+      <Stack.Screen name="מידע" component={withNavBar(InformationScreen)} />
+      <Stack.Screen name="עלינו" component={withNavBar(AboutUs)} />
+      <Stack.Screen name="התחברות" component={withNavBar(SignInScreen)} />
+      <Stack.Screen name="הרשמה" component={withNavBar(SignUpScreen)} />
+      <Stack.Screen name="בחירה" component={withNavBar(SelectionScreen)} />
+      <Stack.Screen name="סוגי אלימות" component={withNavBar(ViolenceTypes)} />
+      <Stack.Screen name="הגנה עצמית" component={withNavBar(DefenceGuide)} />
+      <Stack.Screen name="פורום" component={withNavBar(ForumScreen)} />
+      <Stack.Screen name="שאלות נפוצות" component={withNavBar(CommonScreen)} />
+      <Stack.Screen name="שיחת הפיצה" component={withNavBar(PizzaCall)} />
+      <Stack.Screen name="מידע ממשלתי" component={withNavBar(GovInfoScreen)} />
+      <Stack.Screen name="למדי עוד" component={withNavBar(LearnMoreScreen)} />
+      <Stack.Screen name="פרופיל" component={withNavBar(ProfileScreen)} />
+      <Stack.Screen name="תנאים" component={withNavBar(TermsAndConditionsScreen)} options={{ title: 'Terms and Conditions' }} />
+      <Stack.Screen name="זכויות משפטיות" component={withNavBar(LegalRightsScreen)} />
     </Stack.Navigator>
   );
 };
@@ -62,9 +62,10 @@ const App = () => {
     <NavigationContainer>
       <Tab.Navigator  screenOptions={{ headerShown: false }}>
         <Tab.Screen
-          name="Home"
+          name="בית"
           component={HomeStack}
           options={{
+            title:"בית",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color="#ff7f9e" size={size} />
             ),
@@ -74,6 +75,7 @@ const App = () => {
           name="Profile"
           component={withNavBar(ProfileScreen)}
           options={{
+            title:"פרופיל",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account" color="#ff7f9e" size={size} />
             ),
@@ -83,6 +85,7 @@ const App = () => {
           name="PizzaCall"
           component={withNavBar(PizzaCall)}
           options={{
+            title:"שיחת פיצה",
             tabBarTitle:() => {return null},
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="phone" color="#ff7f9e" size={size} />
