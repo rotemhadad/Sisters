@@ -58,43 +58,44 @@ const HomeStack = () => {
   );
 };
 const App = () => {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator  screenOptions={{ headerShown: false }}>
-        <Tab.Screen
-          name="בית"
-          component={HomeStack}
-          options={{
-            title:"בית",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" color="#ff7f9e" size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={withNavBar(ProfileScreen)}
-          options={{
-            title:"פרופיל",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="account" color="#ff7f9e" size={size} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="PizzaCall"
-          component={withNavBar(PizzaCall)}
-          options={{
-            title:"שיחת פיצה",
-            tabBarTitle:() => {return null},
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="phone" color="#ff7f9e" size={size} />
-            ),
-          }}
-        />
-        {/* Add more Tab.Screen components as needed */}
-      </Tab.Navigator>
-    </NavigationContainer>
+  return (    <NavigationContainer>
+    <Tab.Navigator>
+      <Tab.Screen
+        name="בית"
+        component={HomeStack}
+        options={{
+          title: "בית",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color="#ff7f9e" size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={withNavBar(ProfileScreen)}
+        options={{
+          title: "פרופיל",
+          headerShown: true,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color="#ff7f9e" size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="PizzaCall"
+        component={withNavBar(PizzaCall)}
+        options={{
+          title: "שיחת פיצה",
+          headerShown: true,
+          tabBarTitle: () => { return null },
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="phone" color="#ff7f9e" size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  </NavigationContainer>
   );
 };
 

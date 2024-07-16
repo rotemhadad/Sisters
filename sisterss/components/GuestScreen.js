@@ -73,15 +73,32 @@ const GuestScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <TouchableOpacity style={commonStyles.button} onPress={() => navigation.navigate('הגנה עצמית')}>
-                        <Text style={commonStyles.buttonText}>הנחיות להתגוננות במצבי סיכון מיידיים</Text>
-                    </TouchableOpacity>
+                    <View style={styles.imageRow}>
+                        <View style={styles.imageButtonContainer}>
+                            <TouchableOpacity onPress={() => navigation.navigate('מידע ממשלתי')}>
+                                <Image source={require('../Images/14.png')} style={styles.image} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('מידע ממשלתי')}>
+                                <Text style={commonStyles.buttonTextnext}>מידע ממשלתי</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.imageButtonContainer}>
+                            <TouchableOpacity onPress={() => navigation.navigate('זכויות משפטיות')}>
+                                <Image source={require('../Images/16.png')} style={styles.image} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('הגנה עצמית')}>
+                                <Text style={commonStyles.buttonTextnext}>הנחיות להתגוננות</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+        
                     <TouchableOpacity style={commonStyles.button} onPress={() => navigation.goBack()}>
                         <Text style={commonStyles.buttonText}>חזרה אחורה</Text>
                     </TouchableOpacity>
                     <View style={{ marginBottom: 100 }}></View>
 
                 </View>
+                
             </ScrollView>
             {/* Menu Modal */}
             <Modal
