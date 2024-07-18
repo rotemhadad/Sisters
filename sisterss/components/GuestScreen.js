@@ -27,8 +27,8 @@ const GuestScreen = ({ navigation }) => {
                 <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('מאמרים')}>
                     <Text style={commonStyles.buttonText}>מאמרים</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('סוגי אלימות')}>
-                    <Text style={commonStyles.buttonText}>סוגי אלימות</Text>
+                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('מידע')}>
+                    <Text style={commonStyles.buttonText}>מידע חשוב </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('שאלון זיהוי')}>
                     <Text style={commonStyles.buttonText}>שאלון עצמי</Text>
@@ -47,11 +47,11 @@ const GuestScreen = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('מידע')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('סוגי אלימות')}>
                                 <Image source={require('../Images/15.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('מידע')}>
-                                <Text style={commonStyles.buttonTextnext}>מידע חשוב</Text>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('סוגי אלימות')}>
+                                <Text style={commonStyles.buttonTextnext}>סוגי אלימות </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -109,10 +109,8 @@ const GuestScreen = ({ navigation }) => {
             >
                 <TouchableWithoutFeedback onPress={closeMenu}>
                     <View style={styles.menuModal}>
-                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('GovInfoScreen')}>
-                            <Text style={commonStyles.menuItemText}>מידע ממשלתי לסיוע</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('LegalRights')}>
+
+                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('זכויות משפטיות')}>
                             <Text style={commonStyles.menuItemText}>זכויות משפטיות</Text>
                         </TouchableOpacity>
                     </View>

@@ -35,13 +35,13 @@ const ForumScreen = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Error fetching posts:', error);
-      Alert.alert('Error', 'Failed to fetch posts. Please try again later.');
+      Alert.alert('שגיאה', 'נכשל להציג פוסטים אנא נסי שוב מאוחר יותר.');
     }
   };
 
   const addPost = async () => {
     if (!newPost.title.trim() || !newPost.content.trim()) {
-      Alert.alert('Error', 'Title and content cannot be empty.');
+      Alert.alert('שגיאה', 'עלייך למלא כותרת ותוכן.');
       return;
     }
     try {
@@ -72,11 +72,11 @@ const ForumScreen = ({ navigation }) => {
         setImage(null);
         fetchPosts();
       } else {
-        Alert.alert('Authentication Required', 'Please sign in to add a post.');
+        Alert.alert('נדרש זיהוי', 'אנא התחברי להוסיך פוסט.');
       }
     } catch (error) {
       console.error('Error adding post:', error);
-      Alert.alert('Error', 'Failed to add post. Please try again.');
+      Alert.alert('שגיאה', 'נכשל להוסיף פוסט אנא נסי שנית.');
     }
   };
 
@@ -96,11 +96,11 @@ const ForumScreen = ({ navigation }) => {
         setComments(prevComments => ({ ...prevComments, [postId]: '' }));
         fetchPosts();
       } else {
-        Alert.alert('Authentication Required', 'Please sign in to add a comment.');
+        Alert.alert('זיהוי נדרש', 'אנא התחברי להוסיף תגובה.');
       }
     } catch (error) {
-      console.error('Error adding comment:', error);
-      Alert.alert('Error', 'Failed to add comment. Please try again.');
+      console.error('שגיאה :', error);
+      Alert.alert('שגיאה', 'נכשל להוסיף תגובה אנא נסי שנית.');
     }
   };
 
@@ -143,11 +143,11 @@ const ForumScreen = ({ navigation }) => {
 
         fetchPosts();
       } else {
-        Alert.alert('Authentication Required', 'Please sign in to like/unlike a post.');
+        Alert.alert('זיהוי נדרש', 'אנא התחברתי לסמן אהבתי.');
       }
     } catch (error) {
       console.error('Error liking post:', error);
-      Alert.alert('Error', 'Failed to like/unlike post. Please try again.');
+      Alert.alert('שגיאה', 'נכשל בסימון האהבתי אנא נסי שנית.');
     }
   };
 
@@ -161,11 +161,11 @@ const ForumScreen = ({ navigation }) => {
         await deleteDoc(postRef);
         fetchPosts();
       } else {
-        Alert.alert('Unauthorized', 'You are not authorized to delete this post.');
+        Alert.alert('לא מאושר', 'אינך מורשת למחוק פוסט זה.');
       }
     } catch (error) {
       console.error('Error deleting post:', error);
-      Alert.alert('Error', 'Failed to delete post. Please try again.');
+      Alert.alert('שגיאה', 'נכשל מחיקת הפוסט אנא נסי שנית.');
     }
   };
 
@@ -226,7 +226,7 @@ const ForumScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-    <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('TermsAndConditions')}>
+    <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('תנאים')}>
       <Text style={styles.titleText}>אנא קראי את התנאים ותקנון</Text>
     </TouchableOpacity>
 
@@ -331,6 +331,11 @@ const ForumScreen = ({ navigation }) => {
         ))}
       </View>
 </ScrollView>
+<TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.goBack()}>
+                <Text style={styles.buttonText}>חזרה אחורה</Text>
+            </TouchableOpacity>
 </SafeAreaView>
   );
 };
@@ -347,6 +352,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 10,
   },
+  button: {
+    backgroundColor: '#ff7f9e',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 40,
+    margin: 15,
+    borderRadius: 5,
+},
+buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+},
   searchInput: {
     borderWidth: 1,
     borderColor: '#ccc',

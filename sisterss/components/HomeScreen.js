@@ -1,62 +1,12 @@
-// HomeScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert,Platform,Linking,Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView, Dimensions } from 'react-native';
 import { getAuth, signOut } from 'firebase/auth';
+
+const { width, height } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const auth = getAuth();
- //const navigation = useNavigation();
-
-//     return (
-//         <View style={styles.container}>
-//             <View style={styles.header}>
-//                 <Text style={styles.headerText}>Sisters</Text>
-//             </View>
-//             <View style={styles.content}>
-//                 {/* <Image // add logo here!
-//                     source={require('../Images/Warnings.png')}
-//                     style={styles.logo}
-//                     resizeMode="contain"
-//                 /> */}
-//                 <Text style={styles.contentText}>
-//                     את לא לבד. אנחנו כאן כדי לתמוך בך.
-//                 </Text>
-//                 <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
-//                 <TouchableOpacity
-//                     style={styles.button}
-//                     onPress={() => navigation.navigate('Selection')}
-//                 >
-//                     <Text style={styles.buttonText}>התחברות והרשמה</Text>
-//                 </TouchableOpacity>
-//                 <TouchableOpacity
-//                     style={styles.button}
-//                     onPress={() => navigation.navigate('Guest')}
-//                 >
-//                     <Text style={styles.buttonText}>כניסה בתור משתמש אורח</Text>
-//                 </TouchableOpacity>
-//                 <TouchableOpacity style={styles.button}>
-//                     <Text style={styles.buttonText}>למדי עוד</Text>
-//                 </TouchableOpacity>
-//             </View>
-//             <View style={styles.navBar}>
-//                 <TouchableOpacity style={styles.navButton}>
-//                     <Text style={styles.navButtonText}>שאלות נפוצות</Text>
-//                 </TouchableOpacity>
-//                 <TouchableOpacity
-//                     style={styles.navButton}
-//                     onPress={() => navigation.navigate('AboutUs')}
-//                 >
-//                     <Text style={styles.navButtonText}>אודות</Text>
-//                 </TouchableOpacity>
-//                 <TouchableOpacity style={styles.navButton}>
-//                     <Text style={styles.navButtonText}>צור קשר</Text>
-//                 </TouchableOpacity>
-//             </View>
-//         </View>
-//     );
-// };
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -75,61 +25,44 @@ const HomeScreen = ({ navigation }) => {
         }
     };
 
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Sisters</Text>
             </View>
-            <View style={styles.content}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <Text style={styles.contentText}>
                     את לא לבד. אנחנו כאן כדי לתמוך בך.
                 </Text>
-                <Image source={require('../Images/11.png')} style={styles.image} />
-                <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
+                <View style={styles.content}>
+                    <Image source={require('../Images/11.png')} style={styles.image} />
+                    <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
 
-                {isAuthenticated ? (
-                    <>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={handleSignOut}
-                        >
-                            <Text style={styles.buttonText}>התנתקות</Text>
+                    {isAuthenticated ? (
+                        <>
+                            <TouchableOpacity style={styles.button} onPress={handleSignOut}>
+                                <Text style={styles.buttonText}>התנתקות</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('פרופיל')}>
+                                <Text style={styles.buttonText}>פרופיל</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('פורום')}>
+                                <Text style={styles.buttonText}>פורום סיוע</Text>
+                            </TouchableOpacity>
+                        </>
+                    ) : (
+                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('בחירה')}>
+                            <Text style={styles.buttonText}>התחברות והרשמה</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => navigation.navigate('פרופיל')}
-                        >
-                            <Text style={styles.buttonText}>פרופיל</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => navigation.navigate('פורום')}
-                        >
-                            <Text style={styles.buttonText}>פורום סיוע</Text>
-                        </TouchableOpacity>
-                    </>
-                ) : (
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => navigation.navigate('בחירה')}
-                    >
-                        <Text style={styles.buttonText}>התחברות והרשמה</Text>
+                    )}
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('אורח')}>
+                        <Text style={styles.buttonText}>מידע לכלל</Text>
                     </TouchableOpacity>
-                )}
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('אורח')}
-                >
-                    <Text style={styles.buttonText}>מידע לכלל</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('למדי עוד')}
-                >
-                    <Text style={styles.buttonText}>למדי עוד</Text>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('למדי עוד')}>
+                        <Text style={styles.buttonText}>למדי עוד</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         </View>
     );
 };
@@ -139,32 +72,34 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    image: {
-        width: 130,
-        height: 130,
-        borderRadius:10,
-    },
     header: {
         backgroundColor: '#ff7f9e',
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
+        alignItems: 'center',
     },
     headerText: {
         fontSize: 24,
         fontWeight: 'bold',
         color: '#fff',
     },
-    content: {
-        flex: 1,
+    scrollContainer: {
+        flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,
     },
-    logo: {
-        width: 200,
-        height: 200,
+    content: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+    },
+    image: {
+        width: width * 0.6,
+        height: height * 0.3,
+        borderRadius: 10,
         marginBottom: 20,
     },
     contentText: {
@@ -179,27 +114,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 5,
         marginBottom: 10,
-        alignSelf: 'stretch',
+        width: '100%',
+        alignItems: 'center',
     },
     buttonText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
-    },
-    navBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        backgroundColor: '#ff7f9e',
-        paddingVertical: 10,
-    },
-    navButton: {
-        paddingHorizontal: 10,
-    },
-    navButtonText: {
-        color: '#fff',
-        fontSize: 14,
-        fontWeight: 'bold',
     },
 });
 

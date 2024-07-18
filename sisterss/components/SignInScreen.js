@@ -26,7 +26,7 @@ const SignInScreen = ({ navigation }) => {
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {
                 Alert.alert('התחברת בהצלחה :)');
-                navigation.navigate('Home');
+                navigation.navigate('בית');
             })
             .catch((error) => {
                 Alert.alert('ההתחברות נכשלה מהסיבה הזו:', error.message);

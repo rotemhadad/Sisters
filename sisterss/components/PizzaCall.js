@@ -56,7 +56,7 @@ const PizzaCall = () => {
 
                 <View style={styles.introductionContainer}>
                     <Text style={styles.introductionText}>
-                        לרשותך לחצן מצוקה ברחבי האתר.
+                         בכותרת לרשותך לחצן מצוקה ברחבי האתר הלחצן  "התקשרי" .{"\n"}
                         בעת סכנה בזמן אמת ביכולתך ללחוץ עליו והוא יחייג ישירות למשטרה.
                     </Text>
                 </View>
