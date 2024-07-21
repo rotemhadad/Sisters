@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     calculateButton: {
-        backgroundColor: '#800080',
+        backgroundColor: '#C8A2C8',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 8,

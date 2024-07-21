@@ -190,14 +190,19 @@ const ForumScreen = ({ navigation }) => {
       <Text style={styles.postTitle}>{item.title}</Text>
       <Text style={styles.postSubject}>{item.subject}</Text>
       <Text style={styles.postContent}>{item.content}</Text>
-      {item.authorId === auth.currentUser?.uid && (
-        <TouchableOpacity onPress={() => deletePost(item.id)} style={styles.deleteButton}>
-          <Text style={{ color: '#FFF' }}>מחק פוסט</Text>
+      <View style={styles.buttonRow}>
+        {item.authorId === auth.currentUser?.uid && (
+          <TouchableOpacity onPress={() => deletePost(item.id)} style={[styles.button, styles.deleteButton]}>
+            <Text style={{ color: '#FFF' }}>מחק פוסט</Text>
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity onPress={() => toggleLikePost(item.id)} style={[styles.button, styles.likeButton]}>
+          <Text>{likedPosts.includes(item.id) ? 'אנלייק' : 'לייק'} ({item.likes.length})</Text>
         </TouchableOpacity>
-      )}
-      <TouchableOpacity onPress={() => toggleLikePost(item.id)} style={styles.likeButton}>
-        <Text>{likedPosts.includes(item.id) ? 'להוריד אהבתי' : 'אהבתי'} ({item.likes.length})</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => addComment(item.id)} style={[styles.button, styles.addCommentButton]}>
+          <Text>הגב</Text>
+        </TouchableOpacity>
+      </View>
       <View>
         {item.comments.map((comment, index) => (
           <View key={index} style={styles.commentContainer}>
@@ -211,10 +216,8 @@ const ForumScreen = ({ navigation }) => {
         placeholder="הוסיפי תגובה"
         style={styles.commentInput}
       />
-      <TouchableOpacity onPress={() => addComment(item.id)} style={styles.addCommentButton}>
-        <Text>הוסיפי תגובה</Text>
-      </TouchableOpacity>
     </View>
+
   );
   
   const filteredPosts = posts.filter(post =>
@@ -341,36 +344,17 @@ const ForumScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 10,
-  },
   safeArea: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   scrollViewContent: {
     flexGrow: 1,
     padding: 10,
   },
-  button: {
-    backgroundColor: '#ff7f9e',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 40,
-    margin: 15,
-    borderRadius: 5,
-},
-buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-},
-  searchInput: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+  container: {
+    flexGrow: 1,
     padding: 10,
-    marginBottom: 10,
   },
   title: {
     fontSize: 20,
@@ -378,7 +362,7 @@ buttonText: {
     textAlign: 'center',
     color: '#FFFFFF',
     padding: 5,
-    backgroundColor: '#ff7f9e',
+    backgroundColor: '#FF7F50',
     borderWidth: 0.7,
     borderColor: '#FFFFFF',
     borderRadius: 5,
@@ -389,10 +373,35 @@ buttonText: {
     fontWeight: 'bold',
     writingDirection: 'rtl', // Align text to the right
   },
+  uploadContainer: {
+    borderColor: '#ff7f9e',
+    borderRadius: 5,
+    borderWidth: 2,
+    padding: 10,
+    marginBottom: 20,
+  },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  imagePickerButton: {
+    backgroundColor: '#C8A2C8',
+    padding: 10,
+    alignItems: 'center',
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  selectedImage: {
+    width: 100,
+    height: 100,
     marginBottom: 10,
     borderRadius: 5,
   },
@@ -403,37 +412,34 @@ buttonText: {
     marginBottom: 10,
     borderRadius: 5,
   },
-  uploadContainer: {
-    borderColor: '#ff7f9e',
-    borderRadius: 5,
-    borderWidth: 2,
-    padding: 10,
-    marginBottom: 20,
-  },
   postContainer: {
     marginBottom: 20,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: '#ff7f9e',
     padding: 10,
+    backgroundColor: '#f9f9f9',
   },
   authorPhoto: {
     width: 50,
     height: 50,
     borderRadius: 25,
+    marginBottom: 10,
   },
   authorName: {
     fontWeight: 'bold',
-    marginVertical: 5,
+    marginBottom: 5,
   },
   postImage: {
     width: '100%',
     height: 200,
     marginBottom: 10,
+    borderRadius: 5,
   },
   postTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginBottom: 5,
   },
   postSubject: {
     fontStyle: 'italic',
@@ -442,90 +448,86 @@ buttonText: {
   postContent: {
     marginBottom: 10,
   },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 5,
+  },
   likeButton: {
     backgroundColor: '#89CFF0',
-    padding: 5,
-    alignItems: 'center',
-    marginBottom: 10,
-    width: 120,
-    borderRadius: 5,
   },
   deleteButton: {
-    backgroundColor: '#FF6347',
-    padding: 5,
-    alignItems: 'center',
-    marginBottom: 10,
-    width: 120,
-    borderRadius: 5,
+    backgroundColor: '#C8A2C8',
+  },
+  addCommentButton: {
+    backgroundColor: '#FF7F50',
   },
   commentContainer: {
+    backgroundColor: '#f1f1f1',
     borderRadius: 5,
-    marginLeft: 10,
+    padding: 5,
     marginBottom: 5,
   },
   commentInput: {
     borderWidth: 1,
-    borderRadius: 5,
     borderColor: '#ccc',
-    padding: 5,
+    borderRadius: 5,
+    padding: 10,
     marginBottom: 5,
   },
-  addCommentButton: {
+  searchInput: {
+    borderWidth: 1,
+    borderColor: '#ccc',
     borderRadius: 5,
-    backgroundColor: '#7393B3',
-    padding: 5,
-    alignItems: 'center',
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  imagePickerButton: {
-    backgroundColor: '#89CFF0',
     padding: 10,
-    alignItems: 'center',
-    borderRadius: 5,
     marginBottom: 10,
   },
-  selectedImage: {
-    width: '100%',
-    height: 200,
+  checkboxLabel: {
+    fontWeight: 'bold',
     marginBottom: 10,
   },
   checkboxContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    flexWrap: 'wrap',
     marginBottom: 10,
-  },
-  checkboxLabel: {
-    writingDirection: 'rtl', // Align text to the right
-    marginRight: 10,
   },
   checkboxGroup: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-end', // Align items from right to left
   },
   checkbox: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    padding: 5,
+    padding: 10,
     marginRight: 10,
-    marginBottom: 5,
+    marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   checkboxSelected: {
-    backgroundColor: '#89CFF0',
+    backgroundColor: '#ff7f9e',
   },
   applyFiltersButton: {
     backgroundColor: '#ff7f9e',
     padding: 10,
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
     borderRadius: 5,
   },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
+
 
 export default ForumScreen;

@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     direction: 'rtl', // RTL support
   },
   userMessage: {
-    backgroundColor: '#d3d3d3', // Gray color for user
+    backgroundColor: '#C8A2C8', // lilac color for user
     alignSelf: 'flex-end',
   },
   assistantMessage: {

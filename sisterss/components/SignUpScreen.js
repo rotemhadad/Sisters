@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet ,TouchableOpacity,Text,ScrollView} from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth ,db } from '../firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
@@ -66,7 +66,7 @@ const SignUpScreen = ({ navigation }) => {
             });
 
             Alert.alert('נרשמת בהצלחה :)');
-            navigation.navigate('SignIn');
+            navigation.navigate('הרשמה');
         } catch (error) {
             Alert.alert('ההרשמה נכשלה מהסיבה הזו:', error.message);
         }
@@ -74,6 +74,7 @@ const SignUpScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <ScrollView style={styles.content}>
             <Text style={styles.note}>שימי ♥ שהשדות המסומנים ב(*) הינם חובה</Text>
             <TextInput
                 style={styles.input}
@@ -136,9 +137,52 @@ const SignUpScreen = ({ navigation }) => {
             />
             {/* Add more TextInput fields for other data */}
 
-            <Button title="הרשמה" onPress={handleSignUp} />
+            <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+              <Text style={styles.buttonText}>הרשמה</Text>
+          </TouchableOpacity>
+          </ScrollView>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+    },
+    note: {
+        fontStyle: 'italic',
+        textAlign: 'right',
+    },
+    input: {
+        height: 40,
+        width: '100%',
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+    },
+    button: {
+        backgroundColor: '#ff7f9e',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginBottom: 10,
+        width: '100%',
+        alignItems: 'center',
+      },
+      buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+      },
+      content: {
+        flex: 1,
+    },
+});
 
 export default SignUpScreen;
