@@ -24,7 +24,12 @@ const SignUpScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [birthdate, setBirthdate] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
+    const [emergencyContact, setEmergencyContact] = useState('');
+    const [fullNamePhoneNumber, setFullNamePhoneNumber] = useState('');
+    const [nickname, setNickname] = useState('');
 
     // const handleSignUp = () => {
     //     if (password !== confirmPassword) {
@@ -69,6 +74,7 @@ const SignUpScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.note}>שימי ♥ שהשדות המסומנים ב(*) הינם חובה</Text>
             <TextInput
                 style={styles.input}
                 placeholder="אימייל"
@@ -92,32 +98,47 @@ const SignUpScreen = ({ navigation }) => {
             />
             <TextInput
                 style={styles.input}
-                placeholder="תאריך לידה"
+                placeholder="(*)שם פרטי"
+                value={firstName}
+                onChangeText={setFirstName}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="(*)שם משפחה"
+                value={lastName}
+                onChangeText={setLastName}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="כינוי"
+                value={nickname}
+                onChangeText={setNickname}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="תאריך לידה (שששש-חח-יי)"
                 value={birthdate}
                 onChangeText={setBirthdate}
                 keyboardType="numeric"
             />
+            <TextInput
+                style={styles.input}
+                placeholder="מספר טלפון לחירום"
+                value={emergencyContact}
+                onChangeText={setEmergencyContact}
+                keyboardType="phone-pad"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="שם מלא של איש קשר לחירום"
+                value={fullNamePhoneNumber}
+                onChangeText={setFullNamePhoneNumber}
+            />
+            {/* Add more TextInput fields for other data */}
+
             <Button title="הרשמה" onPress={handleSignUp} />
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-    },
-    input: {
-        height: 40,
-        width: '100%',
-        marginBottom: 10,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-    },
-});
 
 export default SignUpScreen;

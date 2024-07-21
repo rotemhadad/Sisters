@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { commonStyles } from './CommonStyles';
 
-const ViolenceTypes = ({ navigation }) => {
+const ViolenceTypes = () => {
     const [selectedType, setSelectedType] = useState(null);
 
     // Function to handle selection of a violence type
