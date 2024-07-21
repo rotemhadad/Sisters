@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { commonStyles } from './CommonStyles';
 
-const WarningSigns = ({ navigation }) => {
+const WarningSigns = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.heading}>אובססיביות</Text>
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#800080',
         marginBottom: 8,
-        writingDirection: 'rtl',
     },
     questionContainer: {
         marginBottom: 16,
@@ -79,13 +78,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#800080',
         marginBottom: 8,
-        writingDirection: 'rtl',
     },
     importantText: {
         fontSize: 16,
         color: 'red',
         marginTop: 16,
-        writingDirection: 'rtl',
     },
 });
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { commonStyles } from './CommonStyles';
 
-const AboutUs = ({ navigation }) => {
+const AboutUs = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.teamTitle}>אודותינו</Text>
@@ -58,14 +58,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: '#800080', // Green color
-        writingDirection: 'rtl',
-
     },
     memberRole: {
         fontSize: 16,
         color: '#333', // Dark grey color
-        writingDirection: 'rtl',
-
     },
 });
 

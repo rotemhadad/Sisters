@@ -2,11 +2,9 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { commonStyles } from './CommonStyles'; // Import common styles
-import { I18nManager } from 'react-native';
-I18nManager.allowRTL(false);
 
-const InformationScreen = ({ navigation }) => {
-    //const navigation = useNavigation();
+const InformationScreen = () => {
+    const navigation = useNavigation();
 
     const handlePhonePress = (phoneNumber) => {
         Linking.openURL(`tel:${phoneNumber}`);
@@ -15,7 +13,6 @@ const InformationScreen = ({ navigation }) => {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>מידע חשוב</Text>
-
             </View>
 
             <ScrollView style={styles.content}>
@@ -194,7 +191,7 @@ const InformationScreen = ({ navigation }) => {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.goBack()}>
-                <Text style={styles.buttonText}>חזרה אחורה</Text>
+                <Text style={styles.buttonText}>Go Back</Text>
             </TouchableOpacity>
         </View>
     );
@@ -204,7 +201,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        writingDirection: 'rtl',
     },
     header: {
         backgroundColor: '#ff7f9e',
@@ -212,14 +208,11 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
-        writingDirection: 'rtl',
-
     },
     title: {
         fontSize: 20,
         fontWeight: 'bold',
         color: '#fff',
-        writingDirection: 'rtl'
     },
     content: {
         flex: 1,
@@ -234,13 +227,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
         color: '#ff7f9e',
-        writingDirection: 'rtl'
     },
     sectionText: {
         fontSize: 16,
         marginBottom: 5,
         color: '#333',
-        writingDirection: 'rtl'
     },
     button: {
         backgroundColor: '#ff7f9e',

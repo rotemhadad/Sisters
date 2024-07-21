@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, ScrollView, Image, TouchableWithoutFeedback } from 'react-native';
+
 import { commonStyles } from './CommonStyles'; // Import common styles
 import { useNavigation } from '@react-navigation/native';
 
-const GuestScreen = ({ navigation }) => {
-    //const navigation = useNavigation();
+const GuestScreen = () => {
+    const navigation = useNavigation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const openMenu = () => {
@@ -112,6 +113,7 @@ const GuestScreen = ({ navigation }) => {
         </View>
     );
 };
+
 const styles = StyleSheet.create({
     scrollViewContent: {
         flexGrow: 1,
