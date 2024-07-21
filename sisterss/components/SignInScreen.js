@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert ,StyleSheet} from 'react-native';
+import { View, TextInput, Button, Alert ,StyleSheet,TouchableOpacity,Text} from 'react-native';
 import { auth } from '../firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 //import firebase from '@react-native-firebase/app';
@@ -43,7 +43,11 @@ const SignInScreen = ({ navigation }) => {
                 value={password}
                 onChangeText={setPassword}
             />
-            <Button title="התחברות" onPress={handleSignIn} />
+
+            <TouchableOpacity style={styles.button} onPress={handleSignIn}>
+              <Text style={styles.buttonText}>התחברות</Text>
+          </TouchableOpacity>
+        
         </View>
     );
 };
@@ -64,6 +68,21 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 5,
     },
+    button: {
+        backgroundColor: '#ff7f9e',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginBottom: 10,
+        width: '100%',
+        alignItems: 'center',
+      },
+      buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+      },
 });
 
 export default SignInScreen;

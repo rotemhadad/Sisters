@@ -61,7 +61,7 @@ const SelectionScreen = ({ navigation }) => {
             </Text>
             <TouchableOpacity
                 style={commonStyles.button}
-                onPress={() => navigation.navigate('התחברות')}
+                onPress={() => navigation.navigate('הרשמה')}
             >
                 <View style={styles.buttonContent}>
                     <Text style={commonStyles.buttonText}>הירשמי בתור שומרת</Text>

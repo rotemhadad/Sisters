@@ -125,13 +125,13 @@ const SelfQuestionnaire = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFC0CB',
+        backgroundColor: '#C8A2C8',
         padding: 16,
     },
     heading: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#800080',
+        color: '#C8A2C8',
         marginBottom: 16,
         textAlign: 'center',
     },
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     questionText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#800080',
+        color: '#C8A2C8',
         marginBottom: 8,
     },
     optionButton: {
@@ -151,15 +151,15 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     selectedOption: {
-        backgroundColor: '#800080',
+        backgroundColor: '#C8A2C8',
     },
     optionText: {
         fontSize: 16,
-        color: '#800080',
+        color: '#C8A2C8',
         textAlign: 'center',
     },
     calculateButton: {
-        backgroundColor: '#800080',
+        backgroundColor: '#C8A2C8',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 8,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     closeButton: {
-        backgroundColor: '#800080',
+        backgroundColor: '#C8A2C8',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 8,

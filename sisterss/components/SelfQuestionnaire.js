@@ -127,7 +127,7 @@ const SelfQuestionnaire = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ff7f9e',
+        backgroundColor: '#FFFFFF',
         padding: 16,
         writingDirection: 'rtl',
     },
