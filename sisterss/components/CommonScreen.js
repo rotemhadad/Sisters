@@ -90,21 +90,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 15,
     },
     header: {
         backgroundColor: '#ff7f9e',
-        paddingVertical: 10,
         paddingHorizontal: 15,
+        paddingVertical: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
-        marginBottom: 10,
     },
     title: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
         color: '#fff',
-        textAlign: 'center',
     },
     content: {
         flex: 1,

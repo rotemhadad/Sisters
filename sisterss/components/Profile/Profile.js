@@ -17,7 +17,6 @@ const ProfileScreen = () => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUserId(user.uid);
-        console.log('User signed in:', user);
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
@@ -32,7 +31,6 @@ const ProfileScreen = () => {
   }, []);
 
   const handleUpdateProfilePicture = async (newUri) => {
-    console.log('Updating profile picture to:', newUri);
     setProfilePicture(newUri);
     if (userId) {
       try {
@@ -46,7 +44,7 @@ const ProfileScreen = () => {
 
   const handleUpdateProfile = async () => {
     if (password !== confirmPassword) {
-      Alert.alert('Password Error', 'Passwords do not match.');
+      Alert.alert('שגיאת סיסמא', 'הסיסמאות אינן תואמות');
       return;
     }
 
@@ -57,9 +55,9 @@ const ProfileScreen = () => {
           birthdate,
           profilePicture,
         });
-        Alert.alert('Profile Updated', 'Your profile has been successfully updated.');
+        Alert.alert('הפרופיל עודכן', 'הפרופיל שלך עודכן בהצלחה.');
       } catch (error) {
-        console.error('Error updating profile:', error);
+        console.error('שגיאה בעדכון הפרופיל:', error);
       }
     }
   };
@@ -74,40 +72,40 @@ const ProfileScreen = () => {
         />
       </View>
       <View style={styles.formContainer}>
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}>אימייל</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter your email"
+          placeholder="עדכני מייל"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
         />
-        <Text style={styles.label}>New Password</Text>
+        <Text style={styles.label}>סיסמא חדשה</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter new password"
+          placeholder="הכניסי סיסמא חדשה"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
         />
-        <Text style={styles.label}>Confirm Password</Text>
+        <Text style={styles.label}>אישור סיסמא</Text>
         <TextInput
           style={styles.input}
-          placeholder="Confirm new password"
+          placeholder="אימות הסיסמא החדשה"
           secureTextEntry
           value={confirmPassword}
           onChangeText={setConfirmPassword}
         />
-        <Text style={styles.label}>Birth Date</Text>
+        <Text style={styles.label}>תאריך לידה</Text>
         <TextInput
           style={styles.input}
-          placeholder="YYYY-MM-DD"
+          placeholder="שששש-חח-יי"
           value={birthdate}
           onChangeText={setBirthdate}
           keyboardType="numeric"
         />
         <TouchableOpacity style={styles.updateButton} onPress={handleUpdateProfile}>
-          <Text style={styles.updateButtonText}>Update Profile</Text>
+          <Text style={styles.updateButtonText}>עדכון הפרופיל</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

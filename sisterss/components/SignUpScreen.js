@@ -49,6 +49,7 @@ const SignUpScreen = ({ navigation }) => {
 
     const handleSignUp = async () => {
         if (password !== confirmPassword) {
+            Alert.alert('שגיאת סיסמא', 'הסיסמאות אינן תואמות');
             Alert.alert('שגיאת סיסמא', 'הסיסמאות לא תואמות');
             return;
         }
@@ -65,10 +66,10 @@ const SignUpScreen = ({ navigation }) => {
                 profilePicture: profilePicture || '',  // Assuming you have some default value or handle null
             });
 
-            Alert.alert('Sign Up Successful');
+            Alert.alert('נרשמת בהצלחה :)');
             navigation.navigate('SignIn');
         } catch (error) {
-            Alert.alert('Sign Up Failed', error.message);
+            Alert.alert('ההרשמה נכשלה מהסיבה הזו:', error.message);
         }
     };
 

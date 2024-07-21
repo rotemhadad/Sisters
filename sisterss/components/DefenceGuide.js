@@ -135,26 +135,21 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: '#ff7f9e',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
     },
-    title: {
-        fontSize: 20,
+    headerText: {
+        fontSize: 24,
         fontWeight: 'bold',
-        color: 'black',
-        writingDirection: 'rtl',
+        color: '#fff',
     },
     content: {
         flex: 1,
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        writingDirection: 'rtl',
+        alignItems: 'center',
+        justifyContent: 'center',
+        
     },
-    // section: {
-    //     marginBottom: 20,
-    // },
     sectionTitle: {
         fontSize: 18,
         fontWeight: 'bold',

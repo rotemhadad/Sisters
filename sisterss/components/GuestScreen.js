@@ -23,67 +23,81 @@ const GuestScreen = ({ navigation }) => {
     return (
         <View style={commonStyles.container}>
             <View style={commonStyles.topButtons}>
-                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('Articles')}>
+                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('מאמרים')}>
                     <Text style={commonStyles.buttonText}>מאמרים</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('WarningSigns')}>
-                    <Text style={commonStyles.buttonText}>תמרורי אזהרה</Text>
+                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('מידע')}>
+                    <Text style={commonStyles.buttonText}>מידע חשוב </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('SelfQuestionnaire')}>
+                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('שאלון זיהוי')}>
                     <Text style={commonStyles.buttonText}>שאלון עצמי</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={commonStyles.content}>
                     <View style={styles.imageRow}>
+
                         <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Information')}>
-                                <Image source={require('../Images/Information.png')} style={styles.image} />
+                            <TouchableOpacity onPress={() => navigation.navigate('תמרורי אזהרה')}>
+                                <Image source={require('../Images/8.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('Information')}>
-                                <Text style={commonStyles.buttonText}>מידע חשוב</Text>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('תמרורי אזהרה')}>
+                                <Text style={commonStyles.buttonTextnext}> אזהרה בזוגיות</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('SelfQuestionnaire')}>
-                                <Image source={require('../Images/SelfQuestionnaire.png')} style={styles.image} />
+                            <TouchableOpacity onPress={() => navigation.navigate('סוגי אלימות')}>
+                                <Image source={require('../Images/15.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('SelfQuestionnaire')}>
-                                <Text style={commonStyles.buttonText}>שאלון לזיהוי מצבי סיכון</Text>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('סוגי אלימות')}>
+                                <Text style={commonStyles.buttonTextnext}>סוגי אלימות </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.imageRow}>
                         <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('WarningSigns')}>
-                                <Image source={require('../Images/Warnings.png')} style={styles.image} />
+                            <TouchableOpacity onPress={() => navigation.navigate('תמרורי אזהרה לסביבה')}>
+                                <Image source={require('../Images/9.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('WarningSigns')}>
-                                <Text style={commonStyles.buttonText}>תמרורי אזהרה בזוגיות</Text>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('תמרורי אזהרה לסביבה')}>
+                                <Text style={commonStyles.buttonTextnext}> אזהרה לסביבה</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('EnvWarningSigns')}>
-                                <Image source={require('../Images/WarningsQ.jpeg')} style={styles.image} />
+                            <TouchableOpacity onPress={() => navigation.navigate('זכויות משפטיות')}>
+                                <Image source={require('../Images/2.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('EnvWarningSigns')}>
-                                <Text style={commonStyles.buttonText}>תמרורי אזהרה לסביבה</Text>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('זכויות משפטיות')}>
+                                <Text style={commonStyles.buttonTextnext}>זכויות משפטיות</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <TouchableOpacity style={commonStyles.button} onPress={() => navigation.navigate('ViolenceTypes')}>
-                        <Text style={commonStyles.buttonText}>סוגי אלימויות</Text>
+                    <View style={styles.imageRow}>
+                        <View style={styles.imageButtonContainer}>
+                            <TouchableOpacity onPress={() => navigation.navigate('מידע ממשלתי')}>
+                                <Image source={require('../Images/14.png')} style={styles.image} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('מידע ממשלתי')}>
+                                <Text style={commonStyles.buttonTextnext}>מידע ממשלתי</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.imageButtonContainer}>
+                            <TouchableOpacity onPress={() => navigation.navigate('הגנה עצמית')}>
+                                <Image source={require('../Images/16.png')} style={styles.image} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('הגנה עצמית')}>
+                                <Text style={commonStyles.buttonTextnext}>הנחיות להתגוננות</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+        
+                    <TouchableOpacity style={commonStyles.button} onPress={() => navigation.goBack()}>
+                        <Text style={commonStyles.buttonText}>חזרה אחורה</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={commonStyles.button} onPress={() => navigation.navigate('DefenceGuide')}>
-                        <Text style={commonStyles.buttonText}>הנחיות להתגוננות במצבי סיכון מיידיים</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={commonStyles.button} onPress={() => navigation.navigate('Articles')}>
-                        <Text style={commonStyles.buttonText}>מאמרים בנושא אלימות במשפחה</Text>
-                    </TouchableOpacity>
-
                     <View style={{ marginBottom: 100 }}></View>
 
                 </View>
+                
             </ScrollView>
             {/* Menu Modal */}
             <Modal
@@ -94,13 +108,8 @@ const GuestScreen = ({ navigation }) => {
             >
                 <TouchableWithoutFeedback onPress={closeMenu}>
                     <View style={styles.menuModal}>
-                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('PizzaCall')}>
-                            <Text style={commonStyles.menuItemText}>שיחת הפיצה</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('GovInfoScreen')}>
-                            <Text style={commonStyles.menuItemText}>מידע ממשלתי לסיוע</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('LegalRights')}>
+
+                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('זכויות משפטיות')}>
                             <Text style={commonStyles.menuItemText}>זכויות משפטיות</Text>
                         </TouchableOpacity>
                     </View>
@@ -120,20 +129,22 @@ const styles = StyleSheet.create({
         flexGrow: 1,
     },
     image: {
-        width: 150,
-        height: 150,
+        width: 130,
+        height: 130,
+        borderRadius:10,
     },
     imageRow: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginVertical: 10,
+        marginVertical: 1,
     },
     imageButtonContainer: {
         alignItems: 'center',
         marginHorizontal: 10,
+        borderRadius: 2,
     },
     buttonBelow: {
-        marginTop: 10,
+        marginTop: 2,
     },
     menuModal: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',

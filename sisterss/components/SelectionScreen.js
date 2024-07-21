@@ -57,11 +57,11 @@ const SelectionScreen = ({ navigation }) => {
     return (
         <View style={commonStyles.container}>
             <Text style={styles.contentText}>
-                ברוכה הבאה! בחרי את האופציה המתאימה לך
+                ברוכה הבאה!{'\n'} בחרי את האופציה המתאימה לך
             </Text>
             <TouchableOpacity
                 style={commonStyles.button}
-                onPress={() => navigation.navigate('GurdianSighUp')}
+                onPress={() => navigation.navigate('התחברות')}
             >
                 <View style={styles.buttonContent}>
                     <Text style={commonStyles.buttonText}>הירשמי בתור שומרת</Text>
@@ -72,7 +72,7 @@ const SelectionScreen = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
                 style={commonStyles.button}
-                onPress={() => navigation.navigate('SignUp')}
+                onPress={() => navigation.navigate('הרשמה')}
             >
                 <View style={styles.buttonContent}>
                     <Text style={commonStyles.buttonText}>הירשמי בתור משתמשת</Text>
@@ -83,7 +83,7 @@ const SelectionScreen = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
                 style={commonStyles.button}
-                onPress={() => navigation.navigate('SignIn')}
+                onPress={() => navigation.navigate('התחברות')}
             >
                 <Text style={commonStyles.buttonText}>התחברי</Text>
             </TouchableOpacity>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     },
     questionMark: {
         fontSize: 24, // Increase font size here
-        color: '#FF1493',
+        color: '#F43169',
         marginLeft: 5, // Add space between the text and the question mark
     },
     closeButton: {
