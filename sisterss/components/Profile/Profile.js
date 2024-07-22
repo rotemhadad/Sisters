@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, Text, Alert, ScrollView } from 'react-native';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, updateEmail, updatePassword } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import Avatar from './Avatar'; 
 import { auth, db } from '../../firebaseConfig';
@@ -9,7 +9,12 @@ const ProfileScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [nickname, setNickname] = useState('');
   const [birthdate, setBirthdate] = useState('');
+  const [emergencyContact, setEmergencyContact] = useState('');
+  const [fullNamePhoneNumber, setFullNamePhoneNumber] = useState('');
   const [profilePicture, setProfilePicture] = useState('https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg');
   const [userId, setUserId] = useState(null);
 
@@ -21,7 +26,12 @@ const ProfileScreen = () => {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setEmail(userData.email);
+          setFirstName(userData.firstName);
+          setLastName(userData.lastName);
+          setNickname(userData.nickname);
           setBirthdate(userData.birthdate);
+          setEmergencyContact(userData.emergencyContact);
+          setFullNamePhoneNumber(userData.fullNamePhoneNumber);
           setProfilePicture(userData.profilePicture || 'https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg');
         }
       }
@@ -50,14 +60,34 @@ const ProfileScreen = () => {
 
     if (userId) {
       try {
+        const user = auth.currentUser;
+
+        // Update email in Firebase Auth
+        if (email !== user.email) {
+          await updateEmail(user, email);
+        }
+
+        // Update password in Firebase Auth
+        if (password) {
+          await updatePassword(user, password);
+        }
+
+        // Update user details in Firestore
         await updateDoc(doc(db, 'users', userId), {
           email,
+          firstName,
+          lastName,
+          nickname,
           birthdate,
+          emergencyContact,
+          fullNamePhoneNumber,
           profilePicture,
         });
+
         Alert.alert('הפרופיל עודכן', 'הפרופיל שלך עודכן בהצלחה.');
       } catch (error) {
         console.error('שגיאה בעדכון הפרופיל:', error);
+        Alert.alert('שגיאה בעדכון הפרופיל', error.message);
       }
     }
   };
@@ -96,13 +126,49 @@ const ProfileScreen = () => {
           value={confirmPassword}
           onChangeText={setConfirmPassword}
         />
+        <Text style={styles.label}>שם פרטי</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="שם פרטי"
+          value={firstName}
+          onChangeText={setFirstName}
+        />
+        <Text style={styles.label}>שם משפחה</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="שם משפחה"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+        <Text style={styles.label}>כינוי</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="כינוי"
+          value={nickname}
+          onChangeText={setNickname}
+        />
         <Text style={styles.label}>תאריך לידה</Text>
         <TextInput
           style={styles.input}
-          placeholder="שששש-חח-יי"
+          placeholder="תאריך לידה (שששש-חח-יי)"
           value={birthdate}
           onChangeText={setBirthdate}
           keyboardType="numeric"
+        />
+        <Text style={styles.label}>מספר טלפון לחירום</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="מספר טלפון לחירום"
+          value={emergencyContact}
+          onChangeText={setEmergencyContact}
+          keyboardType="phone-pad"
+        />
+        <Text style={styles.label}>שם מלא של איש קשר לחירום</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="שם מלא של איש קשר לחירום"
+          value={fullNamePhoneNumber}
+          onChangeText={setFullNamePhoneNumber}
         />
         <TouchableOpacity style={styles.updateButton} onPress={handleUpdateProfile}>
           <Text style={styles.updateButtonText}>עדכון הפרופיל</Text>
