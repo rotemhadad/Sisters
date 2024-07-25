@@ -8,14 +8,11 @@ export const commonStyles = StyleSheet.create({
     },
     header: {
         backgroundColor: '#ff7f9e',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
         writingDirection: 'rtl',
     },
     headerText: {
-        fontSize: 20,
         fontWeight: 'bold',
         color: '#fff',
         writingDirection: 'rtl', 
@@ -37,7 +34,7 @@ export const commonStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
-        margin: 8,
+        margin: 2,
         borderRadius: 5,
     },
     buttonText: {

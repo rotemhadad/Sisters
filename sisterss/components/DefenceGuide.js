@@ -24,7 +24,7 @@ const DefenceGuide = ({ navigation }) => {
     };
     return (
         <View style={styles.container}>
-            <ScrollView style={commonStyles.container}>
+            <ScrollView style={styles.container}>
                 <View style={commonStyles.content}>
                     <View style={commonStyles.header}>
                         <Text style={commonStyles.headerText}>הנחיות להתגוננות במצבי סיכון מיידיים</Text>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#ccc',
     },
     headerText: {
-        fontSize: 24,
+        fontSize: 50,
         fontWeight: 'bold',
         color: '#fff',
     },
