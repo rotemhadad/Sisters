@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Linking } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const withNavBar = (WrappedComponent) => {
   const handleContactEmail = () => {
@@ -7,25 +8,28 @@ const withNavBar = (WrappedComponent) => {
   };
 
   const handleCallPolice = () => {
-    Linking.openURL('tel:100'); 
+    Linking.openURL('tel:100');
   };
 
   return ({ navigation, ...props }) => (
     <View style={{ flex: 1 }}>
       <View style={styles.navBar}>
-        {/* Replace 'logo.png' with your actual logo file name */}
         <Image source={require('../assets/logo.png')} style={styles.logo} />
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('עלינו')}>
-        <Text style={[styles.navButtonText, { color: '#F43169' }]}>אודות</Text>
+          <MaterialIcons name="info" size={24} color="#F43169" />
+          <Text style={styles.navButtonText}>אודות</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('שאלות נפוצות')}>
-        <Text style={[styles.navButtonText, { color: '#F43169' }]}>שאלות</Text>
+          <MaterialIcons name="help" size={24} color="#F43169" />
+          <Text style={styles.navButtonText}>שאלות</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={handleContactEmail}>
-        <Text style={[styles.navButtonText, { color: '#F43169' }]}>צור קשר</Text>
+          <MaterialIcons name="email" size={24} color="#F43169" />
+          <Text style={styles.navButtonText}>צור קשר</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navButton} onPress={handleCallPolice}>
-          <Text style={[styles.navButtonText, { color: '#F43169' }]}>התקשרי</Text>
+          <MaterialIcons name="phone" size={24} color="#F43169" />
+          <Text style={styles.navButtonText}>התקשרי</Text>
         </TouchableOpacity>
       </View>
       <WrappedComponent {...props} navigation={navigation} />
@@ -36,22 +40,26 @@ const withNavBar = (WrappedComponent) => {
 const styles = StyleSheet.create({
   navBar: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     backgroundColor: '#ff7f9e',
   },
   navButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingHorizontal: 5,
   },
   navButtonText: {
-    color: 'white',
+    color: '#FFF',
     fontWeight: 'bold',
+    fontSize: 12,
+    textAlign: 'center',
   },
   logo: {
-    width: 50, // Adjust width as per your logo size
-    height: 50, // Adjust height as per your logo size
+    width: 40,
+    height: 40,
     resizeMode: 'contain',
   },
 });
