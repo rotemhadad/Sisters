@@ -58,7 +58,7 @@ const ForumScreen = ({ navigation }) => {
       if (user) {
         const authorName = newPost.isAnonymous ? 'Anonymous' : user.displayName;
         const authorPhotoURL = newPost.isAnonymous ? null : user.photoURL;
-
+  
         let imageUrl = null;
         if (newPost.image) {
           const response = await fetch(newPost.image);
@@ -68,7 +68,7 @@ const ForumScreen = ({ navigation }) => {
           await uploadBytes(imageRef, blob);
           imageUrl = await getDownloadURL(imageRef);
         }
-
+  
         const post = {
           title: newPost.title,
           subject: newPost.subject,
@@ -81,7 +81,7 @@ const ForumScreen = ({ navigation }) => {
           createdAt: new Date(),
           image: imageUrl,
         };
-
+  
         await addDoc(collection(db, 'posts'), post);
         setNewPost({ title: '', subject: '', content: '', isAnonymous: false, image: null });
         setSelectedSubjects([]);
@@ -196,10 +196,9 @@ const ForumScreen = ({ navigation }) => {
       setNewPost({ ...newPost, image: result.assets[0].uri });
     }
   };
-
   const RenderPostItem = ({ item }) => (
     <View style={styles.postContainer}>
-      {item.authorName !== 'Anonymous' ? (
+      {item.authorPhotoURL ? (
         <Image source={{ uri: item.authorPhotoURL }} style={styles.authorPhoto} />
       ) : (
         <Image source={require('../Images/17.png')} style={styles.authorPhoto} />
@@ -218,7 +217,7 @@ const ForumScreen = ({ navigation }) => {
         )}
         <TouchableOpacity onPress={() => toggleLikePost(item.id)} style={[styles.button, styles.likeButton]}>
           <Ionicons name={likedPosts.includes(item.id) ? "heart" : "heart-outline"} size={24} color="#FFF" />
-          <Text style={{ color: '#FFF' }}>{likedPosts.includes(item.id) ? 'אנלייק' : 'לייק'}({item.likes.length})</Text>
+          <Text style={{ color: '#FFF' }}>{likedPosts.includes(item.id) ? 'אנלייק' : 'לייק'} ({item.likes.length})</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => addComment(item.id)} style={[styles.button, styles.addCommentButton]}>
           <Ionicons name="chatbubble-outline" size={24} color="#FFF" />
