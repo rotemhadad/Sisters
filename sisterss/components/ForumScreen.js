@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert, Switch, SafeAreaView, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { Ionicons } from '@expo/vector-icons';
 
 const ForumScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
@@ -17,9 +19,16 @@ const ForumScreen = ({ navigation }) => {
 
   const auth = getAuth();
   const db = getFirestore();
+  const storage = getStorage();
 
   useEffect(() => {
     fetchPosts();
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    })();
   }, []);
 
   const fetchPosts = async () => {
@@ -50,6 +59,16 @@ const ForumScreen = ({ navigation }) => {
         const authorName = newPost.isAnonymous ? 'Anonymous' : user.displayName;
         const authorPhotoURL = newPost.isAnonymous ? null : user.photoURL;
 
+        let imageUrl = null;
+        if (newPost.image) {
+          const response = await fetch(newPost.image);
+          const blob = await response.blob();
+          const imageName = `post_images/${Date.now()}_${user.uid}`;
+          const imageRef = ref(storage, imageName);
+          await uploadBytes(imageRef, blob);
+          imageUrl = await getDownloadURL(imageRef);
+        }
+
         const post = {
           title: newPost.title,
           subject: newPost.subject,
@@ -60,15 +79,12 @@ const ForumScreen = ({ navigation }) => {
           likes: [],
           comments: [],
           createdAt: new Date(),
+          image: imageUrl,
         };
-
-        if (newPost.image) {
-          post.image = newPost.image;
-        }
 
         await addDoc(collection(db, 'posts'), post);
         setNewPost({ title: '', subject: '', content: '', isAnonymous: false, image: null });
-        setSelectedSubjects([]); // Reset selected subjects
+        setSelectedSubjects([]);
         setImage(null);
         fetchPosts();
       } else {
@@ -105,17 +121,15 @@ const ForumScreen = ({ navigation }) => {
   };
 
   const applyFilters = () => {
-    // Filter posts based on selected subjects
     if (selectedSubjects.length > 0) {
       const filteredPosts = posts.filter(post => selectedSubjects.includes(post.subject));
-      setPosts(filteredPosts); // Update filtered posts in state
+      setPosts(filteredPosts);
     } else {
-      fetchPosts(); // Reset to all posts if no subjects selected
+      fetchPosts();
     }
   };
 
   const handleCheckboxChange = (subject) => {
-    // Toggle selection of subjects
     if (selectedSubjects.includes(subject)) {
       setSelectedSubjects(selectedSubjects.filter(item => item !== subject));
     } else {
@@ -178,13 +192,18 @@ const ForumScreen = ({ navigation }) => {
     });
 
     if (!result.canceled) {
-      setImage(result.uri);
-      setNewPost({ ...newPost, image: result.uri });
+      setImage(result.assets[0].uri);
+      setNewPost({ ...newPost, image: result.assets[0].uri });
     }
   };
+
   const RenderPostItem = ({ item }) => (
     <View style={styles.postContainer}>
-      {item.authorPhotoURL && <Image source={{ uri: item.authorPhotoURL }} style={styles.authorPhoto} />}
+      {item.authorName !== 'Anonymous' ? (
+        <Image source={{ uri: item.authorPhotoURL }} style={styles.authorPhoto} />
+      ) : (
+        <Image source={require('../Images/17.png')} style={styles.authorPhoto} />
+      )}
       <Text style={styles.authorName}>{item.authorName}</Text>
       {item.image && <Image source={{ uri: item.image }} style={styles.postImage} />}
       <Text style={styles.postTitle}>{item.title}</Text>
@@ -193,14 +212,17 @@ const ForumScreen = ({ navigation }) => {
       <View style={styles.buttonRow}>
         {item.authorId === auth.currentUser?.uid && (
           <TouchableOpacity onPress={() => deletePost(item.id)} style={[styles.button, styles.deleteButton]}>
-            <Text style={{ color: '#FFF' }}>מחק פוסט</Text>
+            <Ionicons name="trash-outline" size={24} color="#FFF" />
+            <Text style={{ color: '#FFF' }}>מחק</Text>
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={() => toggleLikePost(item.id)} style={[styles.button, styles.likeButton]}>
-          <Text>{likedPosts.includes(item.id) ? 'אנלייק' : 'לייק'} ({item.likes.length})</Text>
+          <Ionicons name={likedPosts.includes(item.id) ? "heart" : "heart-outline"} size={24} color="#FFF" />
+          <Text style={{ color: '#FFF' }}>{likedPosts.includes(item.id) ? 'אנלייק' : 'לייק'}({item.likes.length})</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => addComment(item.id)} style={[styles.button, styles.addCommentButton]}>
-          <Text>הגב</Text>
+          <Ionicons name="chatbubble-outline" size={24} color="#FFF" />
+          <Text style={{ color: '#FFF' }}>הגב</Text>
         </TouchableOpacity>
       </View>
       <View>
@@ -212,12 +234,11 @@ const ForumScreen = ({ navigation }) => {
       </View>
       <TextInput
         value={comments[item.id] || ''}
-        onChangeText={text => setComments({ ...comments, [item.id]: text })}
+        onChangeText={(text) => setComments({ ...comments, [item.id]: text })}
         placeholder="הוסיפי תגובה"
-        style={styles.commentInput}
+        style={styles.input}
       />
     </View>
-
   );
   
   const filteredPosts = posts.filter(post =>
@@ -229,119 +250,93 @@ const ForumScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-    <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('תנאים')}>
+      <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('תנאים')}>
+        <Ionicons name="document-text-outline" size={24} color="#FFF" />
       <Text style={styles.titleText}>אנא קראי את התנאים ותקנון</Text>
-    </TouchableOpacity>
-
-    <View style={styles.uploadContainer}>
-        <TextInput
-          value={newPost.title}
-          onChangeText={(text) => setNewPost({ ...newPost, title: text })}
-          placeholder="כותרת המחשבות שלך"
-          style={styles.input}
-        />
-        <Picker
-          selectedValue={newPost.subject} // Changed to newPost.subject
-          onValueChange={(itemValue) => setNewPost({ ...newPost, subject: itemValue })}
-          style={styles.input}
-        >
-          <Picker.Item label="בחרי נושא" value="" />
-          <Picker.Item label="בית" value="בית" />
-          <Picker.Item label="ילדים" value="ילדים" />
-          <Picker.Item label="זכויות" value="זכויות" />
-          <Picker.Item label="נישואים" value="נישואים" />
-          <Picker.Item label="קריירה" value="קריירה" />
-          <Picker.Item label="אחר" value="אחר" />
-        </Picker>
-        <TextInput
-          value={newPost.content}
-          onChangeText={(text) => setNewPost({ ...newPost, content: text })}
-          placeholder="שתפי מחשבותייך"
-          style={styles.input}
-          multiline
-        />
-         <View style={styles.switchContainer}>
-          <Text>אנונימי</Text>
-          <Switch
-            value={newPost.isAnonymous}
-            onValueChange={(value) => setNewPost({ ...newPost, isAnonymous: value })}
+      </TouchableOpacity>
+        <View style={styles.uploadContainer}>
+          <TextInput
+            value={newPost.title}
+            onChangeText={(text) => setNewPost({ ...newPost, title: text })}
+            placeholder="כותרת המחשבות שלך"
+            style={styles.input}
           />
+          <Picker
+            selectedValue={newPost.subject}
+            onValueChange={(itemValue) => setNewPost({ ...newPost, subject: itemValue })}
+            style={styles.input}
+          >
+            <Picker.Item label="בחרי נושא" value="" />
+            <Picker.Item label="בית" value="בית" />
+            <Picker.Item label="ילדים" value="ילדים" />
+            <Picker.Item label="זכויות" value="זכויות" />
+            <Picker.Item label="נישואים" value="נישואים" />
+            <Picker.Item label="קריירה" value="קריירה" />
+            <Picker.Item label="אחר" value="אחר" />
+          </Picker>
+          <TextInput
+            value={newPost.content}
+            onChangeText={(text) => setNewPost({ ...newPost, content: text })}
+            placeholder="שתפי מחשבותייך"
+            style={styles.input}
+            multiline
+          />
+          <View style={styles.switchContainer}>
+            <Text>אנונימי</Text>
+            <Switch
+              value={newPost.isAnonymous}
+              onValueChange={(value) => setNewPost({ ...newPost, isAnonymous: value })}
+            />
+          </View>
+          <TouchableOpacity onPress={pickImage} style={styles.imagePickerButton}>
+            <Text>בחרי תמונה</Text>
+          </TouchableOpacity>
+          {image && <Image source={{ uri: image }} style={styles.selectedImage} />}
+          <TouchableOpacity onPress={addPost} style={styles.addPostButton}>
+            <Text>העלי פוסט</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={pickImage} style={styles.imagePickerButton}>
-          <Text>בחרי תמונה</Text>
-        </TouchableOpacity>
-        {image && <Image source={{ uri: image }} style={styles.selectedImage} />}
-        <TouchableOpacity onPress={addPost} style={styles.addPostButton}>
-          <Text>העלי פוסט</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={{ textAlign: 'center', marginBottom: 10 , fontWeight: 'bold',}}>פוסטים של אחיות</Text>
-      <Text style={styles.checkboxLabel}>סנן לפי נושא:</Text>
-      <View style={styles.checkboxContainer}>
+        <Text style={{ textAlign: 'center', marginBottom: 10 , fontWeight: 'bold',}}>פוסטים של אחיות</Text>
+        <Text style={styles.checkboxLabel}>סנן לפי נושא:</Text>
+        <View style={styles.checkboxContainer}>
           <View style={styles.checkboxGroup}>
-            <TouchableOpacity
-              style={[styles.checkbox, selectedSubjects.includes('בית') && styles.checkboxSelected]}
-              onPress={() => handleCheckboxChange('בית')}
-            >
-              <Text>בית</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.checkbox, selectedSubjects.includes('ילדים') && styles.checkboxSelected]}
-              onPress={() => handleCheckboxChange('ילדים')}
-            >
-              <Text>ילדים</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.checkbox, selectedSubjects.includes('זכויות') && styles.checkboxSelected]}
-              onPress={() => handleCheckboxChange('זכויות')}
-            >
-              <Text>זכויות</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.checkbox, selectedSubjects.includes('נישואים') && styles.checkboxSelected]}
-              onPress={() => handleCheckboxChange('נישואים')}
-            >
-              <Text>נישואים</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.checkbox, selectedSubjects.includes('קריירה') && styles.checkboxSelected]}
-              onPress={() => handleCheckboxChange('קריירה')}
-            >
-              <Text>קריירה</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.checkbox, selectedSubjects.includes('אחר') && styles.checkboxSelected]}
-              onPress={() => handleCheckboxChange('אחר')}
-            >
-              <Text>אחר</Text>
-            </TouchableOpacity>
+            {['בית', 'ילדים', 'זכויות', 'נישואים', 'קריירה', 'אחר'].map((subject) => (
+              <TouchableOpacity
+                key={subject}
+                style={[styles.checkbox, selectedSubjects.includes(subject) && styles.checkboxSelected]}
+                onPress={() => handleCheckboxChange(subject)}
+              >
+                <Text>{subject}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
         <Text style={styles.checkboxLabel}>סנן לפי מלל:</Text>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="חיפוש פוסטים"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
-      <TouchableOpacity onPress={applyFilters} style={styles.applyFiltersButton}>
-        <Text>החל סינון</Text>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="חיפוש פוסטים"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+        <TouchableOpacity onPress={applyFilters} style={styles.applyFiltersButton}>
+          <Text>החל סינון</Text>
+        </TouchableOpacity>
+        
+        <View>
+          {filteredPosts.map(item => (
+            <RenderPostItem key={item.id} item={item} />
+          ))}
+        </View>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.goBack()}>
+        <Text style={styles.buttonText}>חזרה אחורה</Text>
       </TouchableOpacity>
-      
-      <View>
-        {filteredPosts.map(item => (
-        <RenderPostItem key={item.id} item={item} />
-        ))}
-      </View>
-</ScrollView>
-<TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.goBack()}>
-                <Text style={styles.buttonText}>חזרה אחורה</Text>
-            </TouchableOpacity>
-</SafeAreaView>
+    </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -357,11 +352,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   title: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#FFFFFF',
-    padding: 5,
+    padding: 10,
     backgroundColor: '#FF7F50',
     borderWidth: 0.7,
     borderColor: '#FFFFFF',
@@ -371,7 +369,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
-    writingDirection: 'rtl', // Align text to the right
+    marginLeft: 10,
   },
   uploadContainer: {
     borderColor: '#ff7f9e',
@@ -461,12 +459,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   likeButton: {
+    flexDirection: 'row',
     backgroundColor: '#89CFF0',
   },
   deleteButton: {
+    flexDirection: 'row',
     backgroundColor: '#C8A2C8',
   },
   addCommentButton: {
+    flexDirection: 'row',
     backgroundColor: '#FF7F50',
   },
   commentContainer: {
@@ -528,6 +529,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
 
 export default ForumScreen;
