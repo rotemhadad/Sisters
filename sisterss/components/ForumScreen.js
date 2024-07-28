@@ -201,7 +201,7 @@ const ForumScreen = ({ navigation }) => {
       {item.authorPhotoURL ? (
         <Image source={{ uri: item.authorPhotoURL }} style={styles.authorPhoto} />
       ) : (
-        <Image source={require('../Images/17.png')} style={styles.authorPhoto} />
+        <Image source={require('../Images/./17.png')} style={styles.authorPhoto} />
       )}
       <Text style={styles.authorName}>{item.authorName}</Text>
       {item.image && <Image source={{ uri: item.image }} style={styles.postImage} />}
