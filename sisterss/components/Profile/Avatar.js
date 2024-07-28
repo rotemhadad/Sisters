@@ -1,101 +1,130 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
-import { updateDoc, doc } from 'firebase/firestore';
-import { auth, db, storage } from '../../firebaseConfig';
+import { getAuth } from 'firebase/auth';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getFirestore, doc, updateDoc } from 'firebase/firestore';
+import { Ionicons } from '@expo/vector-icons';
 
-const Avatar = ({ uri, aviOnly = false, imgStyle = {}, onButtonPress }) => {
-  const [selectedImage, setSelectedImage] = useState(uri);
+const Avatar = ({ currentAvatarUrl, onButtonPress }) => {
+  const [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const auth = getAuth();
+  const storage = getStorage();
+  const db = getFirestore();
+  const defaultImage = require('./20.png');
 
-  const handleChoosePhoto = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    })();
+  }, []);
 
-    if (!permissionResult.granted) {
-      Alert.alert(
-        "Permission Denied",
-        "Permission for gallery access is required to select an image.\nPlease go to settings and enable the permission."
-      );
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
+      aspect: [4, 3],
       quality: 1,
     });
 
-    if (result.cancelled) {
-      return;
-    }
-
-    const selectedAsset = result.assets[0];
-    if (selectedAsset.uri) {
-      setSelectedImage(selectedAsset.uri);
-      if (onButtonPress) onButtonPress(selectedAsset.uri);
-      // Upload the selected image to Firebase Cloud Storage
-      uploadImage(selectedAsset.uri);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
     }
   };
 
-  const uploadImage = async (uri) => {
+  const uploadImage = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      Alert.alert('Authentication Required', 'You need to be logged in to upload an image.');
+      return;
+    }
+
+    if (!image) {
+      Alert.alert('No Image Selected', 'Please select an image first.');
+      return;
+    }
+
     try {
-      const response = await fetch(uri);
+      setUploading(true);
+      const response = await fetch(image);
       const blob = await response.blob();
-      const imageRef = ref(storage, `profile-pictures/${auth.currentUser.uid}`);
-  
+      const imageName = `profile_pictures/${user.uid}`;
+      const imageRef = ref(storage, imageName);
       await uploadBytes(imageRef, blob);
-      const downloadURL = await getDownloadURL(imageRef);
-  
-      const userDocRef = doc(db, "users", auth.currentUser.uid);
-      await updateDoc(userDocRef, {
-        profilePicture: downloadURL
-      });
-  
-      console.log('Profile picture uploaded and updated successfully:', downloadURL);
+      const imageUrl = await getDownloadURL(imageRef);
+
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, { photoURL: imageUrl });
+
+      setUploading(false);
+      setImage(null); // Reset image state after successful upload
+      onButtonPress(imageUrl); // Pass the new imageUrl to parent component
+      Alert.alert('Success', 'Image uploaded successfully.');
     } catch (error) {
-      console.error('Error uploading profile picture:', error);
+      console.error('Error uploading image:', error);
+      setUploading(false);
+      Alert.alert('Error', 'Failed to upload image. Please try again.');
     }
   };
 
   return (
-    <TouchableOpacity onPress={handleChoosePhoto} style={styles.container}>
+    <View style={styles.container}>
       <Image
-        source={{ uri: selectedImage }}
-        style={[styles.image, aviOnly && { height: 35, width: 35, borderWidth: 0 }, imgStyle]}
+        source={{ uri: image || currentAvatarUrl || Image.resolveAssetSource(defaultImage).uri }}
+        style={styles.avatar}
       />
-      {!aviOnly && (
-        <TouchableOpacity onPress={handleChoosePhoto} style={styles.cameraButton}>
-          <MaterialCommunityIcons name="camera-outline" size={30} color="#ff7f9e" />
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.uploadButton} onPress={pickImage}>
+        <Ionicons name="image-outline" size={24} color="#000" />
+        <Text style={styles.uploadButtonText}>בחר תמונה</Text>
+      </TouchableOpacity>
+      {image && (
+        <View style={styles.previewContainer}>
+          <Image source={{ uri: image }} style={styles.imagePreview} />
+          <TouchableOpacity style={styles.uploadButton} onPress={uploadImage} disabled={uploading}>
+            <Text style={styles.uploadButtonText}>{uploading ? 'מעלה...' : 'העלה תמונה'}</Text>
+          </TouchableOpacity>
+        </View>
       )}
-    </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
     justifyContent: 'center',
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 16,
+  },
+  uploadButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: '#ff7f9e',
+    marginBottom: 8,
+  },
+  uploadButtonText: {
+    marginLeft: 8,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  previewContainer: {
     alignItems: 'center',
   },
-  image: {
-    borderRadius: 75,
-    width: 150,
-    height: 150,
-    borderWidth: 5,
-    borderColor: '#ff7f9e',
-  },
-  cameraButton: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    backgroundColor: 'white',
-    borderRadius: 15,
-    padding: 5,
-    borderWidth: 1,
-    borderColor: '#ff7f9e',
+  imagePreview: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+    marginBottom: 8,
   },
 });
 
