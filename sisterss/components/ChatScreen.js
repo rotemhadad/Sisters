@@ -114,11 +114,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     direction: 'rtl', // RTL support
+    textAlign: 'right',
   },
   conversation: {
     flex: 1,
     width: '100%',
     marginBottom: 20,
+    textAlign: 'right',
   },
   message: {
     marginBottom: 10,
@@ -126,16 +128,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: '80%',
     direction: 'rtl', // RTL support
+    textAlign: 'right',
   },
   userMessage: {
+    textAlign: 'right',
     backgroundColor: '#C8A2C8', // lilac color for user
     alignSelf: 'flex-end',
   },
   assistantMessage: {
+    textAlign: 'right',
     backgroundColor: '#89CFF0', // Blue color for assistant
     alignSelf: 'flex-start',
   },
   role: {
+    textAlign: 'right',
     fontWeight: 'bold',
     direction: 'rtl', // RTL support
   },
@@ -158,6 +164,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: '100%',
     alignItems: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   buttonText: {
     color: '#fff',

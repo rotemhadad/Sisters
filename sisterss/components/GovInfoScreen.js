@@ -202,6 +202,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         marginLeft: 10,
         borderRadius: 5,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     searchButtonText: {
         color: '#fff',
