@@ -154,6 +154,11 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         padding: 12,
         marginBottom: 8,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     selectedOption: {
         backgroundColor: '#89CFF0',
@@ -170,6 +175,11 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginTop: 16,
         alignSelf: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     calculateButtonText: {
         color: '#FFFFFF',

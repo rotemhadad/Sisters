@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, TextInput, StyleSheet, Alert, Switch, SafeAreaView, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDoc ,getDocs, doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
@@ -56,8 +56,10 @@ const ForumScreen = ({ navigation }) => {
     try {
       const user = auth.currentUser;
       if (user) {
-        const authorName = newPost.isAnonymous ? 'Anonymous' : user.displayName;
-        const authorPhotoURL = newPost.isAnonymous ? null : user.photoURL;
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        const userData = userDoc.data();
+        const authorName = newPost.isAnonymous ? 'Anonymous' :userData.nickname;
+        const authorPhotoURL = newPost.isAnonymous ? null : userData.profilePicture;
   
         let imageUrl = null;
         if (newPost.image) {
@@ -251,7 +253,7 @@ const ForumScreen = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <TouchableOpacity style={styles.title} onPress={() => navigation.navigate('תנאים')}>
         <Ionicons name="document-text-outline" size={24} color="#FFF" />
-      <Text style={styles.titleText}>אנא קראי את התנאים ותקנון</Text>
+      <Text style={styles.buttonText}>אנא קראי את התנאים ותקנון</Text>
       </TouchableOpacity>
         <View style={styles.uploadContainer}>
           <TextInput
@@ -281,18 +283,18 @@ const ForumScreen = ({ navigation }) => {
             multiline
           />
           <View style={styles.switchContainer}>
-            <Text>אנונימי</Text>
             <Switch
               value={newPost.isAnonymous}
               onValueChange={(value) => setNewPost({ ...newPost, isAnonymous: value })}
             />
+            <Text>אנונימי</Text>
           </View>
           <TouchableOpacity onPress={pickImage} style={styles.imagePickerButton}>
-            <Text>בחרי תמונה</Text>
+            <Text style={styles.buttonText}>בחרי תמונה</Text>
           </TouchableOpacity>
           {image && <Image source={{ uri: image }} style={styles.selectedImage} />}
           <TouchableOpacity onPress={addPost} style={styles.addPostButton}>
-            <Text>העלי פוסט</Text>
+            <Text style={styles.buttonText}>העלי פוסט</Text>
           </TouchableOpacity>
         </View>
         <Text style={{ textAlign: 'center', marginBottom: 10 , fontWeight: 'bold',}}>פוסטים של אחיות</Text>
@@ -318,7 +320,7 @@ const ForumScreen = ({ navigation }) => {
           onChangeText={setSearchQuery}
         />
         <TouchableOpacity onPress={applyFilters} style={styles.applyFiltersButton}>
-          <Text>החל סינון</Text>
+          <Text style={styles.buttonText}>החל סינון</Text>
         </TouchableOpacity>
         
         <View>
@@ -360,10 +362,14 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     padding: 10,
     backgroundColor: '#FF7F50',
-    borderWidth: 0.7,
     borderColor: '#FFFFFF',
     borderRadius: 5,
     marginBottom: 10,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   titleText: {
     color: '#FFFFFF',
@@ -383,6 +389,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     borderRadius: 5,
+    textAlign:'right'
   },
   switchContainer: {
     flexDirection: 'row',
@@ -395,6 +402,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     borderRadius: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   selectedImage: {
     width: 100,
@@ -408,6 +420,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     borderRadius: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   postContainer: {
     marginBottom: 20,
@@ -416,6 +433,11 @@ const styles = StyleSheet.create({
     borderColor: '#ff7f9e',
     padding: 10,
     backgroundColor: '#f9f9f9',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   authorPhoto: {
     width: 50,
@@ -437,6 +459,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
+    elevation: 2,
+    shadowColor: '#F43169',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   postSubject: {
     fontStyle: 'italic',
@@ -456,6 +483,11 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     borderRadius: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   likeButton: {
     flexDirection: 'row',
@@ -474,10 +506,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginBottom: 5,
+    textAlign:'right',
   },
   commentInput: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#fff',
     borderRadius: 5,
     padding: 10,
     marginBottom: 5,
@@ -488,10 +521,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+    textAlign:'right'
   },
   checkboxLabel: {
     fontWeight: 'bold',
     marginBottom: 10,
+    textAlign:'right'
   },
   checkboxContainer: {
     flexDirection: 'row',
@@ -511,9 +546,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignItems: 'center',
     justifyContent: 'center',
+
   },
   checkboxSelected: {
-    backgroundColor: '#ff7f9e',
+    backgroundColor: '#89CFF0',
   },
   applyFiltersButton: {
     backgroundColor: '#ff7f9e',
@@ -521,6 +557,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
     borderRadius: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   buttonText: {
     color: '#fff',

@@ -78,8 +78,8 @@ const Avatar = ({ currentAvatarUrl, onButtonPress }) => {
         style={styles.avatar}
       />
       <TouchableOpacity style={styles.uploadButton} onPress={pickImage}>
-        <Ionicons name="image-outline" size={24} color="#000" />
-        <Text style={styles.uploadButtonText}>בחר תמונה</Text>
+        <Text style={styles.uploadButtonText}>בחר תמונה </Text>
+        <Ionicons name="image-outline" size={24} color="#fff" />
       </TouchableOpacity>
       {image && (
         <View style={styles.previewContainer}>
@@ -103,6 +103,8 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginBottom: 16,
+    borderWidth: 4, // Adjust the width of the frame as needed
+    borderColor: '#ff7f9e', // Set the color of the frame
   },
   uploadButton: {
     flexDirection: 'row',
@@ -110,7 +112,13 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 8,
     backgroundColor: '#ff7f9e',
-    marginBottom: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
   uploadButtonText: {
     marginLeft: 8,
@@ -121,8 +129,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imagePreview: {
-    width: 100,
-    height: 100,
+    padding: 8,
+    width: 120,
+    height: 120,
     borderRadius: 8,
     marginBottom: 8,
   },

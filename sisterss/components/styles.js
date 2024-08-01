@@ -30,6 +30,11 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 20,
         width: '100%',
         alignItems: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     buttonText: {
         color: '#fff',

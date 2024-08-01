@@ -64,40 +64,6 @@ const App = () => {
   return (    <NavigationContainer>
     <Tab.Navigator>
       <Tab.Screen
-        name="בית ראשי"
-        component={HomeStack}
-        options={{
-          title: "בית ראשי",
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color="#ff7f9e" size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={withNavBar(ProfileScreen)}
-        options={{
-          title: "פרופיל",
-          headerShown: true,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color="#ff7f9e" size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="PizzaCall"
-        component={withNavBar(PizzaCall)}
-        options={{
-          title: "שיחת פיצה",
-          headerShown: true,
-          tabBarTitle: () => { return null },
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="phone" color="#ff7f9e" size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
           name="Chat"
           component={withNavBar(ChatScreen)}
           options={{
@@ -108,6 +74,43 @@ const App = () => {
             ),
           }}
         />
+        <Tab.Screen
+          name="PizzaCall"
+          component={withNavBar(PizzaCall)}
+          options={{
+            title: "שיחת פיצה",
+            headerShown: true,
+            tabBarTitle: () => { return null },
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="phone" color="#ff7f9e" size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={withNavBar(ProfileScreen)}
+          options={{
+            title: "פרופיל",
+            headerShown: true,
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account" color="#ff7f9e" size={size} />
+            ),
+          }}
+        />
+      <Tab.Screen
+        name="בית ראשי"
+        component={HomeStack}
+        options={{
+          title: "בית ראשי",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color="#ff7f9e" size={size} />
+          ),
+        }}
+      />
+      
+      
+
     </Tab.Navigator>
   </NavigationContainer>
   );

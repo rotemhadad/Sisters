@@ -100,7 +100,7 @@ const GuestScreen = ({ navigation }) => {
                     </View>
         
                     <TouchableOpacity style={commonStyles.button} onPress={() => navigation.goBack()}>
-                        <MaterialIcons name="arrow-back" size={24} color="#fff" />
+                        <MaterialIcons name="arrow-back" size={12} color="#fff" />
                         <Text style={commonStyles.buttonText}>חזרה אחורה</Text>
                     </TouchableOpacity>
                     <View style={{ marginBottom: 100 }}></View>
@@ -163,6 +163,11 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         width: '100%',
         justifyContent: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     menuModal: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',

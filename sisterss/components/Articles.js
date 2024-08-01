@@ -53,6 +53,11 @@ const styles = StyleSheet.create({
         ...commonStyles.button,
         width: '100%', // Set a fixed width for all buttons
         marginBottom: 10,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     articleButtonText: {
         ...commonStyles.buttonText,
