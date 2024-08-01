@@ -43,7 +43,7 @@ const GuestScreen = ({ navigation }) => {
                             <TouchableOpacity onPress={() => navigation.navigate('תמרורי אזהרה')}>
                                 <Image source={require('../Images/8.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('תמרורי אזהרה')}>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('תמרורי אזהרה')}>
                                 <MaterialIcons name="warning" size={24} color="#fff" />
                                 <Text style={commonStyles.buttonTextnext}> אזהרה בזוגיות</Text>
                             </TouchableOpacity>
@@ -52,7 +52,7 @@ const GuestScreen = ({ navigation }) => {
                             <TouchableOpacity onPress={() => navigation.navigate('סוגי אלימות')}>
                                 <Image source={require('../Images/15.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('סוגי אלימות')}>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('סוגי אלימות')}>
                                 <MaterialIcons name="pan-tool" size={24} color="#fff" />
                                 <Text style={commonStyles.buttonTextnext}>סוגי אלימות </Text>
                             </TouchableOpacity>
@@ -63,7 +63,7 @@ const GuestScreen = ({ navigation }) => {
                             <TouchableOpacity onPress={() => navigation.navigate('תמרורי אזהרה לסביבה')}>
                                 <Image source={require('../Images/9.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('תמרורי אזהרה לסביבה')}>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('תמרורי אזהרה לסביבה')}>
                                 <MaterialIcons name="people" size={24} color="#fff" />
                                 <Text style={commonStyles.buttonTextnext}> אזהרה לסביבה</Text>
                             </TouchableOpacity>
@@ -72,7 +72,7 @@ const GuestScreen = ({ navigation }) => {
                             <TouchableOpacity onPress={() => navigation.navigate('זכויות משפטיות')}>
                                 <Image source={require('../Images/2.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('זכויות משפטיות')}>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('זכויות משפטיות')}>
                                 <MaterialIcons name="gavel" size={24} color="#fff" />
                                 <Text style={commonStyles.buttonTextnext}>זכויות משפטיות</Text>
                             </TouchableOpacity>
@@ -83,7 +83,7 @@ const GuestScreen = ({ navigation }) => {
                             <TouchableOpacity onPress={() => navigation.navigate('מידע ממשלתי')}>
                                 <Image source={require('../Images/14.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('מידע ממשלתי')}>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('מידע ממשלתי')}>
                                 <MaterialIcons name="account-balance" size={24} color="#fff" />
                                 <Text style={commonStyles.buttonTextnext}>מידע ממשלתי</Text>
                             </TouchableOpacity>
@@ -92,7 +92,7 @@ const GuestScreen = ({ navigation }) => {
                             <TouchableOpacity onPress={() => navigation.navigate('הגנה עצמית')}>
                                 <Image source={require('../Images/16.png')} style={styles.image} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow]} onPress={() => navigation.navigate('הגנה עצמית')}>
+                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('הגנה עצמית')}>
                                 <MaterialIcons name="security" size={24} color="#fff" />
                                 <Text style={commonStyles.buttonTextnext}>הנחיות להתגוננות</Text>
                             </TouchableOpacity>
