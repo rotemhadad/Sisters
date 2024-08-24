@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 15,
     },
     header: {
         backgroundColor: '#ff7f9e',
@@ -181,6 +180,11 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 15,
         borderRadius: 5,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     buttonText: {
         color: '#fff',

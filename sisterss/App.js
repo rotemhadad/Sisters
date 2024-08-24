@@ -26,6 +26,8 @@ import ProfileScreen from './components/Profile/Profile';
 import TermsAndConditionsScreen from './components/TermsAndConditionsScreen';
 import LegalRightsScreen from './components/LegalRightsScreen';
 import withNavBar from './components/navBar'; 
+import ChatScreen from './components/ChatScreen';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -54,6 +56,7 @@ const HomeStack = () => {
       <Stack.Screen name="פרופיל" component={withNavBar(ProfileScreen)} />
       <Stack.Screen name="תנאים" component={withNavBar(TermsAndConditionsScreen)} options={{ title: 'Terms and Conditions' }} />
       <Stack.Screen name="זכויות משפטיות" component={withNavBar(LegalRightsScreen)} />
+      <Stack.Screen name="צאט" component={withNavBar(ChatScreen)} />
     </Stack.Navigator>
   );
 };
@@ -61,39 +64,53 @@ const App = () => {
   return (    <NavigationContainer>
     <Tab.Navigator>
       <Tab.Screen
-        name="בית"
+          name="Chat"
+          component={withNavBar(ChatScreen)}
+          options={{
+            title: "צאט",
+            headerShown: true,
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="chat" color="#ff7f9e" size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="PizzaCall"
+          component={withNavBar(PizzaCall)}
+          options={{
+            title: "שיחת פיצה",
+            headerShown: true,
+            tabBarTitle: () => { return null },
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="phone" color="#ff7f9e" size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={withNavBar(ProfileScreen)}
+          options={{
+            title: "פרופיל",
+            headerShown: true,
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account" color="#ff7f9e" size={size} />
+            ),
+          }}
+        />
+      <Tab.Screen
+        name="בית ראשי"
         component={HomeStack}
         options={{
-          title: "בית",
+          title: "בית ראשי",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color="#ff7f9e" size={size} />
           ),
         }}
       />
-      <Tab.Screen
-        name="Profile"
-        component={withNavBar(ProfileScreen)}
-        options={{
-          title: "פרופיל",
-          headerShown: true,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color="#ff7f9e" size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="PizzaCall"
-        component={withNavBar(PizzaCall)}
-        options={{
-          title: "שיחת פיצה",
-          headerShown: true,
-          tabBarTitle: () => { return null },
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="phone" color="#ff7f9e" size={size} />
-          ),
-        }}
-      />
+      
+      
+
     </Tab.Navigator>
   </NavigationContainer>
   );

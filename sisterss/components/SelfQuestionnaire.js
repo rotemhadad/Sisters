@@ -110,7 +110,7 @@ const SelfQuestionnaire = ({ navigation }) => {
                         <Modal visible={showResult} animationType="slide">
                             <View style={styles.resultContainer}>
                                 <ScrollView>
-                                    <Text style={styles.resultText}>{result}</Text>
+                                    <Text style={styles.resultText}>{"\n\n\n\n"+result}</Text>
                                 </ScrollView>
                                 <TouchableOpacity style={styles.closeButton} onPress={() => setShowResult(false)}>
                                     <Text style={styles.closeButtonText}>סגור</Text>
@@ -127,7 +127,7 @@ const SelfQuestionnaire = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ff7f9e',
+        backgroundColor: '#C8A2C8',
         padding: 16,
         writingDirection: 'rtl',
     },
@@ -154,9 +154,14 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         padding: 12,
         marginBottom: 8,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     selectedOption: {
-        backgroundColor: '#F43169',
+        backgroundColor: '#89CFF0',
     },
     optionText: {
         fontSize: 16,
@@ -170,6 +175,11 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginTop: 16,
         alignSelf: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     calculateButtonText: {
         color: '#FFFFFF',
@@ -178,23 +188,27 @@ const styles = StyleSheet.create({
     },
     resultContainer: {
         flex: 1,
-        backgroundColor: '#FFC0CB',
+        backgroundColor: '#FF7F50',
         padding: 16,
         justifyContent: 'center',
         alignItems: 'center',
+        writingDirection: 'rtl',
     },
     resultText: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#800080',
+        color: 'black',
         textAlign: 'center',
         marginBottom: 16,
+         alignSelf: 'center',
     },
     closeButton: {
-        backgroundColor: '#800080',
+        backgroundColor: '#F43169',
         paddingVertical: 12,
         paddingHorizontal: 24,
         borderRadius: 8,
+        marginTop: 16,
+        alignSelf: 'center',
     },
     closeButtonText: {
         color: '#FFFFFF',

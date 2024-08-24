@@ -99,9 +99,11 @@ const GovInfoScreen = () => {
 
     return (
         <View style={styles.container}>
+           
             <View style={styles.header}>
                 <Text style={styles.title}>מידע ממשלתי לשירותך</Text>
             </View>
+            <View style={styles.containermore}>
             <View style={styles.navbar}>
                 <TouchableOpacity 
                     style={[styles.navItem, selectedApi === 'api1' && styles.navItemSelected]}
@@ -137,6 +139,7 @@ const GovInfoScreen = () => {
                     </View>
                 </ScrollView>
             )}
+         </View>
         </View>
     );
 };
@@ -145,7 +148,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 15,
+    },
+    containermore: {
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingHorizontal: 10,
     },
     header: {
         backgroundColor: '#ff7f9e',
@@ -195,6 +202,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         marginLeft: 10,
         borderRadius: 5,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     searchButtonText: {
         color: '#fff',

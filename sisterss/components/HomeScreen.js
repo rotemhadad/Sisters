@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView, Dimensions } from 'react-native';
 import { getAuth, signOut } from 'firebase/auth';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -13,7 +15,7 @@ const HomeScreen = ({ navigation }) => {
             setIsAuthenticated(!!user);
         });
 
-        return unsubscribe; // Clean up the subscription on unmount
+        return unsubscribe;
     }, []);
 
     const handleSignOut = async () => {
@@ -28,6 +30,7 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
+            
                 <Text style={styles.headerText}>Sisters</Text>
             </View>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -35,30 +38,37 @@ const HomeScreen = ({ navigation }) => {
                     את לא לבד. אנחנו כאן כדי לתמוך בך.
                 </Text>
                 <View style={styles.content}>
+                    
                     <Image source={require('../Images/11.png')} style={styles.image} />
                     <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
 
                     {isAuthenticated ? (
                         <>
                             <TouchableOpacity style={styles.button} onPress={handleSignOut}>
+                                <Ionicons name="log-out-outline" size={24} color="#fff" style={styles.icon} />
                                 <Text style={styles.buttonText}>התנתקות</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('פרופיל')}>
+                                <Ionicons name="person-outline" size={24} color="#fff" style={styles.icon} />
                                 <Text style={styles.buttonText}>פרופיל</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('פורום')}>
+                                <Ionicons name="chatbubbles-outline" size={24} color="#fff" style={styles.icon} />
                                 <Text style={styles.buttonText}>פורום סיוע</Text>
                             </TouchableOpacity>
                         </>
                     ) : (
                         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('בחירה')}>
+                            <Ionicons name="log-in-outline" size={24} color="#fff" style={styles.icon} />
                             <Text style={styles.buttonText}>התחברות והרשמה</Text>
                         </TouchableOpacity>
                     )}
                     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('אורח')}>
+                        <Ionicons name="information-circle-outline" size={24} color="#fff" style={styles.icon} />
                         <Text style={styles.buttonText}>מידע לכלל</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('למדי עוד')}>
+                        <Ionicons name="book-outline" size={24} color="#fff" style={styles.icon} />
                         <Text style={styles.buttonText}>למדי עוד</Text>
                     </TouchableOpacity>
                 </View>
@@ -73,17 +83,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     header: {
-        backgroundColor: '#ff7f9e',
         paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
+        paddingVertical: 20,
         alignItems: 'center',
     },
     headerText: {
-        fontSize: 24,
+        fontSize: 32,
         fontWeight: 'bold',
-        color: '#fff',
+        color: '#F43169',
     },
     scrollContainer: {
         flexGrow: 1,
@@ -103,25 +110,36 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     contentText: {
-        fontSize: 18,
+        fontSize: 20,
         textAlign: 'center',
-        marginBottom: 20,
-        color: '#333',
+        marginBottom: 30,
+        color: '#F43169',
+        fontWeight: '500',
     },
     button: {
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: '#ff7f9e',
-        paddingVertical: 12,
+        paddingVertical: 15,
         paddingHorizontal: 20,
-        borderRadius: 5,
+        borderRadius: 10,
         marginBottom: 10,
         width: '100%',
-        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
     },
     buttonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
         textAlign: 'center',
+    },
+    icon: {
+        marginRight: 15,
     },
 });
 
