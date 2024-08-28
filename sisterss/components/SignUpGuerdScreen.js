@@ -54,7 +54,7 @@ const SignUpScreen = ({ navigation }) => {
             }
 
             // Store additional user details in Firestore
-            await setDoc(doc(db, 'users', user.uid), {
+            await setDoc(doc(db, 'Guard', user.uid), {
                 email: user.email,
                 birthdate: birthdate,
                 profilePicture: profilePictureUrl,
@@ -63,6 +63,7 @@ const SignUpScreen = ({ navigation }) => {
                 nickname: nickname,
                 emergencyContact: emergencyContact,
                 fullNamePhoneNumber: fullNamePhoneNumber,
+                isGuard: true,
             });
 
             Alert.alert('נרשמת בהצלחה :)');
@@ -137,16 +138,10 @@ const SignUpScreen = ({ navigation }) => {
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="מספר טלפון לחירום"
+                    placeholder="מספר טלפון שלך"
                     value={emergencyContact}
                     onChangeText={setEmergencyContact}
                     keyboardType="phone-pad"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="שם מלא של איש קשר לחירום"
-                    value={fullNamePhoneNumber}
-                    onChangeText={setFullNamePhoneNumber}
                 />
                 {profilePicture && (
                     <Image source={{ uri: profilePicture }} style={styles.image} />
@@ -243,4 +238,5 @@ const styles = StyleSheet.create({
       marginBottom: 10,
     },
   });
+
 export default SignUpScreen;

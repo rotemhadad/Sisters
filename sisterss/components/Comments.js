@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native'; // Import necessary components from react-native
+import { View, Text, Image, StyleSheet } from 'react-native';
 
 function Comments(props) {
   const { comments } = props;
@@ -8,11 +8,16 @@ function Comments(props) {
     <View style={styles.commentsContainer}>
       {comments.map((comment, index) => (
         <View style={styles.commentItem} key={index}>
-          <Image source={{ uri: comment[2] }} style={styles.userAvatar} />
-          <View style={styles.commentContent}>
-            <Text style={styles.userName}>{comment[1]}</Text>
-            <Text style={styles.commentText}>{comment[3]}</Text>
-          </View>
+          <Text style={styles.authorName}>{comment.authorName}</Text>
+          {comment.characters.map((character, charIndex) => (
+            <View style={styles.characterItem} key={charIndex}>
+              <Image source={{ uri: character.avatar }} style={styles.userAvatar} />
+              <View style={styles.commentContent}>
+                <Text style={styles.userName}>{character.name}</Text>
+                <Text style={styles.commentText}>{character.text}</Text>
+              </View>
+            </View>
+          ))}
         </View>
       ))}
     </View>
@@ -21,12 +26,20 @@ function Comments(props) {
 
 const styles = StyleSheet.create({
   commentsContainer: {
-    // Style for the container of all comments
+    padding: 10,
   },
   commentItem: {
+    marginBottom: 20,
+  },
+  authorName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  characterItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 5,
   },
   userAvatar: {
     width: 50,

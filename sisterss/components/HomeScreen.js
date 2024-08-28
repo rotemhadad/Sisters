@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Image, ScrollView, Dimensions, ImageBackground } from 'react-native';
 import { getAuth, signOut } from 'firebase/auth';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
@@ -15,8 +14,8 @@ const HomeScreen = ({ navigation }) => {
             setIsAuthenticated(!!user);
         });
 
-        return unsubscribe;
-    }, []);
+        return () => unsubscribe(); // Cleanup on unmount
+    }, [auth]);
 
     const handleSignOut = async () => {
         try {
@@ -28,59 +27,68 @@ const HomeScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-            
-                <Text style={styles.headerText}>Sisters</Text>
-            </View>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <Text style={styles.contentText}>
-                    את לא לבד. אנחנו כאן כדי לתמוך בך.
-                </Text>
-                <View style={styles.content}>
-                    
-                    <Image source={require('../Images/11.png')} style={styles.image} />
-                    <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
-
-                    {isAuthenticated ? (
-                        <>
-                            <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-                                <Ionicons name="log-out-outline" size={24} color="#fff" style={styles.icon} />
-                                <Text style={styles.buttonText}>התנתקות</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('פרופיל')}>
-                                <Ionicons name="person-outline" size={24} color="#fff" style={styles.icon} />
-                                <Text style={styles.buttonText}>פרופיל</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('פורום')}>
-                                <Ionicons name="chatbubbles-outline" size={24} color="#fff" style={styles.icon} />
-                                <Text style={styles.buttonText}>פורום סיוע</Text>
-                            </TouchableOpacity>
-                        </>
-                    ) : (
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('בחירה')}>
-                            <Ionicons name="log-in-outline" size={24} color="#fff" style={styles.icon} />
-                            <Text style={styles.buttonText}>התחברות והרשמה</Text>
-                        </TouchableOpacity>
-                    )}
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('אורח')}>
-                        <Ionicons name="information-circle-outline" size={24} color="#fff" style={styles.icon} />
-                        <Text style={styles.buttonText}>מידע לכלל</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('למדי עוד')}>
-                        <Ionicons name="book-outline" size={24} color="#fff" style={styles.icon} />
-                        <Text style={styles.buttonText}>למדי עוד</Text>
-                    </TouchableOpacity>
+        <ImageBackground
+            source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREUOhO7rEVWbkSvRgPHusR65I3P63ViEE8yAC0foe3pNOdzfjc9pkR1KEpioDWZ53Vor0&usqp=CAU' }}
+            style={styles.backgroundImage}
+            resizeMode="cover"
+        >
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Sisters</Text>
                 </View>
-            </ScrollView>
-        </View>
+                <ScrollView contentContainerStyle={styles.scrollContainer}>
+                    <Text style={styles.contentText}>
+                        את לא לבד. אנחנו כאן כדי לתמוך בך.
+                    </Text>
+                    <View style={styles.content}>
+                        <Image source={require('../Images/11.png')} style={styles.image} />
+                        <Text style={styles.contentText}>הנגשת מידע מציל חיים!</Text>
+
+                        {isAuthenticated ? (
+                            <>
+                                <TouchableOpacity style={styles.button} onPress={handleSignOut}>
+                                    <Ionicons name="log-out-outline" size={24} color="#fff" style={styles.icon} />
+                                    <Text style={styles.buttonText}>התנתקות</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('פרופיל')}>
+                                    <Ionicons name="person-outline" size={24} color="#fff" style={styles.icon} />
+                                    <Text style={styles.buttonText}>פרופיל</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('פורום')}>
+                                    <Ionicons name="chatbubbles-outline" size={24} color="#fff" style={styles.icon} />
+                                    <Text style={styles.buttonText}>פורום סיוע</Text>
+                                </TouchableOpacity>
+                            </>
+                        ) : (
+                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('בחירה')}>
+                                <Ionicons name="log-in-outline" size={24} color="#fff" style={styles.icon} />
+                                <Text style={styles.buttonText}>התחברות והרשמה</Text>
+                            </TouchableOpacity>
+                        )}
+                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('אורח')}>
+                            <Ionicons name="information-circle-outline" size={24} color="#fff" style={styles.icon} />
+                            <Text style={styles.buttonText}>מידע לכלל</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('למדי עוד')}>
+                            <Ionicons name="book-outline" size={24} color="#fff" style={styles.icon} />
+                            <Text style={styles.buttonText}>למדי עוד</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </View>
+        </ImageBackground>
     );
 };
 
 const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
     },
     header: {
         paddingHorizontal: 15,

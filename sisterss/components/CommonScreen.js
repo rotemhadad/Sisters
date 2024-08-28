@@ -88,12 +88,13 @@ const CommonScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 10,
         flex: 1,
         backgroundColor: '#fff',
     },
     header: {
         backgroundColor: '#ff7f9e',
-        paddingHorizontal: 15,
+        paddingHorizontal: 80,
         paddingVertical: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',

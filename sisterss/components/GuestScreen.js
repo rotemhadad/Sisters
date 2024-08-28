@@ -1,33 +1,56 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, ScrollView, Image, TouchableWithoutFeedback } from 'react-native';
-import { commonStyles } from './CommonStyles';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, ScrollView, Image, TouchableWithoutFeedback, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { commonStyles } from './CommonStyles';
 
-const GuestScreen = ({ navigation }) => {
+const GuestScreen = () => {
+    const navigation = useNavigation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const fadeAnim = new Animated.Value(0);
 
-    const openMenu = () => {
-        setIsMenuOpen(true);
-    };
+    useEffect(() => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+        }).start();
+    }, []);
 
-    const closeMenu = () => {
-        setIsMenuOpen(false);
-    };
-
+    const openMenu = () => setIsMenuOpen(true);
+    const closeMenu = () => setIsMenuOpen(false);
     const navigateToPage = (pageName) => {
         navigation.navigate(pageName);
         closeMenu();
     };
 
+    const renderCard = (icon, title, navigateTo, image) => (
+        <Animated.View style={[styles.card, { opacity: fadeAnim }]}>
+            <TouchableOpacity onPress={() => navigation.navigate(navigateTo)}>
+                <Image source={image} style={styles.cardImage} />
+                <LinearGradient
+                    colors={['#ff7f9e', '#F43169']}
+                    style={styles.cardContent}
+                >
+                    <MaterialIcons name={icon} size={24} color="#fff" />
+                    <Text style={styles.cardTitle}>{title}</Text>
+                </LinearGradient>
+            </TouchableOpacity>
+        </Animated.View>
+    );
+
     return (
-        <View style={commonStyles.container}>
-            <View style={commonStyles.topButtons}>
-                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('מאמרים')}>
+        <View style={styles.container}>
+            <LinearGradient
+                colors={['#ff7f9e', '#F43169']}
+                style={styles.header }
+            >
+                 <TouchableOpacity  onPress={() => navigation.navigate('מאמרים')}>
                     <MaterialIcons name="article" size={24} color="#fff" />
                     <Text style={commonStyles.buttonText}>מאמרים</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={commonStyles.topButton} onPress={() => navigation.navigate('מידע')}>
+                <TouchableOpacity  onPress={() => navigation.navigate('מידע')}>
                     <MaterialIcons name="info" size={24} color="#fff" />
                     <Text style={commonStyles.buttonText}>מידע </Text>
                 </TouchableOpacity>
@@ -35,76 +58,25 @@ const GuestScreen = ({ navigation }) => {
                     <MaterialIcons name="quiz" size={24} color="#fff" />
                     <Text style={commonStyles.buttonText}>שאלון</Text>
                 </TouchableOpacity>
-            </View>
+            </LinearGradient>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <View style={commonStyles.content}>
-                    <View style={styles.imageRow}>
-                        <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('תמרורי אזהרה')}>
-                                <Image source={require('../Images/8.png')} style={styles.image} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('תמרורי אזהרה')}>
-                                <MaterialIcons name="warning" size={24} color="#fff" />
-                                <Text style={commonStyles.buttonTextnext}> אזהרה בזוגיות</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('סוגי אלימות')}>
-                                <Image source={require('../Images/15.png')} style={styles.image} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('סוגי אלימות')}>
-                                <MaterialIcons name="pan-tool" size={24} color="#fff" />
-                                <Text style={commonStyles.buttonTextnext}>סוגי אלימות </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={styles.imageRow}>
-                        <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('תמרורי אזהרה לסביבה')}>
-                                <Image source={require('../Images/9.png')} style={styles.image} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('תמרורי אזהרה לסביבה')}>
-                                <MaterialIcons name="people" size={24} color="#fff" />
-                                <Text style={commonStyles.buttonTextnext}> אזהרה לסביבה</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('זכויות משפטיות')}>
-                                <Image source={require('../Images/2.png')} style={styles.image} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('זכויות משפטיות')}>
-                                <MaterialIcons name="gavel" size={24} color="#fff" />
-                                <Text style={commonStyles.buttonTextnext}>זכויות משפטיות</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={styles.imageRow}>
-                        <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('מידע ממשלתי')}>
-                                <Image source={require('../Images/14.png')} style={styles.image} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('מידע ממשלתי')}>
-                                <MaterialIcons name="account-balance" size={24} color="#fff" />
-                                <Text style={commonStyles.buttonTextnext}>מידע ממשלתי</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.imageButtonContainer}>
-                            <TouchableOpacity onPress={() => navigation.navigate('הגנה עצמית')}>
-                                <Image source={require('../Images/16.png')} style={styles.image} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[commonStyles.button, styles.buttonBelow, { height: 80 }]} onPress={() => navigation.navigate('הגנה עצמית')}>
-                                <MaterialIcons name="security" size={24} color="#fff" />
-                                <Text style={commonStyles.buttonTextnext}>הנחיות להתגוננות</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-        
-                    <TouchableOpacity style={commonStyles.button} onPress={() => navigation.goBack()}>
-                        <MaterialIcons name="arrow-back" size={12} color="#fff" />
-                        <Text style={commonStyles.buttonText}>חזרה אחורה</Text>
-                    </TouchableOpacity>
-                    <View style={{ marginBottom: 100 }}></View>
+                <View style={styles.cardContainer}>
+                    {renderCard("warning", "אזהרה בזוגיות", "תמרורי אזהרה", require('../Images/8.png'))}
+                    {renderCard("psychology", "סוגי אלימות", "סוגי אלימות", require('../Images/15.png'))}
+                    {renderCard("people", "אזהרה לסביבה", "תמרורי אזהרה לסביבה", require('../Images/9.png'))}
+                    {renderCard("gavel", "זכויות משפטיות", "זכויות משפטיות", require('../Images/2.png'))}
+                    {renderCard("policy", "מידע ממשלתי", "מידע ממשלתי", require('../Images/14.png'))}
+                    {renderCard("security", "התגוננות", "הגנה עצמית", require('../Images/16.png'))}
                 </View>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('משחקים')}>
+                    <LinearGradient
+                        colors={['#ff7f9e', '#F43169']}
+                        style={styles.buttonGradient}
+                    >
+                        <MaterialIcons name="videogame-asset" size={24} color="#fff" />
+                        <Text style={styles.buttonText}>משחקים</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
             </ScrollView>
             <Modal
                 visible={isMenuOpen}
@@ -114,66 +86,104 @@ const GuestScreen = ({ navigation }) => {
             >
                 <TouchableWithoutFeedback onPress={closeMenu}>
                     <View style={styles.menuModal}>
-                        <TouchableOpacity style={commonStyles.menuItem} onPress={() => navigateToPage('זכויות משפטיות')}>
-                            <MaterialIcons name="gavel" size={24} color="#fff" />
-                            <Text style={commonStyles.menuItemText}>זכויות משפטיות</Text>
+                        <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('זכויות משפטיות')}>
+                            <MaterialIcons name="gavel" size={20} color="#fff" />
+                            <Text style={styles.menuItemText}>זכויות משפטיות</Text>
                         </TouchableOpacity>
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
-            {/* <View style={commonStyles.bottomToolbar}>
-                <TouchableOpacity style={commonStyles.menuButton} onPress={openMenu}>
-                    <MaterialIcons name="menu" size={24} color="#fff" />
-                    <Text style={commonStyles.menuButtonText}>תפריט</Text>
-                </TouchableOpacity>
-            </View> */}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    scrollViewContent: {
-        flexGrow: 1,
+    container: {
+        flex: 1,
+        backgroundColor: '#FFF',
     },
-    image: {
-        width: 130,
-        height: 130,
-        borderRadius:10,
-    },
-    imageRow: {
+    header: {
+        paddingTop: 40,
+        paddingBottom: 20,
+        paddingHorizontal: 20,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginVertical: 1,
-    },
-    imageButtonContainer: {
         alignItems: 'center',
-        marginHorizontal: 10,
-        borderRadius: 2,
+        paddingVertical: 10,
     },
-    buttonBelow: {
-        marginTop: 2,
+    headerTitle: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#fff',
+        textAlign: 'center',
+    },
+    scrollViewContent: {
+        padding: 20,
+    },
+    cardContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+    },
+    card: {
+        width: '48%',
+        marginBottom: 20,
+        borderRadius: 10,
+        overflow: 'hidden',
+        elevation: 3,
+        backgroundColor: '#fff',
+    },
+    cardImage: {
+        width: '100%',
+        height: 120,
+        resizeMode: 'cover',
+    },
+    cardContent: {
+        padding: 10,
+        alignItems: 'center',
+    },
+    cardTitle: {
+        marginTop: 5,
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#fff',
+        textAlign: 'center',
     },
     button: {
+        marginTop: 20,
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
+    buttonGradient: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#ff7f9e',
-        paddingVertical: 15,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        marginBottom: 15,
-        width: '100%',
         justifyContent: 'center',
-        elevation: 2,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
+        paddingVertical: 15,
+    },
+    buttonText: {
+        marginLeft: 10,
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#fff',
     },
     menuModal: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    menuItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#C8A2C8',
+        padding: 15,
+        borderRadius: 10,
+        marginVertical: 5,
+    },
+    menuItemText: {
+        marginLeft: 10,
+        fontSize: 16,
+        color: '#fff',
     },
 });
 

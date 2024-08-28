@@ -205,6 +205,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         writingDirection: 'rtl',
+        marginTop:18,
     },
     header: {
         backgroundColor: '#ff7f9e',

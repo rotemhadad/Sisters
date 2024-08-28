@@ -178,6 +178,7 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    marginTop: 10,
     padding: 16,
     backgroundColor: '#f5f5f5',
   },

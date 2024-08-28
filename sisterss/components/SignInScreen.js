@@ -55,39 +55,44 @@ const SignInScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 20,
+        justifyContent: 'center', // Center vertically
+        alignItems: 'center', // Center horizontally
+        backgroundColor: '#C8A2C8', // Light purple background
     },
     input: {
-        height: 40,
-        width: '100%',
-        marginBottom: 10,
-        paddingHorizontal: 10,
+        height: 50,
+        width: '80%', // Adjust width as needed
+        marginBottom: 15,
+        paddingHorizontal: 15,
         borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
+        borderColor: '#ddd',
+        borderRadius: 25,
+        backgroundColor: 'white',
+        fontSize: 16,
+        color: '#333',
+        textAlign: 'center',
     },
     button: {
-        backgroundColor: '#ff7f9e',
-        paddingVertical: 12,
+        backgroundColor: '#ff7f9e', // Hot pink
+        paddingVertical: 15,
         paddingHorizontal: 20,
-        borderRadius: 5,
-        marginBottom: 10,
-        width: '100%',
+        borderRadius: 25,
+        marginVertical: 20,
+        width: '80%',
         alignItems: 'center',
-        elevation: 2,
+        elevation: 3,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-      },
-      buttonText: {
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+    },
+    buttonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
         textAlign: 'center',
-      },
+    },
 });
+
 
 export default SignInScreen;
